@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cm4qfqmjx4hte"]
+
+[ext_resource type="Script" uid="uid://chaeyeagaw2qs" path="res://scenes/space_map/SpaceMap.gd" id="1_po1l3"]
+
+[node name="SpaceMap" type="Node2D" unique_id=2012179114]
+script = ExtResource("1_po1l3")
+
+[node name="Planets" type="Node2D" parent="." unique_id=334910199]
+
+[node name="Background" type="ColorRect" parent="." unique_id=191599793]
+z_index = -10
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+color = Color(0.039215688, 0.05490196, 0.101960786, 1)
+metadata/_edit_use_anchors_ = true

@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://dj4uemxl6aac3"]
+
+[ext_resource type="Script" uid="uid://dsgnee8mke2y1" path="res://scenes/battle/QuestionPanel.gd" id="1_5t4df"]
+
+[node name="QuestionPanel" type="Control" unique_id=775529373]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5t4df")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=279285782]
+layout_mode = 0
+offset_left = 276.0
+offset_top = 330.0
+offset_right = 876.0
+offset_bottom = 630.0
+
+[node name="Layout" type="VBoxContainer" parent="Panel" unique_id=1485063575]
+layout_mode = 2
+
+[node name="QuestionLabel" type="Label" parent="Panel/Layout" unique_id=1840459447]
+layout_mode = 2
+text = "Question goes here"
+autowrap_mode = 2
+
+[node name="OptionButton1" type="Button" parent="Panel/Layout" unique_id=1376645000]
+layout_mode = 2
+text = "Option 1"
+
+[node name="OptionButton2" type="Button" parent="Panel/Layout" unique_id=1274547767]
+layout_mode = 2
+text = "Option 2"
+
+[node name="OptionButton3" type="Button" parent="Panel/Layout" unique_id=719770259]
+layout_mode = 2
+text = "Option 3"
+
+[node name="OptionButton4" type="Button" parent="Panel/Layout" unique_id=855367941]
+layout_mode = 2
+text = "Option 4
+"

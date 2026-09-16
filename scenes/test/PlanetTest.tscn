@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://ckjsh7so1damc"]
+
+[ext_resource type="SpriteFrames" uid="uid://cej3wqtltkvjg" path="res://resources/worlds/reqoria_frames.tres" id="1_cx05f"]
+[ext_resource type="Script" uid="uid://dhx6uwrbtovir" path="res://scenes/test/planet_test.gd" id="1_lyn7x"]
+
+[node name="PlanetTest" type="Node2D" unique_id=221557408]
+script = ExtResource("1_lyn7x")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=649016599]
+position = Vector2(576, 324)
+sprite_frames = ExtResource("1_cx05f")

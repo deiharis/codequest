@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WorldData" format=3 uid="uid://b5jyc2g4cnweo"]
+
+[ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_aqb8v"]
+[ext_resource type="SpriteFrames" uid="uid://djxwqyknqloob" path="res://resources/worlds/gitforge_frames.tres" id="1_kpytk"]
+
+[resource]
+script = ExtResource("1_aqb8v")
+world_id = "gitforge"
+display_name = "Gitforge"
+sdlc_phase = "Version Control"
+general_name = "Merge Conflict Titan"
+planet_frames = ExtResource("1_kpytk")
+map_position = Vector2(640, 420)
+order_index = 4
+metadata/_custom_type_script = "uid://bauesoswa5akw"

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="QuestionData" format=3 uid="uid://cd7a1m44vp88n"]
+
+[ext_resource type="Script" uid="uid://cbdklmqjttti8" path="res://scripts/data/question_data.gd" id="1_gsjac"]
+
+[resource]
+script = ExtResource("1_gsjac")
+question_text = "What does SDLC stand for?"
+options = Array[String](["Software Development Life Cycle", "System Design Logic Chain", "oftware Debug Loop Control"])
+metadata/_custom_type_script = "uid://cbdklmqjttti8"

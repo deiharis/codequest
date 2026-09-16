@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WorldData" format=3 uid="uid://8rvxd3rxn1l7"]
+
+[ext_resource type="SpriteFrames" uid="uid://bogtfollefpx3" path="res://resources/worlds/architara_frames.tres" id="1_7l4vn"]
+[ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_h73d0"]
+
+[resource]
+script = ExtResource("1_h73d0")
+world_id = "architara"
+display_name = "Architara"
+sdlc_phase = "Software Design"
+general_name = "Spaghetti Architect"
+planet_frames = ExtResource("1_7l4vn")
+map_position = Vector2(190, 260)
+order_index = 1
+metadata/_custom_type_script = "uid://bauesoswa5akw"

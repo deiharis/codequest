@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WorldData" format=3 uid="uid://beuvusyaxeqwq"]
+
+[ext_resource type="SpriteFrames" uid="uid://dkqlk3aoqijil" path="res://resources/worlds/codexis_frames.tres" id="1_2gksu"]
+[ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_l7tc4"]
+
+[resource]
+script = ExtResource("1_l7tc4")
+world_id = "codexis"
+display_name = "Codexis"
+sdlc_phase = "Implementation"
+general_name = "Infinite Loop Beast"
+planet_frames = ExtResource("1_2gksu")
+map_position = Vector2(340, 440)
+order_index = 2
+metadata/_custom_type_script = "uid://bauesoswa5akw"

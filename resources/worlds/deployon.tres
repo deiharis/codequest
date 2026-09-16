@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WorldData" format=3 uid="uid://dcdh4jeyb4dhl"]
+
+[ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_2xn4m"]
+[ext_resource type="SpriteFrames" uid="uid://bjfhkmfp5f5dm" path="res://resources/worlds/deployon_frames.tres" id="1_msaoq"]
+
+[resource]
+script = ExtResource("1_2xn4m")
+world_id = "deployon"
+display_name = "Deployon"
+sdlc_phase = "Deployment"
+general_name = "Production Nightmare"
+planet_frames = ExtResource("1_msaoq")
+map_position = Vector2(780, 200)
+order_index = 5
+metadata/_custom_type_script = "uid://bauesoswa5akw"

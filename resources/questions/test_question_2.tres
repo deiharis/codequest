@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="QuestionData" format=3 uid="uid://fjpnc08vhp04"]
+
+[ext_resource type="Script" uid="uid://cbdklmqjttti8" path="res://scripts/data/question_data.gd" id="1_rv85a"]
+
+[resource]
+script = ExtResource("1_rv85a")
+question_text = "Which software engineering model develops the system in repeated increments?"
+options = Array[String](["Incremental Model", "Waterfall Model", "Big Bang Model"])
+metadata/_custom_type_script = "uid://cbdklmqjttti8"

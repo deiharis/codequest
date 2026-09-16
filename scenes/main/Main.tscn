@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bkqrlx4ccefxd"]
+
+[ext_resource type="Script" uid="uid://bmw5tt5m3wvu4" path="res://scenes/main/main.gd" id="1_u1xfj"]
+
+[node name="Main" type="Node" unique_id=435543593]
+script = ExtResource("1_u1xfj")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1966749641]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.039215688, 0.05490196, 0.101960786, 1)

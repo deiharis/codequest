@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WorldData" format=3 uid="uid://cnfqe6r6luh4d"]
+
+[ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_js8dr"]
+[ext_resource type="SpriteFrames" uid="uid://eymu5qb01ivi" path="res://resources/worlds/testara_frames.tres" id="1_wp6wb"]
+
+[resource]
+script = ExtResource("1_js8dr")
+world_id = "testara"
+display_name = "Testara"
+sdlc_phase = "Testing"
+general_name = "Regression Dragon"
+planet_frames = ExtResource("1_wp6wb")
+map_position = Vector2(490, 220)
+order_index = 3
+metadata/_custom_type_script = "uid://bauesoswa5akw"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://c4g2o4ybnmgs"]
+
+[ext_resource type="Script" uid="uid://defec1tshpl5m" path="res://scripts/data/enemy_data.gd" id="1_kdtui"]
+[ext_resource type="SpriteFrames" uid="uid://ccbqddu1655tm" path="res://resources/enemies/placeholder_general_idle_frames.tres" id="1_r8bb0"]
+
+[resource]
+script = ExtResource("1_kdtui")
+enemy_id = "placeholder_general"
+display_name = "Test Enemy "
+idle_frames = ExtResource("1_r8bb0")
+metadata/_custom_type_script = "uid://defec1tshpl5m"

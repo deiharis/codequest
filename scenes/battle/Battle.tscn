@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://dco7mwybpl1r6"]
+
+[ext_resource type="Script" uid="uid://l81kepknkdto" path="res://scripts/battle/BattleController.gd" id="1_g84ej"]
+[ext_resource type="SpriteFrames" uid="uid://ccbqddu1655tm" path="res://resources/enemies/placeholder_general_idle_frames.tres" id="2_g84ej"]
+[ext_resource type="PackedScene" uid="uid://dj4uemxl6aac3" path="res://scenes/battle/QuestionPanel.tscn" id="3_jnwmo"]
+
+[node name="Battle" type="Node2D" unique_id=820842218]
+script = ExtResource("1_g84ej")
+
+[node name="Background" type="ColorRect" parent="." unique_id=707627323]
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+color = Color(0.101960786, 0.101960786, 0.18039216, 1)
+
+[node name="Hero" type="ColorRect" parent="." unique_id=1494639945]
+offset_left = 150.0
+offset_top = 434.0
+offset_right = 250.0
+offset_bottom = 574.0
+mouse_filter = 2
+color = Color(0.20392157, 0.59607846, 0.85882354, 1)
+
+[node name="Enemy" type="AnimatedSprite2D" parent="." unique_id=2147337820]
+position = Vector2(900, 169.9684)
+scale = Vector2(0.64364654, 0.754093)
+sprite_frames = ExtResource("2_g84ej")
+animation = &"idle"
+frame_progress = 0.68480504
+
+[node name="HeroHPBarBg" type="ColorRect" parent="." unique_id=776071457]
+offset_left = 372.0
+offset_top = 490.0
+offset_right = 572.0
+offset_bottom = 514.0
+mouse_filter = 2
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="HeroHPBarFill" type="ColorRect" parent="HeroHPBarBg" unique_id=531380825]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 24.0
+mouse_filter = 2
+color = Color(0.18039216, 0.8, 0.44313726, 1)
+
+[node name="EnemyHPBarBg" type="ColorRect" parent="." unique_id=164517890]
+offset_left = 536.0
+offset_top = 115.0
+offset_right = 736.0
+offset_bottom = 139.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="EnemyHPBarFill" type="ColorRect" parent="EnemyHPBarBg" unique_id=723016067]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 24.0
+mouse_filter = 2
+color = Color(0.18039216, 0.8, 0.44313726, 1)
+
+[node name="QuestionPanel" parent="." unique_id=775529373 instance=ExtResource("3_jnwmo")]

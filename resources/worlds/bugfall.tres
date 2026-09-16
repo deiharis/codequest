@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WorldData" format=3 uid="uid://blc4gs44x8fv1"]
+
+[ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_0bfb4"]
+[ext_resource type="SpriteFrames" uid="uid://dja8b6nnsx7y0" path="res://resources/worlds/bugfall_frames.tres" id="1_fnjrm"]
+
+[resource]
+script = ExtResource("1_0bfb4")
+world_id = "bugfall"
+display_name = "Bugfall"
+sdlc_phase = "Final World"
+general_name = "Bug Lord"
+planet_frames = ExtResource("1_fnjrm")
+map_position = Vector2(960, 150)
+order_index = 7
+metadata/_custom_type_script = "uid://bauesoswa5akw"
