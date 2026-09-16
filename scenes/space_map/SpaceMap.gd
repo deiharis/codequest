@@ -39,16 +39,11 @@ func _spawn_planet_nodes():
 		button.pressed.connect(_on_planet_pressed.bind(wd))
 		planets_container.add_child(button)
 
-func _on_planet_pressed(wd: WorldData):
-	var travel_scene_resource = load("res://scenes/travel/RocketTravel.tscn")
-	var travel_scene = travel_scene_resource.instantiate()
-	travel_scene.setup(wd)
-	travel_scene.travel_finished.connect(func():
-		print("Arrived at: ", wd.display_name, " — Battle scene comes next step")
-	)
+func _on_planet_pressed(wd: WorldData) -> void:
+	# The router instantiates the scene, calls `configure` on it, and only then
+	# adds it to the tree — so RocketTravel has its destination before _ready().
+	var configure := func(scene: Node) -> void:
+		scene.setup(wd)
 
-	get_tree().root.add_child(travel_scene)
-	SceneManager.current_scene.queue_free()
-	SceneManager.current_scene = travel_scene
-	get_tree().current_scene = travel_scene
+	SceneRouter.goto_scene("res://scenes/travel/RocketTravel.tscn", configure)
 	

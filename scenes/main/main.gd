@@ -1,4 +1,4 @@
 extends Node
 
-func _ready():
-	SceneManager.goto_scene("res://scenes/space_map/SpaceMap.tscn")
+func _ready() -> void:
+	SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn")
