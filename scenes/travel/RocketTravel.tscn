@@ -228,6 +228,7 @@ animation = &"fly"
 frame_progress = 0.18334766
 
 [node name="DestinationPlanet" type="AnimatedSprite2D" parent="." unique_id=1238456628]
+texture_filter = 1
 scale = Vector2(10, 10)
 
 [node name="TravelTimer" type="Timer" parent="." unique_id=107643659]
