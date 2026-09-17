@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://beyjsl4t6gyei"]
+
+[ext_resource type="Texture2D" uid="uid://bfefuiod2yyhm" path="res://assets/sprites/generals/regression_dragon/regression_dragon_idle_sheet.png" id="1_i7usq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ptet"]
+atlas = ExtResource("1_i7usq")
+region = Rect2(0, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmhkk"]
+atlas = ExtResource("1_i7usq")
+region = Rect2(443, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ddnh"]
+atlas = ExtResource("1_i7usq")
+region = Rect2(886, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4yusv"]
+atlas = ExtResource("1_i7usq")
+region = Rect2(1329, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_up5eg"]
+atlas = ExtResource("1_i7usq")
+region = Rect2(0, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkhg2"]
+atlas = ExtResource("1_i7usq")
+region = Rect2(443, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6b61"]
+atlas = ExtResource("1_i7usq")
+region = Rect2(886, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_baxgd"]
+atlas = ExtResource("1_i7usq")
+region = Rect2(1329, 443, 443, 443)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ptet")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dmhkk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ddnh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4yusv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_up5eg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkhg2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r6b61")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_baxgd")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dbrtxx7oxqyrf"]
+
+[ext_resource type="Texture2D" uid="uid://bekhae1a3hud1" path="res://assets/sprites/generals/technical_debt_king/technical_debt_king_idle_sheet.png" id="1_wxa2y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sqruo"]
+atlas = ExtResource("1_wxa2y")
+region = Rect2(0, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mjd2"]
+atlas = ExtResource("1_wxa2y")
+region = Rect2(443, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sy4e8"]
+atlas = ExtResource("1_wxa2y")
+region = Rect2(886, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmhb2"]
+atlas = ExtResource("1_wxa2y")
+region = Rect2(1329, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_50fna"]
+atlas = ExtResource("1_wxa2y")
+region = Rect2(0, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rcd3"]
+atlas = ExtResource("1_wxa2y")
+region = Rect2(443, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vwnd"]
+atlas = ExtResource("1_wxa2y")
+region = Rect2(886, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ebhg"]
+atlas = ExtResource("1_wxa2y")
+region = Rect2(1329, 443, 443, 443)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sqruo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mjd2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sy4e8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmhb2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_50fna")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rcd3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vwnd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ebhg")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

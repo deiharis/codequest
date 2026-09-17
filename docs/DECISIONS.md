@@ -239,6 +239,75 @@ plus several scenes' hardcoded rectangles as an unplanned step.
 
 ---
 
+## ADR-016 — House visual style: polished illustrated 2D RPG
+**Date:** 2026-09-17
+
+**Decision.** One visual language across every asset: detailed illustrated sprite
+work, not chunky pixel art. Consistent character proportions, 3/4 battle
+perspective, strong silhouettes, clean shading, controlled VFX. Hero, Generals,
+Bug Lord, rocket, planets, UI and environments all follow it.
+
+**Why.** The project currently mixes two languages: painted characters at ~415px
+per frame beside pixel-art planets at 85px and a pixel-art rocket at 198px. They
+read as assets from different games. A single language is the difference between
+"student project" and "a game", and it is also what makes a style contract
+checkable.
+
+**Consequence.** The planets and rocket are in scope for replacement, not just the
+characters. The pixel-art assets currently in the project are placeholders.
+
+**Rejected.** Pixel art (would mean discarding the existing character work);
+stylised flat vector (easiest to produce, but a weaker fit for a boss-battle RPG).
+
+---
+
+## ADR-017 — Cutout rigs, not frame-by-frame sheets (supersedes ADR-006)
+**Date:** 2026-09-17
+
+**Decision.** Each character is one master illustration, cut into parts and
+animated in Godot with `Skeleton2D` + `AnimationPlayer`. Animations are authored
+in-engine, not generated as frames.
+
+**Why.** Three reasons, in order of weight:
+
+1. **Consistency becomes structural.** Frame-to-frame style drift was the single
+   largest risk in this project. With a rig, every frame is literally the same
+   artwork, so drift cannot occur.
+2. **Volume drops from ~340 generated frames to ~9 master images.** For a solo
+   developer on a deadline this is the difference between finishable and not.
+3. **Memory.** The audit projected 200+ MB of VRAM at full roster. One master per
+   character is roughly an order of magnitude less.
+
+Secondary benefits: new animations need no new art; timing is tunable in the
+editor, which is where combat feel actually comes from; and a rigged, data-driven
+animation system is a stronger architecture story than 340 PNGs.
+
+**Cost accepted.** The result reads as cutout animation rather than hand-drawn
+frames, and each master needs manual separation into parts in an image editor.
+
+**Supersedes ADR-006.** The fixed 320x320 frame box no longer applies — a rig has
+no frame grid. It is replaced by a master canvas size and a part-separation
+contract, recorded in `docs/ART_SPEC.md`.
+
+**Rejected.** Frame-by-frame sheets (the current approach); a hybrid using frames
+only for attacks (retains the drift risk where motion is most visible).
+
+---
+
+## ADR-018 — Art and code proceed in parallel
+**Date:** 2026-09-17
+
+**Decision.** Phase 1 onward continues while the art is redone. Nothing in Phases
+1-6 waits on final art.
+
+**Why.** The battle engine is built against the placeholder and real art swaps in
+through `EnemyData`. Art has long feedback loops; code does not. Serialising them
+would idle one while the other runs.
+
+**Rejected.** Pausing development until the art is settled.
+
+---
+
 ## ADR-019 — `docs/ART_SPEC.md` is the single visual contract
 **Date:** 2026-09-17
 

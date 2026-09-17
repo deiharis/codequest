@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bjtjfdh7mrply"]
+
+[ext_resource type="Texture2D" uid="uid://blvomseikq27u" path="res://assets/sprites/generals/infinite_loop_beast/infinite_loop_beast_idle_sheet.png" id="1_apoxf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2ic1"]
+atlas = ExtResource("1_apoxf")
+region = Rect2(0, 6, 443, 440)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vryal"]
+atlas = ExtResource("1_apoxf")
+region = Rect2(443, 6, 443, 440)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kj8qh"]
+atlas = ExtResource("1_apoxf")
+region = Rect2(886, 6, 443, 440)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4j3d"]
+atlas = ExtResource("1_apoxf")
+region = Rect2(1329, 6, 443, 440)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3m5gp"]
+atlas = ExtResource("1_apoxf")
+region = Rect2(0, 446, 443, 440)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1e7sx"]
+atlas = ExtResource("1_apoxf")
+region = Rect2(443, 446, 443, 440)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ifjwv"]
+atlas = ExtResource("1_apoxf")
+region = Rect2(886, 446, 443, 440)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0evxg"]
+atlas = ExtResource("1_apoxf")
+region = Rect2(1329, 446, 443, 440)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o2ic1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vryal")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kj8qh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o4j3d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3m5gp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1e7sx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ifjwv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0evxg")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

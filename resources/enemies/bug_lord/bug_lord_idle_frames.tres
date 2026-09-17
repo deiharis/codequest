@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bkmg36p1y7lnp"]
+
+[ext_resource type="Texture2D" uid="uid://h2br4uc6hgwt" path="res://assets/sprites/bug_lord/bug_lord_idle_sheet.png" id="1_wrv7g"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oy8ri"]
+atlas = ExtResource("1_wrv7g")
+region = Rect2(0, 11, 443, 438)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ov2p8"]
+atlas = ExtResource("1_wrv7g")
+region = Rect2(443, 11, 443, 438)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cdj4"]
+atlas = ExtResource("1_wrv7g")
+region = Rect2(886, 11, 443, 438)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4yi1"]
+atlas = ExtResource("1_wrv7g")
+region = Rect2(1329, 11, 443, 438)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2l5nl"]
+atlas = ExtResource("1_wrv7g")
+region = Rect2(0, 449, 443, 438)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gqco1"]
+atlas = ExtResource("1_wrv7g")
+region = Rect2(443, 449, 443, 438)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0t6v"]
+atlas = ExtResource("1_wrv7g")
+region = Rect2(886, 449, 443, 438)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_32jb6"]
+atlas = ExtResource("1_wrv7g")
+region = Rect2(1329, 449, 443, 438)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oy8ri")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ov2p8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cdj4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o4yi1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2l5nl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gqco1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0t6v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_32jb6")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

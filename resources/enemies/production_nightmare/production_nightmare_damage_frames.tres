@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://b02sagbk4daxa"]
+
+[ext_resource type="Texture2D" uid="uid://ctroxydkp4kv1" path="res://assets/sprites/generals/production_nightmare/production_nightmare_damage_sheet.png" id="1_a4bho"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tchwm"]
+atlas = ExtResource("1_a4bho")
+region = Rect2(0, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4nsq1"]
+atlas = ExtResource("1_a4bho")
+region = Rect2(443, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owf5g"]
+atlas = ExtResource("1_a4bho")
+region = Rect2(886, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4vxk8"]
+atlas = ExtResource("1_a4bho")
+region = Rect2(1329, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hghcj"]
+atlas = ExtResource("1_a4bho")
+region = Rect2(0, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nqh6y"]
+atlas = ExtResource("1_a4bho")
+region = Rect2(443, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_akl2p"]
+atlas = ExtResource("1_a4bho")
+region = Rect2(886, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lybv2"]
+atlas = ExtResource("1_a4bho")
+region = Rect2(1329, 443, 443, 443)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tchwm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4nsq1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_owf5g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4vxk8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hghcj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nqh6y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_akl2p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lybv2")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

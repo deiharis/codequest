@@ -1,7 +1,7 @@
 # CodeQuest — Art Specification
 
 **Status:** proposed, awaiting approval
-**Version:** 0.1 · 2026-09-17
+**Version:** 0.3 · 2026-09-17
 **Governs:** every visual asset in CodeQuest — characters, environments, props, UI, VFX
 
 ---
@@ -34,7 +34,7 @@ Five non-negotiables. Every asset satisfies all five.
 | # | Pillar | What it means in practice |
 | --- | --- | --- |
 | 1 | **Silhouette first** | ~70% of a character's readability is its outline. Every design must be identifiable in solid black at 25% size. Detail is added only after the silhouette works. |
-| 2 | **One illustrated language** | Painted, semi-realistic, clean confident brushwork. Not pixel art, not flat vector, not photoreal, not cel-shaded anime. Applies equally to planets, rocket and UI — no asset gets an exemption. |
+| 2 | **One illustrated language** | Stylised 2D game sprite art: bold simplified shapes, clean rendering, saturated colour, crisp readable edges. Illustrated, not pixel art, not flat vector, not photoreal, not semi-realistic concept art. Applies equally to planets, rocket and UI — no asset gets an exemption. |
 | 3 | **Concept legible in one frame** | Each antagonist must communicate its software-engineering idea visually. A player who has never read the name should get *something* from the design. A generic fantasy monster is a failed design regardless of quality. |
 | 4 | **Readable at battle scale** | Characters appear at roughly 300–600px tall in a 1152x648 frame. Fine filigree, small text and thin tracery disappear. Big shapes, strong value steps, few accent colours. |
 | 5 | **Hero is order, enemies are entropy** | The Hero is the only character built from clean, precise, manufactured forms. Every antagonist is broken, tangled, unstable or corrupted in some specific way. This opposition is the game's core visual idea. |
@@ -162,9 +162,19 @@ Lowercase, underscores, no spaces, no capitals. `character_id` matches
 
 ### Human proportion baseline
 
-The Hero is **8 heads tall** — heroic but not stylised-chibi and not
-superhero-9-heads. Humanoid Generals stay within 7.5–8.5 heads. Non-humanoid
-Generals ignore this and are governed by their silhouette instead.
+The Hero is **5 to 5.5 heads tall** — stylised heroic sprite proportions, not
+realistic anatomy and not full chibi. Humanoid Generals stay within 5–6 heads.
+Non-humanoid Generals ignore this and are governed by their silhouette instead.
+
+**Why stylised rather than realistic.** Characters appear at roughly 300–500px
+tall in a 1152x648 battle. At that size, realistic 8-head proportions push the
+head down to ~50px and the face stops reading; fine armour detail collapses into
+noise. A larger head and bolder shapes keep the character legible and expressive
+at the size players actually see. Stylised proportions are also more forgiving of
+generation drift and easier to cut into rig parts, because limbs are chunkier and
+more clearly separated.
+
+This supersedes the realistic proportions in version 0.1 of this document.
 
 ### Relative battle scale
 
@@ -230,19 +240,25 @@ characters' black silhouettes could be confused, one of them is redesigned.
 | Neutral UI dark | `#1A1F33` | Panels, HP bar backgrounds |
 | Neutral UI light | `#C7D0E0` | Body text, inactive icons |
 
-### Hero — blue and cyan are his, exclusively
+### Hero — blue, gold and cyan are his, exclusively
 
-| Role | Hex |
-| --- | --- |
-| Armour dark | `#1B2438` |
-| Armour mid | `#2E3A55` |
-| Gunmetal edge | `#5A6780` |
-| Cape | `#1E50C8` |
-| Cape shadow | `#14357F` |
-| Circuit accent | `#4FE3FF` |
-| Blade glow | `#9BE8FF` |
-| Skin | `#E3B48C` |
-| Hair | `#4A3426` |
+| Role | Hex | Notes |
+| --- | --- | --- |
+| Primary blue | `#1E5BFF` | Cape and armour highlights |
+| Dark blue | `#0D2D6B` | Armour mass, cape shadow |
+| Gold | `#D4AF37` | Metal trim, clasps, pommel |
+| Silver / steel | `#C0C8D8` | Blade, plate highlights |
+| **Circuit cyan** | `#4FE3FF` | Thin glowing seam lines — the CodeQuest signature |
+| Blade glow | `#9BE8FF` | Core of the greatsword |
+| Skin | `#F0C8A0` | |
+| Hair | `#3B2B1F` | |
+| Shadow | `#0A0F1F` | Self-shadow, under-layer |
+
+Gold and cyan sit far apart on the colour wheel (45° and 190°), so they read as
+two distinct accents rather than muddying into one. Gold carries the warmth and
+the classic-RPG appeal; cyan carries the software theme and sets up the
+opposition with the Bug Lord's corrupted red. Neither may exceed 15% of surface
+area, and **combined they must not exceed 20%.**
 
 ### Bug Lord — corrupted red and void violet
 
@@ -385,35 +401,36 @@ must extend **at least 40px past the cut line**, so rotation never reveals a gap
 
 | | |
 | --- | --- |
-| **Concept** | A modern knight. Clean, precise, engineered. The only character in the game built from intact, deliberate forms. |
+| **Concept** | A heroic knight in the classic RPG mould, marked as CodeQuest's by glowing circuit lines. Clean, ordered, deliberate — the only character built from intact forms. |
+| **Archetype** | Male knight |
+| **Build** | Stylised heroic sprite, 5–5.5 heads, broad shoulders, chunky armour |
 | **View** | 3/4 rear, facing up-right |
 | **Shape** | Triangle-dominant, square support |
 | **Scale** | 1.00 |
-| **Palette** | Navy `#1B2438`, cape `#1E50C8`, cyan `#4FE3FF` |
+| **Palette** | Blue `#1E5BFF` / `#0D2D6B`, gold `#D4AF37`, cyan `#4FE3FF` |
 
-**Design.** Segmented hard-surface plate in matte deep navy and gunmetal
-composite. Precise moulded panel seams, subtle venting — sculpted like modern
-motorsport protective gear, not hammered medieval steel. **No filigree, no
-rivets, no chainmail, no scrollwork.** Large angular pauldrons, articulated
-gauntlets, reinforced greaves, dark fitted under-layer.
+**Design.** Layered plate armour in deep blue and steel, with **gold trim** on
+the pauldrons, clasps, belt and sword furniture. Bold simplified plate shapes
+with clear separations — not fine realistic panelling. A blue gemstone set in the
+shoulder.
 
-Thin luminous cyan circuit lines trace sparingly along the armour seams and
-across the chestplate. **Sparingly** is load-bearing — this is an accent, not a
-finish.
+**Thin glowing cyan circuit lines** trace along the armour seams and across the
+chestplate. This is the CodeQuest signature and the single element that separates
+him from a generic fantasy knight. Sparing — an accent, never a finish.
 
-Long royal blue cape clasped at both shoulders, sweeping clear of the body. The
-cape is the single strongest silhouette element and the best rig part in the
-game; it is never cut short or removed.
+Long royal blue cape clasped at both shoulders, falling behind and sweeping clear
+of the sword arm. The cape is the strongest silhouette element and the best rig
+part in the game; it is never cut short or removed.
 
-Large geometric greatsword, clean faceted blade, cool blue crystalline edge
-glow. Held well away from the torso.
+Large greatsword with a broad silver-blue crystalline blade, glowing core and
+gold crossguard. Held out clear of the torso.
 
-No helmet — the face is needed for the Ultimate's dramatic beat. Short tousled
-dark brown hair, mature adult features.
+No helmet — the face is needed for the Ultimate's dramatic beat. Tousled brown
+hair, young heroic features large enough to read at battle size.
 
-**Why modern reads as modern:** it comes from manufacturing language (moulded
-panels, precise seams, exposed joints), not from bolting sci-fi gadgets onto a
-medieval knight.
+**Why he reads as CodeQuest's hero:** the gold and blue say "RPG hero" instantly;
+the cyan circuitry says which RPG. Remove the circuit lines and he becomes
+interchangeable with any fantasy knight.
 
 ---
 
@@ -768,9 +785,10 @@ Lighting: cool key light from the upper left, soft fill from the lower right,
 thin rim light on the left edge. Soft painted self-shadow. No cast shadow on
 the ground.
 
-Painted 2D game concept art, semi-realistic stylised rendering, clean confident
-brushwork, visible material differentiation, detailed but readable at small
-size, professional character concept art, sharp, 4K, transparent background.
+Stylised 2D game sprite art, bold simplified shapes, clean crisp rendering,
+saturated colour, strong outline-free edge separation, detailed but highly
+readable at small size, professional game character sprite, sharp, 4K,
+transparent background.
 
 Single subject only, exactly one original character, no other figures, no
 background scenery, no ground plane, no cast shadow, no text, no watermark, no

@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://cuhvggk2navlf"]
+
+[ext_resource type="Texture2D" uid="uid://d25hrwrlkmpwn" path="res://assets/sprites/generals/technical_debt_king/technical_debt_king_damage_sheet.png" id="1_bdk8i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ot7dr"]
+atlas = ExtResource("1_bdk8i")
+region = Rect2(0, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qixo7"]
+atlas = ExtResource("1_bdk8i")
+region = Rect2(443, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emfgf"]
+atlas = ExtResource("1_bdk8i")
+region = Rect2(886, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ryk2b"]
+atlas = ExtResource("1_bdk8i")
+region = Rect2(1329, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2jx8"]
+atlas = ExtResource("1_bdk8i")
+region = Rect2(0, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ve4os"]
+atlas = ExtResource("1_bdk8i")
+region = Rect2(443, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cql08"]
+atlas = ExtResource("1_bdk8i")
+region = Rect2(886, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0tuei"]
+atlas = ExtResource("1_bdk8i")
+region = Rect2(1329, 443, 443, 443)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ot7dr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qixo7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emfgf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ryk2b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2jx8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ve4os")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cql08")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0tuei")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

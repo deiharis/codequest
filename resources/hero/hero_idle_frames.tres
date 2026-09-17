@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://d3pvxncxwh02t"]
+
+[ext_resource type="Texture2D" uid="uid://dhjgeop4mgxtq" path="res://assets/sprites/hero/hero_idle_sheet.png" id="1_7r3ws"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fu0vy"]
+atlas = ExtResource("1_7r3ws")
+region = Rect2(0, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jtyiq"]
+atlas = ExtResource("1_7r3ws")
+region = Rect2(443, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1wfgy"]
+atlas = ExtResource("1_7r3ws")
+region = Rect2(886, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0aqj"]
+atlas = ExtResource("1_7r3ws")
+region = Rect2(1329, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcmmw"]
+atlas = ExtResource("1_7r3ws")
+region = Rect2(0, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1tymk"]
+atlas = ExtResource("1_7r3ws")
+region = Rect2(443, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bthy"]
+atlas = ExtResource("1_7r3ws")
+region = Rect2(886, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ter3w"]
+atlas = ExtResource("1_7r3ws")
+region = Rect2(1329, 443, 443, 443)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fu0vy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jtyiq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1wfgy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0aqj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fcmmw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1tymk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bthy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ter3w")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bmpgmhjph68km"]
+
+[ext_resource type="Texture2D" uid="uid://csntjun2jgig1" path="res://assets/sprites/generals/merge_conflict_titan/merge_conflict_titan_damage_sheet.png" id="1_w241w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkbcx"]
+atlas = ExtResource("1_w241w")
+region = Rect2(0, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2x5c7"]
+atlas = ExtResource("1_w241w")
+region = Rect2(443, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8hhi"]
+atlas = ExtResource("1_w241w")
+region = Rect2(886, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y7krl"]
+atlas = ExtResource("1_w241w")
+region = Rect2(1329, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thu6i"]
+atlas = ExtResource("1_w241w")
+region = Rect2(0, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hlwy6"]
+atlas = ExtResource("1_w241w")
+region = Rect2(443, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pfay"]
+atlas = ExtResource("1_w241w")
+region = Rect2(886, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0lnjo"]
+atlas = ExtResource("1_w241w")
+region = Rect2(1329, 443, 443, 443)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkbcx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2x5c7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8hhi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y7krl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_thu6i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hlwy6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pfay")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0lnjo")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

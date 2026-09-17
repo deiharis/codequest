@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dc8sttw36b1cw"]
+
+[ext_resource type="Texture2D" uid="uid://b3o8o5m44156j" path="res://assets/sprites/generals/spaghetti_architect/spaghetti_architect_idle_sheet.png" id="1_auclh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4t0jj"]
+atlas = ExtResource("1_auclh")
+region = Rect2(0, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hn5yq"]
+atlas = ExtResource("1_auclh")
+region = Rect2(443, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m8osa"]
+atlas = ExtResource("1_auclh")
+region = Rect2(886, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k8228"]
+atlas = ExtResource("1_auclh")
+region = Rect2(1329, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vfj1u"]
+atlas = ExtResource("1_auclh")
+region = Rect2(0, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x68v4"]
+atlas = ExtResource("1_auclh")
+region = Rect2(443, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2uh3"]
+atlas = ExtResource("1_auclh")
+region = Rect2(886, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3lyqt"]
+atlas = ExtResource("1_auclh")
+region = Rect2(1329, 443, 443, 443)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4t0jj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hn5yq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m8osa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k8228")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vfj1u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x68v4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2uh3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3lyqt")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

@@ -2,41 +2,44 @@
 
 [ext_resource type="Texture2D" uid="uid://h2br4uc6hgwt" path="res://assets/sprites/bug_lord/bug_lord_idle_sheet.png" id="1_8ebkm"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ebkm"]
+atlas = ExtResource("1_8ebkm")
+region = Rect2(0, 0, 443, 443)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_yjdkg"]
 atlas = ExtResource("1_8ebkm")
-region = Rect2(2, 32, 415, 444)
+region = Rect2(443, 0, 443, 443)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m2kjt"]
 atlas = ExtResource("1_8ebkm")
-region = Rect2(417, 32, 415, 444)
+region = Rect2(886, 0, 443, 443)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8rquh"]
 atlas = ExtResource("1_8ebkm")
-region = Rect2(832, 32, 415, 444)
+region = Rect2(1329, 0, 443, 443)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_300qb"]
 atlas = ExtResource("1_8ebkm")
-region = Rect2(1247, 32, 415, 444)
+region = Rect2(0, 443, 443, 443)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k46oh"]
 atlas = ExtResource("1_8ebkm")
-region = Rect2(2, 476, 415, 444)
+region = Rect2(443, 443, 443, 443)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pdsm7"]
 atlas = ExtResource("1_8ebkm")
-region = Rect2(417, 476, 415, 444)
+region = Rect2(886, 443, 443, 443)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_udnlc"]
 atlas = ExtResource("1_8ebkm")
-region = Rect2(832, 476, 415, 444)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_latrm"]
-atlas = ExtResource("1_8ebkm")
-region = Rect2(1247, 476, 415, 444)
+region = Rect2(1329, 443, 443, 443)
 
 [resource]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ebkm")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yjdkg")
 }, {
@@ -57,9 +60,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_udnlc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_latrm")
 }],
 "loop": 1,
 "name": &"idle",

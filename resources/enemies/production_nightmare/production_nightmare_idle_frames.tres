@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bestc1y8gsoqq"]
+
+[ext_resource type="Texture2D" uid="uid://b5xft02g77jmw" path="res://assets/sprites/generals/production_nightmare/production_nightmare_idle_sheet.png" id="1_5kyf2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbqnk"]
+atlas = ExtResource("1_5kyf2")
+region = Rect2(0, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_utibv"]
+atlas = ExtResource("1_5kyf2")
+region = Rect2(443, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_msqks"]
+atlas = ExtResource("1_5kyf2")
+region = Rect2(886, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xai7r"]
+atlas = ExtResource("1_5kyf2")
+region = Rect2(1329, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13pnp"]
+atlas = ExtResource("1_5kyf2")
+region = Rect2(0, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qs2gy"]
+atlas = ExtResource("1_5kyf2")
+region = Rect2(443, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2to63"]
+atlas = ExtResource("1_5kyf2")
+region = Rect2(886, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ly8qh"]
+atlas = ExtResource("1_5kyf2")
+region = Rect2(1329, 443, 443, 443)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mbqnk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_utibv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_msqks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xai7r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_13pnp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qs2gy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2to63")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ly8qh")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xw06dip3pksn"
-path="res://.godot/imported/bug_lord_attack_sheet.png-7c820e2f5f2803616657c9be63564e6b.ctex"
+uid="uid://csntjun2jgig1"
+path="res://.godot/imported/merge_conflict_titan_damage_sheet.png-e4517f0c3c89f9e4f8a99be2647a979f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/bug_lord/bug_lord_attack_sheet.png"
-dest_files=["res://.godot/imported/bug_lord_attack_sheet.png-7c820e2f5f2803616657c9be63564e6b.ctex"]
+source_file="res://assets/sprites/generals/merge_conflict_titan/merge_conflict_titan_damage_sheet.png"
+dest_files=["res://.godot/imported/merge_conflict_titan_damage_sheet.png-e4517f0c3c89f9e4f8a99be2647a979f.ctex"]
 
 [params]
 

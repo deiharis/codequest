@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bon6d1dsh5ohy"]
+
+[ext_resource type="Texture2D" uid="uid://bjis65wgl44up" path="res://assets/sprites/generals/merge_conflict_titan/merge_conflict_titan_idle_sheet.png" id="1_1piny"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hc817"]
+atlas = ExtResource("1_1piny")
+region = Rect2(0, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1l3d2"]
+atlas = ExtResource("1_1piny")
+region = Rect2(443, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ws6ah"]
+atlas = ExtResource("1_1piny")
+region = Rect2(886, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g42ao"]
+atlas = ExtResource("1_1piny")
+region = Rect2(1329, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l2ner"]
+atlas = ExtResource("1_1piny")
+region = Rect2(0, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2yuby"]
+atlas = ExtResource("1_1piny")
+region = Rect2(443, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2k45m"]
+atlas = ExtResource("1_1piny")
+region = Rect2(886, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qgg1q"]
+atlas = ExtResource("1_1piny")
+region = Rect2(1329, 443, 443, 443)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hc817")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1l3d2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ws6ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g42ao")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l2ner")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2yuby")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2k45m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qgg1q")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

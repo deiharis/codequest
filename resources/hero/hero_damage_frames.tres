@@ -1,0 +1,53 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://d20m7gf08ac4j"]
+
+[ext_resource type="Texture2D" uid="uid://cfwigr06atcmw" path="res://assets/sprites/hero/hero_damage_sheet.png" id="1_uecl4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fkfya"]
+atlas = ExtResource("1_uecl4")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rug8m"]
+atlas = ExtResource("1_uecl4")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_60tub"]
+atlas = ExtResource("1_uecl4")
+region = Rect2(1024, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p71l8"]
+atlas = ExtResource("1_uecl4")
+region = Rect2(0, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2br10"]
+atlas = ExtResource("1_uecl4")
+region = Rect2(512, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ujpj7"]
+atlas = ExtResource("1_uecl4")
+region = Rect2(1024, 512, 512, 512)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fkfya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rug8m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_60tub")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p71l8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2br10")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ujpj7")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]

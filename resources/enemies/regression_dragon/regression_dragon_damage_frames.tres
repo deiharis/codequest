@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dv5i22juh10xx"]
+
+[ext_resource type="Texture2D" uid="uid://da30wrsrjijej" path="res://assets/sprites/generals/regression_dragon/regression_dragon_damage_sheet.png" id="1_57m8g"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q2xdl"]
+atlas = ExtResource("1_57m8g")
+region = Rect2(0, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snvix"]
+atlas = ExtResource("1_57m8g")
+region = Rect2(443, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tey50"]
+atlas = ExtResource("1_57m8g")
+region = Rect2(886, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2hmg"]
+atlas = ExtResource("1_57m8g")
+region = Rect2(1329, 0, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0msy"]
+atlas = ExtResource("1_57m8g")
+region = Rect2(0, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_web1r"]
+atlas = ExtResource("1_57m8g")
+region = Rect2(443, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqck5"]
+atlas = ExtResource("1_57m8g")
+region = Rect2(886, 443, 443, 443)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0tth"]
+atlas = ExtResource("1_57m8g")
+region = Rect2(1329, 443, 443, 443)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q2xdl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_snvix")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tey50")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o2hmg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0msy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_web1r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqck5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0tth")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]
