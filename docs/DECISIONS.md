@@ -210,3 +210,79 @@ change was reversible and a disk failure would have ended the project. The commi
 history also serves as evidence of development process for the academic report.
 
 **Rejected.** Git LFS (sprite sheets are 1–2.6 MB each, far below GitHub's limits).
+
+---
+
+## ADR-015 — Design resolution reverted to 1152x648 (supersedes ADR-009)
+**Date:** 2026-09-17
+
+**Decision.** Viewport returns to 1152x648 with `canvas_items` stretch. The default
+clear colour is set to the scenes' background navy so no region of the window is
+ever left grey.
+
+**Why.** ADR-009 rested on a false premise: that a lower design resolution wastes
+high-resolution art. It does not. Under `canvas_items` stretch, the design
+resolution is only a coordinate system — 2D is rendered at the window's real
+resolution and textures are sampled there, so sharpness is unaffected by the
+number in this setting.
+
+Meanwhile the change had a real cost. Every scene positions content in 1152x648
+coordinates (planet `map_position` values, background rectangles, HP bar offsets).
+Reinterpreting those against a 1920x1080 viewport pushed all content into the
+upper-left ~60% of the screen and left the remainder uncovered.
+
+Raising the design resolution would require repositioning all authored content.
+That work belongs with the Space Map rebuild in Phase 5, not ahead of it.
+
+**Rejected.** Keeping 1920x1080 and repositioning eight worlds' map coordinates
+plus several scenes' hardcoded rectangles as an unplanned step.
+
+---
+
+## ADR-019 — `docs/ART_SPEC.md` is the single visual contract
+**Date:** 2026-09-17
+
+**Decision.** All visual assets are generated against, and accepted against,
+`docs/ART_SPEC.md`. No asset is generated without filling a template from its
+§12, and none enters the project without passing the 22-point checklist in §13.
+
+**Why.** Consistency across nine characters, eight planets, a rocket and a UI
+cannot be held in someone's head across weeks of work. Writing the contract down
+turns "consistent" from a feeling into something checkable, and it makes a failed
+asset a regeneration rather than an argument.
+
+The spec also caught two errors that had already shipped into the project: every
+existing General is drawn facing the viewer rather than down-left at the Hero,
+and the first palette draft put four of seven Generals inside a 24-degree wedge
+of the colour wheel.
+
+**Key contents.** Battle-angle contract (3/4 rear for the Hero, 3/4 front for
+enemies); 2048x2048 transparent masters with a fixed baseline; colour separation
+on three axes (hue, value, saturation) rather than hue alone; nine distinct
+silhouette classes and builds; the 14-part cutout rig list; prompt templates;
+acceptance checklist.
+
+**Rejected.** Per-asset judgement calls with no written contract; a style
+reference board of images without written rules (cannot be checked against).
+
+---
+
+## ADR-020 — Character roster varies by gender, species and build
+**Date:** 2026-09-17
+
+**Decision.** The nine characters use nine distinct silhouette classes. Notably:
+Ambiguous Client is female; Merge Conflict Titan is split half male, half
+female; Infinite Loop Beast and Regression Dragon are non-humanoid beasts;
+Production Nightmare is a machine construct with no face or limbs.
+
+**Why.** The first draft defaulted almost every character to a humanoid male
+build, which reads as one character in seven costumes. The names themselves
+imply otherwise — a Client is a person, a Beast is not, a Titan is colossal, a
+King is enthroned. Variety in build is also the cheapest way to make characters
+distinguishable at battle scale, where fine detail is invisible.
+
+Merge Conflict Titan's gender split does double duty: it is the clearest
+possible visual for "two incompatible versions of the same entity".
+
+**Rejected.** A uniformly humanoid roster differentiated only by costume and
+colour.
