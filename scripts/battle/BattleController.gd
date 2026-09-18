@@ -20,12 +20,17 @@ signal battle_finished(outcome: Outcome, request: BattleRequest)
 ## Where each fighter stands. Tuned here rather than in the scene so both
 ## battle modes can share one Battle.tscn.
 @export var hero_pos_general: Vector2 = Vector2(260, 430)
-@export var enemy_pos_general: Vector2 = Vector2(880, 230)
+## X only. The Y is derived from the sprite's height so that the TOP of every
+## General lands at enemy_top_general — display_scale runs from 1.05 to 1.75
+## across the roster, so any fixed centre would put the big ones behind the
+## nameplate and leave the small ones floating.
+@export var enemy_pos_general: Vector2 = Vector2(884, 262)
+@export var enemy_top_general: float = 126.0
 @export var hero_pos_boss: Vector2 = Vector2(576, 500)
 ## Deliberately low. The Bug Lord is taller than the screen, so something must
 ## crop — this puts the crop at his feet, behind the question panel, rather
 ## than through his head.
-@export var enemy_pos_boss: Vector2 = Vector2(576, 340)
+@export var enemy_pos_boss: Vector2 = Vector2(576, 396)
 ## Multiplied by each character's display_scale. Art frames are ~443px tall, so
 ## this is what brings them down to a sensible size on a 1152x648 canvas.
 @export var base_scale: float = 0.55
@@ -33,9 +38,16 @@ signal battle_finished(outcome: Outcome, request: BattleRequest)
 @export_group("Boss HP bars")
 ## The Bug Lord's bar spans the top of the screen. He is the only enemy that
 ## gets one this size — the scale of the bar is part of the scale of the fight.
-@export var boss_bar_rect: Rect2 = Rect2(76, 22, 1000, 34)
+## Only the vertical position is authored. The horizontal is computed from the
+## viewport every time, so the boss frame cannot drift off centre when the bar
+## width changes — which is exactly how it drifted before.
+@export var boss_plate_y: float = 0.0
+@export var boss_plate_width: float = 1040.0
 ## The hero's bar sits along the bottom, under the question panel.
-@export var hero_bar_rect_boss: Rect2 = Rect2(376, 614, 400, 22)
+@export var hero_plate_pos_boss: Vector2 = Vector2(28, 520)
+@export var hero_plate_pos: Vector2 = Vector2(28, 470)
+@export var enemy_plate_pos: Vector2 = Vector2(818, 12)
+@export var plate_width: float = 318.0
 
 @export_group("Bug Lord encounter")
 ## The encounter is a fixed-length exam, not an HP fight. Ten questions with a
@@ -46,8 +58,9 @@ signal battle_finished(outcome: Outcome, request: BattleRequest)
 @export var boss_pass_ratio: float = 0.7
 
 @export_group("Timer")
-## Where the countdown sits. Directly under the boss's HP bar.
-@export var timer_rect: Rect2 = Rect2(476, 62, 200, 40)
+## The countdown and the score share one washed panel in the top-right corner,
+## clear of the boss crest and clear of the fight.
+@export var info_rect: Rect2 = Rect2(1014, 562, 126, 76)
 ## Below this many seconds the countdown turns red.
 @export var timer_warning_at: float = 5.0
 
@@ -55,11 +68,18 @@ signal battle_finished(outcome: Outcome, request: BattleRequest)
 ## How long the Bug Lord takes to rise into frame and the world to change.
 @export var boss_arrival_time: float = 1.6
 
+@export_group("Impact")
+## Shake in pixels. The hero being hit shakes harder than the enemy being hit —
+## the screen is the player's point of view, so it should flinch when they do.
+@export var shake_on_enemy_hit: float = 5.0
+@export var shake_on_hero_hit: float = 11.0
+@export var shake_on_ultimate: float = 20.0
+
 @export_group("Pacing")
 @export var feedback_hold: float = 0.45
 @export var impact_pause: float = 0.08
 @export var hp_bar_time: float = 0.3
-## How long the final frame sits on screen before returning to the map.
+## Kept for the sandbox path, where no banner plays.
 @export var result_hold: float = 1.2
 
 var request: BattleRequest
@@ -78,18 +98,26 @@ var _progress_label: Label
 
 var _time_left: float = 0.0
 var _timer_label: Label
+var _info_panel: PanelContainer
+
+## The info panel uses the question scroll's plate, so text on it reads the
+## same way: light on dark, with the countdown turning red near the end.
+const INK := Color(0.89, 0.92, 0.96)
+const INK_DIM := Color(0.61, 0.65, 0.75)
+const INK_WARN := Color(1.0, 0.33, 0.33)
 
 @onready var _panel: Control = $QuestionPanel
 @onready var _background: ColorRect = $Background
 
 var _arena: TextureRect
 var _storm: LightningStrike
+var _feedback: HitFeedback
 
 ## What the arena is tinted to before the Bug Lord arrives: drained and cold.
 ## It tweens to white as he rises, so the world visibly turns his colour.
 const ARENA_BEFORE_BOSS := Color(0.30, 0.34, 0.48)
-@onready var _hero_fill: ColorRect = $HeroHPBarBg/HeroHPBarFill
-@onready var _enemy_fill: ColorRect = $EnemyHPBarBg/EnemyHPBarFill
+var _hero_plate: Nameplate
+var _enemy_plate: Nameplate
 
 
 func _ready() -> void:
@@ -98,7 +126,9 @@ func _ready() -> void:
 		request = BattleRequest.debug_default()
 	_build_arena()
 	_build_storm()
+	_build_feedback()
 	_build_combatants()
+	_order_layers()
 	_panel.answer_selected.connect(_on_answer_selected)
 	await _start()
 
@@ -143,7 +173,7 @@ func _build_combatants() -> void:
 
 	enemy = Combatant.new()
 	enemy.name = "EnemyCombatant"
-	enemy.position = enemy_pos_boss if boss else enemy_pos_general
+	enemy.position = enemy_pos_boss if boss else _general_anchor(request.enemy)
 	# The Bug Lord already fills the screen — lunging him forward reads as the
 	# camera jolting, not as a strike. He attacks from where he stands.
 	enemy.lunge_offset = Vector2.ZERO if boss else Vector2(-150, 95)
@@ -166,26 +196,71 @@ func _build_combatants() -> void:
 	if not boss:
 		enemy.hp_changed.connect(_on_enemy_hp_changed)
 
+	_build_plates(boss)
 	if boss:
-		_layout_boss_bars()
 		_build_timer()
 
 	_pool = request.questions.duplicate()
 	_pool.shuffle()
 
 
-## General bars are positioned in Battle.tscn. The boss fight overrides them:
-## a long bar across the top for him, a slim one along the bottom for the hero.
-func _layout_boss_bars() -> void:
-	_place_bar($EnemyHPBarBg, _enemy_fill, boss_bar_rect, Color(0.78, 0.13, 0.20))
-	_place_bar($HeroHPBarBg, _hero_fill, hero_bar_rect_boss, Color(0.18, 0.8, 0.44))
-	# His bar is the campaign's progress bar, not this encounter's. Normal
-	# attacks do him no damage, so a bar tracking the encounter would never
-	# move — and the Ultimate's whole point is that this one does.
-	_tween_bar(_enemy_fill, GameState.bug_lord_hp, GameState.BUG_LORD_MAX_HP)
-	# Drawn last so they stay readable over the boss and the question panel.
-	move_child($EnemyHPBarBg, get_child_count() - 1)
-	move_child($HeroHPBarBg, get_child_count() - 1)
+## Place a General by its top edge rather than its centre. Sprite height is
+## known: every sheet is normalised to one reference height, then scaled.
+func _general_anchor(ed: EnemyData) -> Vector2:
+	var h := Combatant.REFERENCE_FRAME_HEIGHT * base_scale * ed.display_scale
+	return Vector2(enemy_pos_general.x, enemy_top_general + h * 0.5)
+
+
+## Godot draws siblings in tree order, and this scene builds most of its nodes
+## at runtime — so the order they happen to be created in is not the order they
+## should be drawn in. Set it once, explicitly, from back to front:
+##
+##   arena · fighters · storm · plates · question scroll · countdown
+##
+## The scroll must be above the plates (it is the thing being read) and the
+## countdown above the scroll (it must stay legible through the dim).
+func _order_layers() -> void:
+	for node in [_feedback, _hero_plate, _enemy_plate, _panel, _info_panel]:
+		if node and node.get_parent() == self:
+			move_child(node, get_child_count() - 1)
+
+
+## Both fighters get a named plate. The flat rectangles that used to live in
+## Battle.tscn are freed: the plate is built per fight because what it says
+## changes per fight, and one scene still serves all nine.
+func _build_plates(boss: bool) -> void:
+	for old in ["HeroHPBarBg", "EnemyHPBarBg"]:
+		var n := get_node_or_null(old)
+		if n:
+			n.queue_free()
+
+	_hero_plate = Nameplate.new()
+	_hero_plate.name = "HeroPlate"
+	_hero_plate.position = hero_plate_pos_boss if boss else hero_plate_pos
+	add_child(_hero_plate)
+	_hero_plate.setup(request.hero.display_name, plate_width)
+	_hero_plate.set_hp(hero.current_hp, hero.max_hp, 0.0)
+
+	_enemy_plate = Nameplate.new()
+	_enemy_plate.name = "EnemyPlate"
+	_enemy_plate.position = Vector2(
+			(get_viewport_rect().size.x - boss_plate_width) * 0.5,
+			boss_plate_y) if boss else enemy_plate_pos
+	add_child(_enemy_plate)
+	if boss:
+		_enemy_plate.setup_boss(request.enemy.display_name, boss_plate_width)
+	else:
+		_enemy_plate.setup(request.enemy.display_name, plate_width)
+
+	if boss:
+		# His bar is the campaign's progress bar, not this encounter's. Normal
+		# attacks do him no damage, so a bar tracking the encounter would never
+		# move — and the Ultimate's whole point is that this one does.
+		_enemy_plate.set_hp(GameState.bug_lord_hp, GameState.BUG_LORD_MAX_HP, 0.0)
+	else:
+		_enemy_plate.set_hp(enemy.current_hp, enemy.max_hp, 0.0)
+
+
 
 
 ## The countdown only exists in fights whose enemy asks for one, so a General
@@ -193,30 +268,47 @@ func _layout_boss_bars() -> void:
 func _build_timer() -> void:
 	if not request.enemy.has_timer:
 		return
+
+	# Both readouts live on one washed panel. Dark ink on a pale wash, which is
+	# the opposite of everything else on screen — so the eye finds it without
+	# it having to shout.
+	_info_panel = PanelContainer.new()
+	_info_panel.name = "InfoPanel"
+	_info_panel.theme_type_variation = &"ScrollHeader"
+	_info_panel.position = info_rect.position
+	_info_panel.size = info_rect.size
+	_info_panel.custom_minimum_size = info_rect.size
+	_info_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_info_panel)
+
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override(&"separation", 0)
+	col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_info_panel.add_child(col)
+
 	_timer_label = Label.new()
 	_timer_label.name = "TimerLabel"
-	_timer_label.position = timer_rect.position
-	_timer_label.size = timer_rect.size
 	_timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_timer_label.add_theme_font_size_override(&"font_size", 30)
-	add_child(_timer_label)
+	_timer_label.add_theme_font_size_override(&"font_size", 26)
+	_timer_label.add_theme_color_override(&"font_color", INK)
+	col.add_child(_timer_label)
 
 	_progress_label = Label.new()
 	_progress_label.name = "ProgressLabel"
-	_progress_label.position = timer_rect.position + Vector2(0, 38)
-	_progress_label.size = timer_rect.size
 	_progress_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_progress_label.add_theme_font_size_override(&"font_size", 18)
-	add_child(_progress_label)
+	_progress_label.add_theme_font_size_override(&"font_size", 13)
+	_progress_label.add_theme_color_override(&"font_color", INK_DIM)
+	col.add_child(_progress_label)
 	_update_progress_label()
 
 
 func _process(delta: float) -> void:
 	# Time only runs while the fight is live: not during the arrival, not while
 	# a defeat animation is playing, not after the battle has ended.
-	# Time runs per question, and only while the question is on screen: not
-	# during the arrival, not while the answer is resolving, not after the end.
-	if _timer_label == null or state != State.QUESTION:
+	# Time runs per question, and only while the question is on screen and
+	# taking answers: not during the arrival, not while the panel is sliding,
+	# not while the answer is resolving, not after the end.
+	if _timer_label == null or state != State.QUESTION or not _panel.is_accepting():
 		return
 	_time_left = maxf(0.0, _time_left - delta)
 	_update_timer_label()
@@ -232,7 +324,8 @@ func _update_progress_label() -> void:
 
 func _update_timer_label() -> void:
 	_timer_label.text = "%d" % ceili(_time_left)
-	_timer_label.modulate = Color(1, 0.25, 0.25) if _time_left <= timer_warning_at else Color.WHITE
+	_timer_label.add_theme_color_override(&"font_color",
+			INK_WARN if _time_left <= timer_warning_at else INK)
 
 
 ## Running out counts as a wrong answer: the Bug Lord strikes and the fight
@@ -252,15 +345,6 @@ func _is_boss() -> bool:
 ## Correct answers needed to pass. Rounded up, so 70% of 10 is 7, not 6.
 func _needed() -> int:
 	return ceili(boss_questions * boss_pass_ratio)
-
-
-func _place_bar(bg: ColorRect, fill: ColorRect, r: Rect2, fill_color: Color) -> void:
-	bg.position = r.position
-	bg.size = r.size
-	bg.color = Color(0.06, 0.06, 0.09, 0.85)
-	fill.position = Vector2.ZERO
-	fill.size = r.size
-	fill.color = fill_color
 
 
 ## The arena sits above the flat Background rect and below everything else.
@@ -284,6 +368,19 @@ func _build_arena() -> void:
 	if request.mode == BattleRequest.Mode.BUG_LORD:
 		_arena.modulate = ARENA_BEFORE_BOSS
 	add_child(_arena)
+
+
+## Damage numbers and shake. It shakes this node, so everything in the battle
+## moves together — including the HP plates and the countdown, since they are
+## children too. At 5 to 11 pixels that reads as impact rather than as a fault.
+## Exempting the UI would mean moving the world into its own child node, which
+## is a bigger change than the effect is worth.
+func _build_feedback() -> void:
+	_feedback = HitFeedback.new()
+	_feedback.name = "HitFeedback"
+	_feedback.z_index = 2
+	add_child(_feedback)
+	_feedback.watch(self)
 
 
 ## Lightning belongs to the world, not to the enemy: the Bug Lord is fought in
@@ -338,8 +435,8 @@ func _next_question() -> void:
 	if q == null:
 		push_warning("BattleController: no questions available")
 		return
-	_panel.show_question(q)
 	_start_question_timer(q)
+	await _panel.show_question(q)
 
 
 ## Each question carries its own limit, scaled to how much there is to read.
@@ -386,7 +483,7 @@ func _on_answer_selected(index: int, is_correct: bool) -> void:
 ## HP, return. Each step returns only when its animation is done.
 func _resolve_answer(index: int, is_correct: bool) -> void:
 	await _panel.show_feedback(index, is_correct, feedback_hold)
-	_panel.hide_panel()
+	await _panel.hide_panel()          # the stage is clear before anyone swings
 
 	if is_correct:
 		_correct += 1
@@ -405,7 +502,14 @@ func _exchange_blow(attacker: Combatant, defender: Combatant, amount: int) -> vo
 		_storm.strike(3)        # not awaited: the sky breaks while he swings
 	await attacker.play_attack()
 	await get_tree().create_timer(impact_pause).timeout
+
 	defender.apply_damage(amount)
+	if _feedback:
+		var hurting_hero := defender == hero
+		_feedback.pop(amount, defender.position + Vector2(0, -90), hurting_hero)
+		if amount > 0:
+			_feedback.shake(shake_on_hero_hit if hurting_hero else shake_on_enemy_hit)
+
 	await defender.play_damage()
 	await attacker.return_home()
 
@@ -423,7 +527,7 @@ func _check_end_conditions() -> bool:
 
 func _finish() -> void:
 	state = State.ENDING
-	_panel.hide_panel()
+	await _panel.hide_panel()
 
 	if _is_boss():
 		if _correct >= _needed():
@@ -442,7 +546,32 @@ func _finish() -> void:
 	state = State.FINISHED
 	battle_finished.emit(_outcome, request)
 	print("Battle finished: ", Outcome.keys()[_outcome])
+
+	await _show_result()
 	await _leave()
+
+
+## The beat between the last blow and the fade. A fight that simply stops feels
+## like a scene change; a fight that announces its result feels like a fight.
+func _show_result() -> void:
+	if request.world_id.is_empty():
+		return                       # the F6 sandbox stays put and says nothing
+
+	var banner := ResultBanner.new()
+	banner.name = "ResultBanner"
+	add_child(banner)
+	move_child(banner, get_child_count() - 1)
+
+	if _outcome != Outcome.VICTORY:
+		await banner.show_result("DEFEATED", "The %s stands. Try again."
+				% request.enemy.display_name, Color(0.88, 0.25, 0.25))
+	elif _is_boss():
+		var left: int = GameState.bug_lord_hp
+		var tail := "He withdraws. %d HP remains." % left if left > 0 else "Nothing remains."
+		await banner.show_result("ULTIMATE", tail, Color(0.95, 0.68, 0.22))
+	else:
+		await banner.show_result("VICTORY", "%s falls. The Bug Lord stirs."
+				% request.enemy.display_name, Color(0.83, 0.69, 0.22))
 
 
 ## Decide where a finished battle goes next.
@@ -461,8 +590,6 @@ func _finish() -> void:
 func _leave() -> void:
 	if request.world_id.is_empty():
 		return
-
-	await get_tree().create_timer(result_hold).timeout
 
 	if _outcome != Outcome.VICTORY:
 		_goto_general()
@@ -510,14 +637,18 @@ func _goto_general() -> void:
 ## then he withdraws rather than dying. He is beaten eight times, once per
 ## world, before there is nothing left of him (ADR-003).
 func _play_ultimate() -> void:
-	if _timer_label:
-		_timer_label.hide()
+	if _info_panel:
+		_info_panel.hide()
 	await hero.play_once(&"ultimate")
 
 	var changed := GameState.clear_world(request.world_id)
 	if not changed:
 		print("Bug Lord encounter passed, but %s was already cleared" % request.world_id)
-	_tween_bar(_enemy_fill, GameState.bug_lord_hp, GameState.BUG_LORD_MAX_HP)
+	if _feedback:
+		_feedback.shake(shake_on_ultimate)
+		_feedback.pop(GameState.BUG_LORD_DAMAGE_PER_WORLD,
+				enemy.position + Vector2(0, 40), false)
+	_enemy_plate.set_hp(GameState.bug_lord_hp, GameState.BUG_LORD_MAX_HP, 0.6)
 	enemy.flash()
 	await get_tree().create_timer(0.5).timeout
 
@@ -540,24 +671,14 @@ func _boss_withdraws() -> void:
 
 
 # --------------------------------------------------------------------------
-# HP bars
+# Health plates
 # --------------------------------------------------------------------------
 
 func _on_hero_hp_changed(current: int, maximum: int) -> void:
-	_tween_bar(_hero_fill, current, maximum)
+	if _hero_plate:
+		_hero_plate.set_hp(current, maximum, hp_bar_time)
 
 
 func _on_enemy_hp_changed(current: int, maximum: int) -> void:
-	_tween_bar(_enemy_fill, current, maximum)
-
-
-func _tween_bar(bar: ColorRect, current: int, maximum: int) -> void:
-	if bar == null:
-		return
-	# Width comes from the bar's own background, so the same code drives both
-	# the small General bars and the boss bar without knowing which is which.
-	var full: float = (bar.get_parent() as Control).size.x
-	var target := full * (float(current) / float(maxi(1, maximum)))
-	var t := create_tween()
-	t.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-	t.tween_property(bar, "size:x", target, hp_bar_time)
+	if _enemy_plate:
+		_enemy_plate.set_hp(current, maximum, hp_bar_time)

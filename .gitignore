@@ -1,3 +1,11 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Exported builds — regenerated from source, never reviewed in a diff
+/build/
+*.pck
+*.exe
+
+# Claude Cowork delivery folder, not project source
+/Claude outputs/

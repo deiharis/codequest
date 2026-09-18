@@ -25,6 +25,10 @@ SceneRouter="*uid://tpbowyyy7b8v"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[gui]
+
+theme/custom="res://ui/codequest_theme.tres"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

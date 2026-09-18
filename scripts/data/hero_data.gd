@@ -8,6 +8,9 @@ class_name HeroData
 ## camera angles — 3/4 rear against Generals, straight rear against the
 ## Bug Lord. See ART_SPEC section 2.
 
+@export_group("Identity")
+@export var display_name: String = "Nicholas, The Hero"
+
 @export_group("Combat")
 @export var max_hp: int = 100
 ## HP the enemy loses on a correct answer.
