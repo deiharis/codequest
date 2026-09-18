@@ -263,6 +263,8 @@ stylised flat vector (easiest to produce, but a weaker fit for a boss-battle RPG
 
 ## ADR-017 — Cutout rigs, not frame-by-frame sheets (supersedes ADR-006)
 **Date:** 2026-09-17
+**Status:** SUPERSEDED by ADR-024. This decision was made but never carried out;
+the project uses frame sheets. Kept for the record.
 
 **Decision.** Each character is one master illustration, cut into parts and
 animated in Godot with `Skeleton2D` + `AnimationPlayer`. Animations are authored
@@ -440,3 +442,44 @@ outcomes, `VICTORY` and `HERO_DEFEATED`.
 **Rejected.** One 60s countdown for the whole encounter (the original design —
 ends winnable fights on a single slow question); a fixed 15s for everything
 (unfair on long questions); a display-only timer (pressure without stakes).
+
+---
+
+## ADR-024 — Frame sheets, not cutout rigs (supersedes ADR-017)
+**Date:** 2026-09-18
+
+**Decision.** Every character is animated from pre-rendered sprite sheets — one
+sheet per animation, loaded as a `SpriteFrames` resource. No `Skeleton2D`, no
+cutout rig, no in-engine animation authoring. 43 sheets across nine characters.
+
+**Why.** ADR-017 chose rigs and was never implemented. Recording the reason
+matters more than recording the intent.
+
+The rig decision assumed art would be produced as single master illustrations and
+separated into parts by hand. In practice the art was generated as complete
+animation sheets, which made the rig work pure overhead: the frames already
+existed, and cutting them apart to reassemble them in Godot would have destroyed
+the drawn motion to rebuild a worse version of it.
+
+The three arguments for rigs did not survive contact:
+
+1. **Consistency.** The drift ADR-017 feared did appear, but as a *size*
+   inconsistency between sheets, not a style one. It was solved in code by
+   normalising every sheet to a reference frame height (ADR-021), which cost one
+   constant and one function.
+2. **Volume.** 43 sheets were generated in about two days. The projection of
+   "340 frames is unfinishable" was wrong, because generation is not hand-drawing.
+3. **Memory.** Untested at full roster, and now a real open risk. If VRAM becomes
+   a problem the fix is compression and atlas packing, not re-rigging.
+
+**Cost accepted.** New animations need new art rather than new keyframes. Timing
+is fixed by the sheet's frame count and fps rather than tunable in the editor.
+Memory use is unmeasured at full roster.
+
+**Consequence.** The rig part contract in `docs/ART_SPEC.md` section on rigging
+no longer applies. The sheet-per-animation naming convention that the assets
+actually follow is the live contract.
+
+**Rejected.** Retrofitting rigs to the existing sheets (destroys finished work to
+satisfy a document); quietly leaving ADR-017 in place (a decision record that
+misdescribes the system is worse than no record).
