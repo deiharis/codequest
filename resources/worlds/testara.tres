@@ -12,6 +12,6 @@ sdlc_phase = "Testing"
 general_name = "Regression Dragon"
 general = ExtResource("9_gen")
 planet_frames = ExtResource("1_wp6wb")
-map_position = Vector2(490, 220)
+map_position = Vector2(505, 300)
 order_index = 3
 metadata/_custom_type_script = "uid://bauesoswa5akw"

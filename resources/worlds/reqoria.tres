@@ -12,5 +12,5 @@ sdlc_phase = "Requirement Analysis"
 general_name = "Ambiguous Client"
 general = ExtResource("9_gen")
 planet_frames = ExtResource("1_1y6qs")
-map_position = Vector2(60, 420)
+map_position = Vector2(130, 430)
 metadata/_custom_type_script = "uid://bauesoswa5akw"

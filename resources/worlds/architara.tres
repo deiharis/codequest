@@ -12,6 +12,6 @@ sdlc_phase = "Software Design"
 general_name = "Spaghetti Architect"
 general = ExtResource("9_gen")
 planet_frames = ExtResource("1_7l4vn")
-map_position = Vector2(190, 260)
+map_position = Vector2(255, 265)
 order_index = 1
 metadata/_custom_type_script = "uid://bauesoswa5akw"

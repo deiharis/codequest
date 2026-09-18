@@ -12,6 +12,6 @@ sdlc_phase = "Version Control"
 general_name = "Merge Conflict Titan"
 general = ExtResource("9_gen")
 planet_frames = ExtResource("1_kpytk")
-map_position = Vector2(640, 420)
+map_position = Vector2(640, 500)
 order_index = 4
 metadata/_custom_type_script = "uid://bauesoswa5akw"

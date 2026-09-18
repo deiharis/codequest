@@ -12,6 +12,6 @@ sdlc_phase = "Maintenance"
 general_name = "Technical Debt King"
 general = ExtResource("9_gen")
 planet_frames = ExtResource("1_cht27")
-map_position = Vector2(900, 400)
+map_position = Vector2(900, 420)
 order_index = 6
 metadata/_custom_type_script = "uid://bauesoswa5akw"

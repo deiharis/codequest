@@ -12,6 +12,6 @@ sdlc_phase = "Final World"
 general_name = "Bug Lord"
 general = ExtResource("9_gen")
 planet_frames = ExtResource("1_fnjrm")
-map_position = Vector2(960, 150)
+map_position = Vector2(1030, 324)
 order_index = 7
 metadata/_custom_type_script = "uid://bauesoswa5akw"

@@ -12,6 +12,6 @@ sdlc_phase = "Deployment"
 general_name = "Production Nightmare"
 general = ExtResource("9_gen")
 planet_frames = ExtResource("1_msaoq")
-map_position = Vector2(780, 200)
+map_position = Vector2(770, 250)
 order_index = 5
 metadata/_custom_type_script = "uid://bauesoswa5akw"

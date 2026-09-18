@@ -12,6 +12,6 @@ sdlc_phase = "Implementation"
 general_name = "Infinite Loop Beast"
 general = ExtResource("9_gen")
 planet_frames = ExtResource("1_2gksu")
-map_position = Vector2(340, 440)
+map_position = Vector2(385, 470)
 order_index = 2
 metadata/_custom_type_script = "uid://bauesoswa5akw"
