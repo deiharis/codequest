@@ -1,21 +1,26 @@
 extends Node2D
 
+## The worlds shown on the map. Comes from one explicit resource rather than a
+## directory scan — see WorldDatabase for why the scan had to go.
+@export var database: WorldDatabase
+
+const WORLD_DB_PATH := "res://resources/worlds/world_database.tres"
+
 var world_resources: Array[WorldData] = []
+
 
 func _ready():
 	_load_worlds()
 	_spawn_planet_nodes()
 
+
 func _load_worlds():
-	var dir = DirAccess.open("res://resources/worlds/")
-	dir.list_dir_begin()
-	var file_name = dir.get_next()
-	while file_name != "":
-		if file_name.ends_with(".tres"):
-			world_resources.append(load("res://resources/worlds/" + file_name))
-		file_name = dir.get_next()
-	dir.list_dir_end()
-	world_resources.sort_custom(func(a, b): return a.order_index < b.order_index)
+	if database == null:
+		database = load(WORLD_DB_PATH)
+	if database == null:
+		push_error("SpaceMap: no WorldDatabase at %s" % WORLD_DB_PATH)
+		return
+	world_resources = database.in_order()
 
 func _spawn_planet_nodes():
 	var planets_container = $Planets

@@ -170,6 +170,14 @@ already existed and the Battle scene would have needed a third.
 
 ## ADR-012 — Worlds are listed in a WorldDatabase resource
 **Date:** 2026-09-17
+**Status:** IMPLEMENTED 2026-09-18. `resources/worlds/world_database.tres` now
+holds all eight worlds and `SpaceMap` reads it; the `DirAccess` scan is gone.
+
+**Second defect found on implementation.** The scan loaded every `.tres` in the
+worlds folder as a `WorldData`, including `architara_frames.tres`, which is a
+`SpriteFrames`. That fault was present in the editor too, not only on export —
+it was simply never noticed. An explicit list cannot make this mistake, which
+is a second, unplanned argument for the same decision.
 
 **Decision.** An explicit `WorldDatabase` resource holds an ordered
 `Array[WorldData]`. `SpaceMap` loads it instead of scanning `res://resources/worlds/`

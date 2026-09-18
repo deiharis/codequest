@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WorldDatabase" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/world_database.gd" id="1_db"]
+[ext_resource type="Resource" path="res://resources/worlds/reqoria.tres" id="2_w"]
+[ext_resource type="Resource" path="res://resources/worlds/architara.tres" id="3_w"]
+[ext_resource type="Resource" path="res://resources/worlds/codexis.tres" id="4_w"]
+[ext_resource type="Resource" path="res://resources/worlds/testara.tres" id="5_w"]
+[ext_resource type="Resource" path="res://resources/worlds/gitforge.tres" id="6_w"]
+[ext_resource type="Resource" path="res://resources/worlds/legacyon.tres" id="7_w"]
+[ext_resource type="Resource" path="res://resources/worlds/deployon.tres" id="8_w"]
+[ext_resource type="Resource" path="res://resources/worlds/bugfall.tres" id="9_w"]
+
+[resource]
+script = ExtResource("1_db")
+worlds = Array[Resource]([ExtResource("2_w"), ExtResource("3_w"), ExtResource("4_w"), ExtResource("5_w"), ExtResource("6_w"), ExtResource("7_w"), ExtResource("8_w"), ExtResource("9_w")])
