@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://boo7maeq6yt4d"]
+
+[ext_resource type="SpriteFrames" uid="uid://7ok1pfhvjy0a" path="res://resources/enemies/merge_conflict_titan/merge_conflict_titan_attack_frames.tres" id="1_mgsjs"]
+[ext_resource type="Script" uid="uid://defec1tshpl5m" path="res://scripts/data/enemy_data.gd" id="1_ogfig"]
+[ext_resource type="SpriteFrames" uid="uid://bmpgmhjph68km" path="res://resources/enemies/merge_conflict_titan/merge_conflict_titan_damage_frames.tres" id="2_7nfcr"]
+[ext_resource type="SpriteFrames" uid="uid://cypkej6xajhk3" path="res://resources/enemies/merge_conflict_titan/merge_conflict_titan_defeat_frames.tres" id="3_rr36j"]
+[ext_resource type="SpriteFrames" uid="uid://bon6d1dsh5ohy" path="res://resources/enemies/merge_conflict_titan/merge_conflict_titan_idle_frames.tres" id="4_d7i0k"]
+
+[resource]
+script = ExtResource("1_ogfig")
+enemy_id = "merge_conflict_titan"
+display_name = "Merge Conflict Titan"
+idle_frames = ExtResource("4_d7i0k")
+attack_frames = ExtResource("1_mgsjs")
+damage_frames = ExtResource("2_7nfcr")
+defeat_frames = ExtResource("3_rr36j")
+display_scale = 1.75
+max_hp = 210
+attack_damage = 20
+metadata/_custom_type_script = "uid://defec1tshpl5m"

@@ -355,3 +355,29 @@ possible visual for "two incompatible versions of the same entity".
 
 **Rejected.** A uniformly humanoid roster differentiated only by costume and
 colour.
+
+---
+
+## ADR-021 — Sprite size is normalised in code, corrected in data
+**Date:** 2026-09-18
+
+**Decision.** `Combatant` rescales every `SpriteFrames` to a common
+`REFERENCE_FRAME_HEIGHT` (443px) the moment it is swapped in, so a character
+cannot change size when it changes animation. Residual per-character error is
+corrected by an `attack_scale` field on `HeroData` and `EnemyData`, tuned by
+eye, defaulting to `1.0`.
+
+**Why.** The sheets were generated in separate sessions and differ in two
+independent ways: the frame is a different height, and the character occupies a
+different fraction of that frame. The first is mechanical and is fixed in code.
+The second is an authoring choice — the hero is simply drawn smaller in his
+attack sheet — and cannot be inferred, because normalising by the character's
+measured height would scale a crouching attack pose up to match a standing idle
+and look worse. A tuning knob is one float per character and takes seconds to
+set; the alternative is re-exporting 43 PNGs.
+
+The hero needed ~1.10. Every other character sat within tolerance at 1.0.
+
+**Rejected.** Re-authoring all sheets to a uniform frame and character size
+(correct, but expensive and blocks progress); auto-fitting by content bounding
+box (breaks any pose that is deliberately not full height).

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://diriqayw410fo"]
+
+[ext_resource type="SpriteFrames" uid="uid://c63e7fvdtar1a" path="res://resources/enemies/bug_lord/bug_lord_attack_frames.tres" id="1_25ja0"]
+[ext_resource type="Script" uid="uid://defec1tshpl5m" path="res://scripts/data/enemy_data.gd" id="1_jaay6"]
+[ext_resource type="SpriteFrames" uid="uid://dtgc0d4p5jshn" path="res://resources/enemies/bug_lord/bug_lord_damage_frames.tres" id="2_iwvrs"]
+[ext_resource type="SpriteFrames" uid="uid://dqj3dooqp33um" path="res://resources/enemies/bug_lord/bug_lord_defeat_frames.tres" id="3_cjriu"]
+[ext_resource type="SpriteFrames" uid="uid://bkmg36p1y7lnp" path="res://resources/enemies/bug_lord/bug_lord_idle_frames.tres" id="4_n7d7p"]
+
+[resource]
+script = ExtResource("1_jaay6")
+enemy_id = "bug_lord"
+display_name = "Bug Lord"
+enemy_type = "bug_lord"
+idle_frames = ExtResource("4_n7d7p")
+attack_frames = ExtResource("1_25ja0")
+damage_frames = ExtResource("2_iwvrs")
+defeat_frames = ExtResource("3_cjriu")
+display_scale = 2.1
+max_hp = 500
+attack_damage = 25
+has_timer = true
+metadata/_custom_type_script = "uid://defec1tshpl5m"

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="HeroData" format=3 uid="uid://qoafwlfh2q05"]
+
+[ext_resource type="Script" uid="uid://wvlnuo05h3em" path="res://scripts/data/hero_data.gd" id="1_5c0mw"]
+[ext_resource type="SpriteFrames" uid="uid://dw77fut1mtn4p" path="res://resources/hero/hero_attack_frames.tres" id="1_jlrxt"]
+[ext_resource type="SpriteFrames" uid="uid://c3owuuooh3ueh" path="res://resources/hero/hero_boss_attack_frames.tres" id="2_wfe7k"]
+[ext_resource type="SpriteFrames" uid="uid://4wkigbfwoync" path="res://resources/hero/hero_boss_damage_frames.tres" id="3_8l348"]
+[ext_resource type="SpriteFrames" uid="uid://c3y8ru1ygxj1i" path="res://resources/hero/hero_boss_defeat_frames.tres" id="4_i2vri"]
+[ext_resource type="SpriteFrames" uid="uid://c4ptxjvhqnbfn" path="res://resources/hero/hero_boss_idle_frames.tres" id="5_81c7e"]
+[ext_resource type="SpriteFrames" uid="uid://d20m7gf08ac4j" path="res://resources/hero/hero_damage_frames.tres" id="6_yi63v"]
+[ext_resource type="SpriteFrames" uid="uid://rc3y0c6t8wex" path="res://resources/hero/hero_defeat_frames.tres" id="7_0wkpj"]
+[ext_resource type="SpriteFrames" uid="uid://d3pvxncxwh02t" path="res://resources/hero/hero_idle_frames.tres" id="8_c3svl"]
+[ext_resource type="SpriteFrames" uid="uid://dsra3aymyb431" path="res://resources/hero/hero_ultimate_frames.tres" id="10_1yiht"]
+
+[resource]
+script = ExtResource("1_5c0mw")
+idle_frames = ExtResource("8_c3svl")
+attack_frames = ExtResource("1_jlrxt")
+damage_frames = ExtResource("6_yi63v")
+defeat_frames = ExtResource("7_0wkpj")
+boss_idle_frames = ExtResource("5_81c7e")
+boss_attack_frames = ExtResource("2_wfe7k")
+boss_damage_frames = ExtResource("3_8l348")
+boss_defeat_frames = ExtResource("4_i2vri")
+ultimate_frames = ExtResource("10_1yiht")
+metadata/_custom_type_script = "uid://wvlnuo05h3em"

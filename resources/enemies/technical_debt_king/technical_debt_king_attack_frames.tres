@@ -2,53 +2,56 @@
 
 [ext_resource type="Texture2D" uid="uid://btnp2ri7ttlow" path="res://assets/sprites/generals/technical_debt_king/technical_debt_king_attack_sheet.png" id="1_v2q42"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_v2q42"]
+atlas = ExtResource("1_v2q42")
+region = Rect2(40, 27, 352, 353)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_leq1i"]
 atlas = ExtResource("1_v2q42")
-region = Rect2(0, 26, 362, 353)
+region = Rect2(392, 27, 352, 353)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hs314"]
 atlas = ExtResource("1_v2q42")
-region = Rect2(362, 26, 362, 353)
+region = Rect2(744, 27, 352, 353)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pnq7c"]
 atlas = ExtResource("1_v2q42")
-region = Rect2(724, 26, 362, 353)
+region = Rect2(1096, 27, 352, 353)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fj6c0"]
 atlas = ExtResource("1_v2q42")
-region = Rect2(1086, 26, 362, 353)
+region = Rect2(392, 380, 352, 353)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gwcpf"]
 atlas = ExtResource("1_v2q42")
-region = Rect2(362, 379, 362, 353)
+region = Rect2(744, 380, 352, 353)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xsk6w"]
 atlas = ExtResource("1_v2q42")
-region = Rect2(724, 379, 362, 353)
+region = Rect2(1096, 380, 352, 353)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r6m8o"]
 atlas = ExtResource("1_v2q42")
-region = Rect2(1086, 379, 362, 353)
+region = Rect2(40, 733, 352, 353)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yonfa"]
 atlas = ExtResource("1_v2q42")
-region = Rect2(0, 732, 362, 353)
+region = Rect2(392, 733, 352, 353)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lei0o"]
 atlas = ExtResource("1_v2q42")
-region = Rect2(362, 732, 362, 353)
+region = Rect2(744, 733, 352, 353)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uthkd"]
 atlas = ExtResource("1_v2q42")
-region = Rect2(724, 732, 362, 353)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4xwii"]
-atlas = ExtResource("1_v2q42")
-region = Rect2(1086, 732, 362, 353)
+region = Rect2(1096, 733, 352, 353)
 
 [resource]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v2q42")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_leq1i")
 }, {
@@ -78,9 +81,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_uthkd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4xwii")
 }],
 "loop": 1,
 "name": &"default",

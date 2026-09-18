@@ -8,8 +8,10 @@
 script = ExtResource("1_g84ej")
 
 [node name="Background" type="ColorRect" parent="." unique_id=707627323]
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_left = 6.0
+offset_top = 12.0
+offset_right = 1158.0
+offset_bottom = 660.0
 mouse_filter = 2
 color = Color(0.101960786, 0.101960786, 0.18039216, 1)
 
@@ -26,7 +28,7 @@ position = Vector2(900, 169.9684)
 scale = Vector2(0.64364654, 0.754093)
 sprite_frames = ExtResource("2_g84ej")
 animation = &"idle"
-frame_progress = 0.68480504
+frame_progress = 0.8515735
 
 [node name="HeroHPBarBg" type="ColorRect" parent="." unique_id=776071457]
 offset_left = 372.0

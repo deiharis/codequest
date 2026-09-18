@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://dnbbwbpbeb5wi"]
+
+[ext_resource type="SpriteFrames" uid="uid://fykmbw2kvysk" path="res://resources/enemies/regression_dragon/regression_dragon_attack_frames.tres" id="1_bx5f0"]
+[ext_resource type="Script" uid="uid://defec1tshpl5m" path="res://scripts/data/enemy_data.gd" id="1_o8wja"]
+[ext_resource type="SpriteFrames" uid="uid://dv5i22juh10xx" path="res://resources/enemies/regression_dragon/regression_dragon_damage_frames.tres" id="2_wegrh"]
+[ext_resource type="SpriteFrames" uid="uid://0ba4um22pk2w" path="res://resources/enemies/regression_dragon/regression_dragon_defeat_frames.tres" id="3_kflb3"]
+[ext_resource type="SpriteFrames" uid="uid://beyjsl4t6gyei" path="res://resources/enemies/regression_dragon/regression_dragon_idle_frames.tres" id="4_q6tee"]
+
+[resource]
+script = ExtResource("1_o8wja")
+enemy_id = "regression_dragon"
+display_name = "Regression Dragon"
+idle_frames = ExtResource("4_q6tee")
+attack_frames = ExtResource("1_bx5f0")
+damage_frames = ExtResource("2_wegrh")
+defeat_frames = ExtResource("3_kflb3")
+display_scale = 1.65
+max_hp = 180
+attack_damage = 18
+metadata/_custom_type_script = "uid://defec1tshpl5m"

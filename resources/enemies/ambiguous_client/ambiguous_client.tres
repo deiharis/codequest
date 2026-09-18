@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://dlblu5y128hox"]
+
+[ext_resource type="Script" uid="uid://defec1tshpl5m" path="res://scripts/data/enemy_data.gd" id="1_dy0vr"]
+[ext_resource type="SpriteFrames" uid="uid://hpmmr3ooc71t" path="res://resources/enemies/ambiguous_client/ambiguous_client_attack_frames.tres" id="1_oo80u"]
+[ext_resource type="SpriteFrames" uid="uid://uxa208pdtodv" path="res://resources/enemies/ambiguous_client/ambiguous_client_damage_frames.tres" id="2_fvrd1"]
+[ext_resource type="SpriteFrames" uid="uid://c0tmkhggakla1" path="res://resources/enemies/ambiguous_client/ambiguous_client_defeat_frames.tres" id="3_06qos"]
+[ext_resource type="SpriteFrames" uid="uid://bviknqxu7oiu3" path="res://resources/enemies/ambiguous_client/ambiguous_client_idle_frames.tres" id="4_tq3sx"]
+
+[resource]
+script = ExtResource("1_dy0vr")
+enemy_id = "ambiguous_client"
+display_name = "Ambiguous Client"
+idle_frames = ExtResource("4_tq3sx")
+attack_frames = ExtResource("1_oo80u")
+damage_frames = ExtResource("2_fvrd1")
+defeat_frames = ExtResource("3_06qos")
+display_scale = 1.05
+attack_damage = 12
+metadata/_custom_type_script = "uid://defec1tshpl5m"

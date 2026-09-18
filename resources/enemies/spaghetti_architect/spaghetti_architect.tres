@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://coadckhw0ynq5"]
+
+[ext_resource type="Script" uid="uid://defec1tshpl5m" path="res://scripts/data/enemy_data.gd" id="1_nvkw4"]
+[ext_resource type="SpriteFrames" uid="uid://c8p22rgqfghgk" path="res://resources/enemies/spaghetti_architect/spaghetti_architect_attack_frames.tres" id="1_ti0kh"]
+[ext_resource type="SpriteFrames" uid="uid://bknryn2rgf81o" path="res://resources/enemies/spaghetti_architect/spaghetti_architect_damage_frames.tres" id="2_qwxs5"]
+[ext_resource type="SpriteFrames" uid="uid://dl07fbtp1i210" path="res://resources/enemies/spaghetti_architect/spaghetti_architect_defeat_frames.tres" id="3_5dgk7"]
+[ext_resource type="SpriteFrames" uid="uid://dc8sttw36b1cw" path="res://resources/enemies/spaghetti_architect/spaghetti_architect_idle_frames.tres" id="4_wr2mj"]
+
+[resource]
+script = ExtResource("1_nvkw4")
+enemy_id = "spaghetti_architect"
+display_name = "Spaghetti Architect"
+idle_frames = ExtResource("4_wr2mj")
+attack_frames = ExtResource("1_ti0kh")
+damage_frames = ExtResource("2_qwxs5")
+defeat_frames = ExtResource("3_5dgk7")
+display_scale = 1.1
+max_hp = 120
+attack_damage = 14
+metadata/_custom_type_script = "uid://defec1tshpl5m"
