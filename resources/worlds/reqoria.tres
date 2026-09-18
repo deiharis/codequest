@@ -2,6 +2,7 @@
 
 [ext_resource type="SpriteFrames" uid="uid://cej3wqtltkvjg" path="res://resources/worlds/reqoria_frames.tres" id="1_1y6qs"]
 [ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_8d4uh"]
+[ext_resource type="Resource" path="res://resources/enemies/ambiguous_client/ambiguous_client.tres" id="9_gen"]
 
 [resource]
 script = ExtResource("1_8d4uh")
@@ -9,6 +10,7 @@ world_id = "reqoria"
 display_name = "Reqoria"
 sdlc_phase = "Requirement Analysis"
 general_name = "Ambiguous Client"
+general = ExtResource("9_gen")
 planet_frames = ExtResource("1_1y6qs")
 map_position = Vector2(60, 420)
 metadata/_custom_type_script = "uid://bauesoswa5akw"

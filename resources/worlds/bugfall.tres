@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_0bfb4"]
 [ext_resource type="SpriteFrames" uid="uid://dja8b6nnsx7y0" path="res://resources/worlds/bugfall_frames.tres" id="1_fnjrm"]
+[ext_resource type="Resource" path="res://resources/enemies/bug_lord/bug_lord.tres" id="9_gen"]
 
 [resource]
 script = ExtResource("1_0bfb4")
@@ -9,6 +10,7 @@ world_id = "bugfall"
 display_name = "Bugfall"
 sdlc_phase = "Final World"
 general_name = "Bug Lord"
+general = ExtResource("9_gen")
 planet_frames = ExtResource("1_fnjrm")
 map_position = Vector2(960, 150)
 order_index = 7

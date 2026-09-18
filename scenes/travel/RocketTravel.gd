@@ -57,3 +57,18 @@ func _arrive():
 	$Stars.emitting = false
 	await get_tree().create_timer(0.5).timeout
 	travel_finished.emit()
+	_enter_battle()
+
+
+## Arriving at a world means fighting whatever holds it. The rocket knows the
+## destination, so it is the thing that can build the battle request.
+func _enter_battle() -> void:
+	if destination_world == null or destination_world.general == null:
+		push_error("RocketTravel: world '%s' has no general assigned"
+				% (destination_world.world_id if destination_world else "<none>"))
+		SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn")
+		return
+
+	var request := BattleRequest.for_world(destination_world)
+	SceneRouter.goto_scene("res://scenes/battle/Battle.tscn",
+			func(scene): scene.setup(request))

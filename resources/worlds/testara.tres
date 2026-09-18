@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_js8dr"]
 [ext_resource type="SpriteFrames" uid="uid://eymu5qb01ivi" path="res://resources/worlds/testara_frames.tres" id="1_wp6wb"]
+[ext_resource type="Resource" path="res://resources/enemies/regression_dragon/regression_dragon.tres" id="9_gen"]
 
 [resource]
 script = ExtResource("1_js8dr")
@@ -9,6 +10,7 @@ world_id = "testara"
 display_name = "Testara"
 sdlc_phase = "Testing"
 general_name = "Regression Dragon"
+general = ExtResource("9_gen")
 planet_frames = ExtResource("1_wp6wb")
 map_position = Vector2(490, 220)
 order_index = 3

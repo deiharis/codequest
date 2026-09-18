@@ -2,6 +2,7 @@
 
 [ext_resource type="SpriteFrames" uid="uid://dkqlk3aoqijil" path="res://resources/worlds/codexis_frames.tres" id="1_2gksu"]
 [ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_l7tc4"]
+[ext_resource type="Resource" path="res://resources/enemies/infinite_loop_beast/infinite_loop_beast.tres" id="9_gen"]
 
 [resource]
 script = ExtResource("1_l7tc4")
@@ -9,6 +10,7 @@ world_id = "codexis"
 display_name = "Codexis"
 sdlc_phase = "Implementation"
 general_name = "Infinite Loop Beast"
+general = ExtResource("9_gen")
 planet_frames = ExtResource("1_2gksu")
 map_position = Vector2(340, 440)
 order_index = 2

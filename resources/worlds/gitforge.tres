@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_aqb8v"]
 [ext_resource type="SpriteFrames" uid="uid://djxwqyknqloob" path="res://resources/worlds/gitforge_frames.tres" id="1_kpytk"]
+[ext_resource type="Resource" path="res://resources/enemies/merge_conflict_titan/merge_conflict_titan.tres" id="9_gen"]
 
 [resource]
 script = ExtResource("1_aqb8v")
@@ -9,6 +10,7 @@ world_id = "gitforge"
 display_name = "Gitforge"
 sdlc_phase = "Version Control"
 general_name = "Merge Conflict Titan"
+general = ExtResource("9_gen")
 planet_frames = ExtResource("1_kpytk")
 map_position = Vector2(640, 420)
 order_index = 4

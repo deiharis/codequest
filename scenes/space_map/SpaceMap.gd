@@ -4,8 +4,6 @@ extends Node2D
 ## directory scan — see WorldDatabase for why the scan had to go.
 @export var database: WorldDatabase
 
-const WORLD_DB_PATH := "res://resources/worlds/world_database.tres"
-
 var world_resources: Array[WorldData] = []
 
 
@@ -16,9 +14,9 @@ func _ready():
 
 func _load_worlds():
 	if database == null:
-		database = load(WORLD_DB_PATH)
+		database = WorldDatabase.load_default()
 	if database == null:
-		push_error("SpaceMap: no WorldDatabase at %s" % WORLD_DB_PATH)
+		push_error("SpaceMap: no WorldDatabase at %s" % WorldDatabase.DEFAULT_PATH)
 		return
 	world_resources = database.in_order()
 

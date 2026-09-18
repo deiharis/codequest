@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_2xn4m"]
 [ext_resource type="SpriteFrames" uid="uid://bjfhkmfp5f5dm" path="res://resources/worlds/deployon_frames.tres" id="1_msaoq"]
+[ext_resource type="Resource" path="res://resources/enemies/production_nightmare/production_nightmare.tres" id="9_gen"]
 
 [resource]
 script = ExtResource("1_2xn4m")
@@ -9,6 +10,7 @@ world_id = "deployon"
 display_name = "Deployon"
 sdlc_phase = "Deployment"
 general_name = "Production Nightmare"
+general = ExtResource("9_gen")
 planet_frames = ExtResource("1_msaoq")
 map_position = Vector2(780, 200)
 order_index = 5

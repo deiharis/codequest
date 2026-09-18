@@ -14,7 +14,18 @@ class_name WorldDatabase
 ## An explicit list also makes the order deliberate rather than alphabetical,
 ## and makes a missing world a visible blank in the Inspector.
 
+const DEFAULT_PATH := "res://resources/worlds/world_database.tres"
+
 @export var worlds: Array[WorldData] = []
+
+
+## The project's one database. Cached, so repeated lookups cost nothing.
+static var _default: WorldDatabase
+
+static func load_default() -> WorldDatabase:
+	if _default == null:
+		_default = load(DEFAULT_PATH)
+	return _default
 
 
 ## Worlds in play order, skipping any empty slot left in the array.

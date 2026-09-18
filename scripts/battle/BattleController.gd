@@ -37,6 +37,14 @@ signal battle_finished(outcome: Outcome, request: BattleRequest)
 ## The hero's bar sits along the bottom, under the question panel.
 @export var hero_bar_rect_boss: Rect2 = Rect2(376, 614, 400, 22)
 
+@export_group("Bug Lord encounter")
+## The encounter is a fixed-length exam, not an HP fight. Ten questions with a
+## 70% pass mark means 7 correct wins and the 4th wrong answer loses — which is
+## also the hit that empties a 100 HP hero against a 25-damage boss, so the two
+## ways to fail land on the same question by construction.
+@export var boss_questions: int = 10
+@export var boss_pass_ratio: float = 0.7
+
 @export_group("Timer")
 ## Where the countdown sits. Directly under the boss's HP bar.
 @export var timer_rect: Rect2 = Rect2(476, 62, 200, 40)
@@ -51,6 +59,8 @@ signal battle_finished(outcome: Outcome, request: BattleRequest)
 @export var feedback_hold: float = 0.45
 @export var impact_pause: float = 0.08
 @export var hp_bar_time: float = 0.3
+## How long the final frame sits on screen before returning to the map.
+@export var result_hold: float = 1.2
 
 var request: BattleRequest
 var state: State = State.INTRO
@@ -62,11 +72,16 @@ var _pool: Array[QuestionData] = []
 var _used: Array[QuestionData] = []
 var _outcome: Outcome = Outcome.VICTORY
 
+var _correct: int = 0
+var _wrong: int = 0
+var _progress_label: Label
+
 var _time_left: float = 0.0
 var _timer_label: Label
 
 @onready var _panel: Control = $QuestionPanel
 @onready var _background: ColorRect = $Background
+@onready var _background_home: Color = _background.color if _background else Color.BLACK
 @onready var _hero_fill: ColorRect = $HeroHPBarBg/HeroHPBarFill
 @onready var _enemy_fill: ColorRect = $EnemyHPBarBg/EnemyHPBarFill
 
@@ -140,7 +155,8 @@ func _build_combatants() -> void:
 		&"damage": ed.damage_frames,
 		&"defeat": ed.defeat_frames,
 	}, ed.max_hp, base_scale * ed.display_scale, ed.ground_offset, ed.attack_scale)
-	enemy.hp_changed.connect(_on_enemy_hp_changed)
+	if not boss:
+		enemy.hp_changed.connect(_on_enemy_hp_changed)
 
 	if boss:
 		_layout_boss_bars()
@@ -155,6 +171,10 @@ func _build_combatants() -> void:
 func _layout_boss_bars() -> void:
 	_place_bar($EnemyHPBarBg, _enemy_fill, boss_bar_rect, Color(0.78, 0.13, 0.20))
 	_place_bar($HeroHPBarBg, _hero_fill, hero_bar_rect_boss, Color(0.18, 0.8, 0.44))
+	# His bar is the campaign's progress bar, not this encounter's. Normal
+	# attacks do him no damage, so a bar tracking the encounter would never
+	# move — and the Ultimate's whole point is that this one does.
+	_tween_bar(_enemy_fill, GameState.bug_lord_hp, GameState.BUG_LORD_MAX_HP)
 	# Drawn last so they stay readable over the boss and the question panel.
 	move_child($EnemyHPBarBg, get_child_count() - 1)
 	move_child($HeroHPBarBg, get_child_count() - 1)
@@ -173,6 +193,15 @@ func _build_timer() -> void:
 	_timer_label.add_theme_font_size_override(&"font_size", 30)
 	add_child(_timer_label)
 
+	_progress_label = Label.new()
+	_progress_label.name = "ProgressLabel"
+	_progress_label.position = timer_rect.position + Vector2(0, 38)
+	_progress_label.size = timer_rect.size
+	_progress_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_progress_label.add_theme_font_size_override(&"font_size", 18)
+	add_child(_progress_label)
+	_update_progress_label()
+
 
 func _process(delta: float) -> void:
 	# Time only runs while the fight is live: not during the arrival, not while
@@ -185,6 +214,12 @@ func _process(delta: float) -> void:
 	_update_timer_label()
 	if _time_left == 0.0:
 		_on_timer_expired()
+
+
+func _update_progress_label() -> void:
+	if _progress_label == null:
+		return
+	_progress_label.text = "%d / %d correct" % [_correct, _needed()]
 
 
 func _update_timer_label() -> void:
@@ -200,6 +235,15 @@ func _on_timer_expired() -> void:
 		return
 	_panel.lock()
 	_on_answer_selected(-1, false)   # -1: no button was pressed
+
+
+func _is_boss() -> bool:
+	return request.mode == BattleRequest.Mode.BUG_LORD
+
+
+## Correct answers needed to pass. Rounded up, so 70% of 10 is 7, not 6.
+func _needed() -> int:
+	return ceili(boss_questions * boss_pass_ratio)
 
 
 func _place_bar(bg: ColorRect, fill: ColorRect, r: Rect2, fill_color: Color) -> void:
@@ -301,9 +345,15 @@ func _resolve_answer(index: int, is_correct: bool) -> void:
 	_panel.hide_panel()
 
 	if is_correct:
-		await _exchange_blow(hero, enemy, request.hero.attack_damage)
+		_correct += 1
+		# In the boss encounter the hero's normal attack lands for nothing.
+		# Only the Ultimate hurts him, and only once the exam is passed.
+		var dmg := 0 if _is_boss() else request.hero.attack_damage
+		await _exchange_blow(hero, enemy, dmg)
 	else:
+		_wrong += 1
 		await _exchange_blow(enemy, hero, request.enemy.attack_damage)
+	_update_progress_label()
 
 
 func _exchange_blow(attacker: Combatant, defender: Combatant, amount: int) -> void:
@@ -315,14 +365,28 @@ func _exchange_blow(attacker: Combatant, defender: Combatant, amount: int) -> vo
 
 
 func _check_end_conditions() -> bool:
-	return enemy.current_hp == 0 or hero.current_hp == 0
+	if hero.current_hp == 0:
+		return true
+	if _is_boss():
+		# End the moment the result is decided — no questions after the verdict.
+		return _correct >= _needed() \
+				or _wrong > boss_questions - _needed() \
+				or _correct + _wrong >= boss_questions
+	return enemy.current_hp == 0
 
 
 func _finish() -> void:
 	state = State.ENDING
 	_panel.hide_panel()
 
-	if enemy.current_hp == 0:
+	if _is_boss():
+		if _correct >= _needed():
+			_outcome = Outcome.VICTORY
+			await _play_ultimate()
+		else:
+			_outcome = Outcome.HERO_DEFEATED
+			await hero.play_defeat()
+	elif enemy.current_hp == 0:
 		_outcome = Outcome.VICTORY
 		await enemy.play_defeat()
 	else:
@@ -332,6 +396,90 @@ func _finish() -> void:
 	state = State.FINISHED
 	battle_finished.emit(_outcome, request)
 	print("Battle finished: ", Outcome.keys()[_outcome])
+	await _leave()
+
+
+## Decide where a finished battle goes next.
+##
+## A world is cleared in two fights, not one:
+##
+##   General beaten  ->  the Bug Lord rises, timed encounter, same world
+##   Bug Lord beaten ->  world complete, 1000 off his persistent HP, back to map
+##   either one lost ->  back to that world's General to try again
+##
+## Only the Bug Lord encounter completes a world. Beating the General alone
+## does nothing permanent, which is what makes the boss the real gate.
+##
+## A battle with no world_id is the F6 sandbox: it records nothing and stays
+## where it is, so testing a fight can never write to the save file.
+func _leave() -> void:
+	if request.world_id.is_empty():
+		return
+
+	await get_tree().create_timer(result_hold).timeout
+
+	if _outcome != Outcome.VICTORY:
+		_goto_general()
+		return
+
+	if request.mode == BattleRequest.Mode.GENERAL:
+		_goto_bug_lord()
+		return
+
+	# clear_world already ran during the Ultimate, where the damage was shown.
+	SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn")
+
+
+func _goto_bug_lord() -> void:
+	var r := BattleRequest.for_bug_lord(request.world_id)
+	if r == null:
+		push_error("BattleController: cannot start the Bug Lord encounter")
+		SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn")
+		return
+	SceneRouter.goto_scene("res://scenes/battle/Battle.tscn",
+			func(scene): scene.setup(r))
+
+
+## Losing sends the player back to the General, not to the map. The world is
+## not finished until both fights are won, and restarting at the General keeps
+## the two-stage shape intact.
+func _goto_general() -> void:
+	var world := WorldDatabase.load_default().by_id(request.world_id)
+	if world == null or world.general == null:
+		SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn")
+		return
+	var r := BattleRequest.for_world(world)
+	SceneRouter.goto_scene("res://scenes/battle/Battle.tscn",
+			func(scene): scene.setup(r))
+
+
+## Passing the exam earns the one blow that actually counts. The Ultimate takes
+## 1000 off the Bug Lord's persistent HP — the campaign's real progress — and
+## then he withdraws rather than dying. He is beaten eight times, once per
+## world, before there is nothing left of him (ADR-003).
+func _play_ultimate() -> void:
+	if _timer_label:
+		_timer_label.hide()
+	await hero.play_once(&"ultimate")
+
+	var changed := GameState.clear_world(request.world_id)
+	if not changed:
+		print("Bug Lord encounter passed, but %s was already cleared" % request.world_id)
+	_tween_bar(_enemy_fill, GameState.bug_lord_hp, GameState.BUG_LORD_MAX_HP)
+	enemy.flash()
+	await get_tree().create_timer(0.5).timeout
+	await _boss_withdraws()
+
+
+## He leaves the way he arrived, and the world takes its colour back.
+func _boss_withdraws() -> void:
+	var t := create_tween().set_parallel()
+	t.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	t.tween_property(enemy, "position:y", enemy.position.y + 420, boss_arrival_time)
+	t.tween_property(enemy, "modulate:a", 0.0, boss_arrival_time * 0.8)
+	if _background:
+		t.tween_property(_background, "color", _background_home, boss_arrival_time)
+	await t.finished
 
 
 # --------------------------------------------------------------------------

@@ -2,6 +2,7 @@
 
 [ext_resource type="SpriteFrames" uid="uid://ctrsg3g341brq" path="res://resources/worlds/legacyon_frames.tres" id="1_cht27"]
 [ext_resource type="Script" uid="uid://bauesoswa5akw" path="res://scripts/data/world_data.gd" id="1_jkjr2"]
+[ext_resource type="Resource" path="res://resources/enemies/technical_debt_king/technical_debt_king.tres" id="9_gen"]
 
 [resource]
 script = ExtResource("1_jkjr2")
@@ -9,6 +10,7 @@ world_id = "legacyon"
 display_name = "Legacyon"
 sdlc_phase = "Maintenance"
 general_name = "Technical Debt King"
+general = ExtResource("9_gen")
 planet_frames = ExtResource("1_cht27")
 map_position = Vector2(900, 400)
 order_index = 6

@@ -491,3 +491,56 @@ actually follow is the live contract.
 **Rejected.** Retrofitting rigs to the existing sheets (destroys finished work to
 satisfy a document); quietly leaving ADR-017 in place (a decision record that
 misdescribes the system is worse than no record).
+
+---
+
+## ADR-025 — The Bug Lord encounter is a pass/fail exam, not an HP fight
+**Date:** 2026-09-18
+
+**Decision.** Defeating a General does not clear a world. It opens the Bug Lord
+encounter, which is what clears it.
+
+The encounter is a fixed-length exam: ten questions drawn from that world's own
+Bug Lord pool, pass mark 70%. A correct answer plays the hero's normal attack
+for **zero damage** — feedback only. Reaching seven correct fires the Ultimate,
+which takes 1000 off the Bug Lord's persistent HP; he then withdraws rather than
+dying. A wrong answer costs the hero 25 HP as usual. Failing returns the player
+to that world's General.
+
+Each of the eight worlds has its own pool of ten Bug Lord questions, keyed
+`bug_lord_<world_id>`. No question is shared between pools, or with any
+General's set, so a full campaign presents 80 distinct boss questions and no
+repeats anywhere.
+
+**Why.** The Bug Lord is the campaign's progress bar, not an opponent to be
+worn down eight times. Making his encounter an exam separates the two things
+the game is actually measuring: the General fight tests whether you can survive
+a topic, and the boss encounter tests whether you have understood it well
+enough to pass. Chipping his HP with correct answers would have made the two
+fights identical in feel and reduced the boss to a longer General.
+
+Zero-damage normal attacks exist because the alternative — the hero standing
+still on a correct answer — reads as a bug. The animation confirms the answer;
+the Ultimate is the event.
+
+**The two failure modes coincide by construction.** Ten questions at 70% allows
+three wrong answers. The boss deals 25 and the hero has 100 HP, so the fourth
+wrong answer is simultaneously the one that makes 7/10 impossible and the one
+that empties the hero. Failing by knowledge and failing by attrition land on the
+same question without either number being tuned to the other.
+
+**Consequences.**
+- `bug_lord.tres`'s `max_hp` of 500 is now unused in the encounter. It stays
+  only so the resource remains valid; nothing reads it.
+- His HP bar displays the persistent 8000 from `GameState`, not an encounter
+  pool, because a bar that never moves would misrepresent the fight.
+- `GameState.complete_world` became `clear_world`, called from the Ultimate.
+  It returns whether anything changed, and replaying a cleared world costs him
+  nothing — the first world cannot be farmed to finish the campaign.
+- The hero enters the encounter at full HP; the General fight's damage does not
+  carry over. Deliberate, and reversible in one line if playtesting disagrees.
+
+**Rejected.** Correct answers damaging the boss (makes him a longer General);
+a shared Bug Lord question pool across worlds (guarantees repeats by world
+three); ending the encounter only after all ten questions regardless of the
+result (asks questions whose answers cannot change anything).
