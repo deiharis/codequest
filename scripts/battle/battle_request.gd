@@ -33,7 +33,9 @@ static func make(hero_data: HeroData, enemy_data: EnemyData,
 ## is run directly (F6) so the scene is always testable on its own.
 static func debug_default() -> BattleRequest:
 	var hero_data: HeroData = load("res://resources/hero/hero.tres")
-	var enemy_data: EnemyData = load("res://resources/enemies/ambiguous_client/ambiguous_client.tres")
+	# ponytail: temporary — points the F6 sandbox at the boss fight.
+	# Revert to ambiguous_client.tres when Bug Lord testing is done.
+	var enemy_data: EnemyData = load("res://resources/enemies/bug_lord/bug_lord.tres")
 	var qs: Array[QuestionData] = [
 		load("res://resources/questions/test_question_1.tres"),
 		load("res://resources/questions/test_question_2.tres"),
