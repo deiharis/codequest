@@ -278,8 +278,10 @@ behind it whatsoever.
 shake, camera zoom, damage numbers, and the polish half of particles). None is
 structural; each is an addition to `Combatant` or `BattleController`.
 
-**4. No automated verification of anything.** FR-12.4 is checked by eye, and
-there is no test suite. Covered in the test strategy document.
+**4. Automated verification covers data and progression logic only.** Five
+checks (T1–T5, 1159 assertions) run headless and all pass. Everything visual —
+including FR-12.4 — is checked by eye. That boundary is deliberate and stated
+in `TEST_STRATEGY.md` §8.
 
 **5. The game has never been exported**, so no requirement in this matrix is
 verified outside the editor.

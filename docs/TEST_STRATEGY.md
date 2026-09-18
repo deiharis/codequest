@@ -4,17 +4,24 @@
 
 ---
 
-## 1. Current position, stated plainly
+## 1. Current position
 
-**There are no automated tests in this project.** Every requirement in
-`REQUIREMENTS_TRACE.md` marked *Met* was verified by running the game and
-looking at it.
+**Automated:** five checks, T1–T5, covering question-bank integrity,
+progression arithmetic, save round-trip, the Bug Lord exam threshold, and world
+database integrity. **1159 assertions, all passing.**
 
-That is a real limitation and this document does not dress it up. What follows
-is: what the manual process actually was and why it caught more than it looks
-like it should have; the defects it found and what they teach; the small set of
-automated checks that would add the most value for the least work; and the
-manual test suite that has to exist regardless.
+    godot --headless res://tests/TestRunner.tscn
+
+Implemented in `tests/run_tests.gd` — one file, no plugin, no framework. Exits
+0 on pass and 1 on failure.
+
+**Manual:** everything else. Every requirement in `REQUIREMENTS_TRACE.md` marked
+*Met* that is not covered by T1–T5 was verified by running the game and looking
+at it, against an expected result written before the test was run.
+
+What follows is: what the manual process was and why it caught more than it
+looks like it should have; the defects both processes found; the risk analysis
+that chose those five checks; and the manual suite that has to exist regardless.
 
 ---
 
@@ -63,11 +70,16 @@ evidence base for the risk analysis in §4.
 | 11 | Two shadowing warnings | A parameter named the same as a field | Hygiene |
 | 12 | Bug Lord painted over the HP bars and question panel | Combatants added to the tree after the UI; Godot draws in tree order | Engine behaviour |
 | 13 | Starfield invisible | A child `ColorRect` painting over its own parent's `_draw` | Engine behaviour |
+| 14 | **A test suite reported a pass having checked nothing** | T4 was run with `--script`, where autoloads do not exist, so `BattleController` failed to compile and no assertion executed | **Test infrastructure** |
 
 ### What the log says
 
 - **Five of thirteen are Godot behaving correctly in a way the author did not expect** (#2, #5, #9, #12, #13). No test suite would have predicted these; they were found by running the thing and looking.
 - **Two would only ever have appeared in an exported build** (#7 export half, #8). Both were found by reading, not by running — the editor was perfectly happy. **This is the most dangerous defect class in the project**, and §4 is built around it.
+- **Defect #14 is the most instructive one in the table.** A test that fails is
+  useful. A test that silently skips itself and reports success is worse than
+  no test at all, because it converts an unknown into a false assurance. T4 now
+  records an explicit failure if it cannot load what it is meant to check.
 - **Two were process failures, not code failures** (#1, #10) — both caused by acting on a stale copy of something. Both are now covered by a working rule.
 - **One (#6) was an art inconsistency**, fixable only partly in code, and the rest by a tuning value per character.
 
@@ -88,15 +100,20 @@ Defect probability × cost of missing it:
 
 ---
 
-## 5. Proposed automated checks
+## 5. Automated checks — implemented
 
 Deliberately **five checks, not a suite.** The value is concentrated in pure
 logic that can be tested without a running game; testing animation or layout
 automatically would cost more than it returns for a project this size.
 
-Godot runs a script headless with
-`godot --headless --script res://tests/run_tests.gd`, so no plugin or framework
-is required.
+They run as a **scene**, not with `--script`:
+
+    godot --headless res://tests/TestRunner.tscn
+
+That distinction is not cosmetic. Autoloads are only created when a main scene
+runs, and `BattleController` references `GameState` at compile time — so under
+`--script` that script fails to compile, T4 reads nothing, and the suite
+reports a pass having checked nothing. See defect #14.
 
 | Check | Asserts | Guards |
 |---|---|---|
@@ -105,6 +122,12 @@ is required.
 | **T3 Save round-trip** | Save then load reproduces state exactly; a corrupt file is refused rather than half-applied; a wrong `version` starts fresh | Save incompatibility |
 | **T4 Exam threshold** | 7 correct of 10 passes, 6 fails; the 4th wrong answer both fails the exam and empties a 100 HP hero | The Bug Lord rules in ADR-025 |
 | **T5 World database integrity** | 8 worlds, `order_index` 0–7 with no gaps or duplicates; every world has a `general`; every planet has frames | Defect #7's class, permanently |
+
+All five pass as of the current build: **1159 assertions, 0 failures.**
+
+T3 deliberately writes an invalid save and a future-version save, so a passing
+run *prints* `Parse JSON failed` and `save version 999.0 is not 1`. Those lines
+are the refusal logic working, not a fault.
 
 **T1 and T5 are the highest value** — they are pure data validation, they run in
 milliseconds, and they cover the two defect classes most likely to recur as
