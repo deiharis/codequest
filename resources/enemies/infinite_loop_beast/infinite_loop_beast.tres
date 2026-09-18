@@ -6,6 +6,8 @@
 [ext_resource type="SpriteFrames" uid="uid://qjoqy7lglayn" path="res://resources/enemies/infinite_loop_beast/infinite_loop_beast_defeat_frames.tres" id="3_to1xi"]
 [ext_resource type="SpriteFrames" uid="uid://bjtjfdh7mrply" path="res://resources/enemies/infinite_loop_beast/infinite_loop_beast_idle_frames.tres" id="4_cg3c4"]
 
+[ext_resource type="Texture2D" path="res://assets/arenas/infinite_loop_beast_arena.png" id="9_arena"]
+
 [resource]
 script = ExtResource("1_rkq14")
 enemy_id = "infinite_loop_beast"
@@ -15,6 +17,7 @@ attack_frames = ExtResource("1_0kvnq")
 damage_frames = ExtResource("2_4q1sp")
 defeat_frames = ExtResource("3_to1xi")
 display_scale = 1.3
+arena_texture = ExtResource("9_arena")
 max_hp = 150
 attack_damage = 16
 metadata/_custom_type_script = "uid://defec1tshpl5m"

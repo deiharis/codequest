@@ -6,6 +6,8 @@
 [ext_resource type="SpriteFrames" uid="uid://dl07fbtp1i210" path="res://resources/enemies/spaghetti_architect/spaghetti_architect_defeat_frames.tres" id="3_5dgk7"]
 [ext_resource type="SpriteFrames" uid="uid://dc8sttw36b1cw" path="res://resources/enemies/spaghetti_architect/spaghetti_architect_idle_frames.tres" id="4_wr2mj"]
 
+[ext_resource type="Texture2D" path="res://assets/arenas/spaghetti_architect_arena.png" id="9_arena"]
+
 [resource]
 script = ExtResource("1_nvkw4")
 enemy_id = "spaghetti_architect"
@@ -15,6 +17,7 @@ attack_frames = ExtResource("1_ti0kh")
 damage_frames = ExtResource("2_qwxs5")
 defeat_frames = ExtResource("3_5dgk7")
 display_scale = 1.1
+arena_texture = ExtResource("9_arena")
 max_hp = 120
 attack_damage = 14
 metadata/_custom_type_script = "uid://defec1tshpl5m"

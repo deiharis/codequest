@@ -6,6 +6,8 @@
 [ext_resource type="SpriteFrames" uid="uid://cypkej6xajhk3" path="res://resources/enemies/merge_conflict_titan/merge_conflict_titan_defeat_frames.tres" id="3_rr36j"]
 [ext_resource type="SpriteFrames" uid="uid://bon6d1dsh5ohy" path="res://resources/enemies/merge_conflict_titan/merge_conflict_titan_idle_frames.tres" id="4_d7i0k"]
 
+[ext_resource type="Texture2D" path="res://assets/arenas/merge_conflict_titan_arena.png" id="9_arena"]
+
 [resource]
 script = ExtResource("1_ogfig")
 enemy_id = "merge_conflict_titan"
@@ -15,6 +17,7 @@ attack_frames = ExtResource("1_mgsjs")
 damage_frames = ExtResource("2_7nfcr")
 defeat_frames = ExtResource("3_rr36j")
 display_scale = 1.75
+arena_texture = ExtResource("9_arena")
 max_hp = 210
 attack_damage = 20
 metadata/_custom_type_script = "uid://defec1tshpl5m"

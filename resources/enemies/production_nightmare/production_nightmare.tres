@@ -6,6 +6,8 @@
 [ext_resource type="SpriteFrames" uid="uid://b3w26or1iswxm" path="res://resources/enemies/production_nightmare/production_nightmare_defeat_frames.tres" id="3_mog50"]
 [ext_resource type="SpriteFrames" uid="uid://bestc1y8gsoqq" path="res://resources/enemies/production_nightmare/production_nightmare_idle_frames.tres" id="4_d8lrl"]
 
+[ext_resource type="Texture2D" path="res://assets/arenas/production_nightmare_arena.png" id="9_arena"]
+
 [resource]
 script = ExtResource("1_0ol1g")
 enemy_id = "production_nightmare"
@@ -15,6 +17,7 @@ attack_frames = ExtResource("1_cr2f3")
 damage_frames = ExtResource("2_rhpod")
 defeat_frames = ExtResource("3_mog50")
 display_scale = 1.45
+arena_texture = ExtResource("9_arena")
 max_hp = 240
 attack_damage = 22
 metadata/_custom_type_script = "uid://defec1tshpl5m"

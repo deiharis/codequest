@@ -6,6 +6,8 @@
 [ext_resource type="SpriteFrames" uid="uid://0ba4um22pk2w" path="res://resources/enemies/regression_dragon/regression_dragon_defeat_frames.tres" id="3_kflb3"]
 [ext_resource type="SpriteFrames" uid="uid://beyjsl4t6gyei" path="res://resources/enemies/regression_dragon/regression_dragon_idle_frames.tres" id="4_q6tee"]
 
+[ext_resource type="Texture2D" path="res://assets/arenas/regression_dragon_arena.png" id="9_arena"]
+
 [resource]
 script = ExtResource("1_o8wja")
 enemy_id = "regression_dragon"
@@ -15,6 +17,7 @@ attack_frames = ExtResource("1_bx5f0")
 damage_frames = ExtResource("2_wegrh")
 defeat_frames = ExtResource("3_kflb3")
 display_scale = 1.65
+arena_texture = ExtResource("9_arena")
 max_hp = 180
 attack_damage = 18
 metadata/_custom_type_script = "uid://defec1tshpl5m"

@@ -28,9 +28,9 @@ class_name EnemyData
 @export var attack_scale: float = 1.0
 ## Tints this enemy's attack VFX.
 @export var attack_effect_color: Color = Color.WHITE
-## The battle background fades to this when this enemy arrives. Leave black
-## to keep the default. Used to make the Bug Lord's entrance change the world.
-@export var background_color: Color = Color.BLACK
+## The arena this enemy is fought in. One per enemy, so no two fights look
+## alike. Left empty, the battle falls back to the flat Background rect.
+@export var arena_texture: Texture2D
 
 @export_group("Combat")
 @export var max_hp: int = 100

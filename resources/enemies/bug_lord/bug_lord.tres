@@ -6,6 +6,8 @@
 [ext_resource type="SpriteFrames" uid="uid://dqj3dooqp33um" path="res://resources/enemies/bug_lord/bug_lord_defeat_frames.tres" id="3_cjriu"]
 [ext_resource type="SpriteFrames" uid="uid://bkmg36p1y7lnp" path="res://resources/enemies/bug_lord/bug_lord_idle_frames.tres" id="4_n7d7p"]
 
+[ext_resource type="Texture2D" path="res://assets/arenas/bug_lord_arena.png" id="9_arena"]
+
 [resource]
 script = ExtResource("1_jaay6")
 enemy_id = "bug_lord"
@@ -16,7 +18,7 @@ attack_frames = ExtResource("1_25ja0")
 damage_frames = ExtResource("2_iwvrs")
 defeat_frames = ExtResource("3_cjriu")
 display_scale = 3.0
-background_color = Color(0.16470589, 0.039215688, 0.07058824, 1)
+arena_texture = ExtResource("9_arena")
 max_hp = 500
 attack_damage = 25
 has_timer = true

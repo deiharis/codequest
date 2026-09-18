@@ -6,6 +6,8 @@
 [ext_resource type="SpriteFrames" uid="uid://c0tmkhggakla1" path="res://resources/enemies/ambiguous_client/ambiguous_client_defeat_frames.tres" id="3_06qos"]
 [ext_resource type="SpriteFrames" uid="uid://bviknqxu7oiu3" path="res://resources/enemies/ambiguous_client/ambiguous_client_idle_frames.tres" id="4_tq3sx"]
 
+[ext_resource type="Texture2D" path="res://assets/arenas/ambiguous_client_arena.png" id="9_arena"]
+
 [resource]
 script = ExtResource("1_dy0vr")
 enemy_id = "ambiguous_client"
@@ -15,5 +17,6 @@ attack_frames = ExtResource("1_oo80u")
 damage_frames = ExtResource("2_fvrd1")
 defeat_frames = ExtResource("3_06qos")
 display_scale = 1.05
+arena_texture = ExtResource("9_arena")
 attack_damage = 12
 metadata/_custom_type_script = "uid://defec1tshpl5m"

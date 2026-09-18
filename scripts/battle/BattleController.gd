@@ -81,7 +81,13 @@ var _timer_label: Label
 
 @onready var _panel: Control = $QuestionPanel
 @onready var _background: ColorRect = $Background
-@onready var _background_home: Color = _background.color if _background else Color.BLACK
+
+var _arena: TextureRect
+var _storm: LightningStrike
+
+## What the arena is tinted to before the Bug Lord arrives: drained and cold.
+## It tweens to white as he rises, so the world visibly turns his colour.
+const ARENA_BEFORE_BOSS := Color(0.30, 0.34, 0.48)
 @onready var _hero_fill: ColorRect = $HeroHPBarBg/HeroHPBarFill
 @onready var _enemy_fill: ColorRect = $EnemyHPBarBg/EnemyHPBarFill
 
@@ -90,6 +96,8 @@ func _ready() -> void:
 	# Running Battle.tscn on its own (F6) still gives a playable fight.
 	if request == null:
 		request = BattleRequest.debug_default()
+	_build_arena()
+	_build_storm()
 	_build_combatants()
 	_panel.answer_selected.connect(_on_answer_selected)
 	await _start()
@@ -255,6 +263,43 @@ func _place_bar(bg: ColorRect, fill: ColorRect, r: Rect2, fill_color: Color) -> 
 	fill.color = fill_color
 
 
+## The arena sits above the flat Background rect and below everything else.
+## Built here rather than placed in Battle.tscn because it changes per enemy,
+## and one scene serves all nine fights.
+func _build_arena() -> void:
+	var tex: Texture2D = request.enemy.arena_texture
+	if tex == null:
+		return
+	_arena = TextureRect.new()
+	_arena.name = "Arena"
+	# Expand first — until then a TextureRect's minimum size is the texture's.
+	_arena.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_arena.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	_arena.custom_minimum_size = Vector2.ZERO
+	_arena.texture = tex
+	_arena.position = Vector2.ZERO
+	_arena.size = get_viewport_rect().size
+	_arena.z_index = -9
+	_arena.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if request.mode == BattleRequest.Mode.BUG_LORD:
+		_arena.modulate = ARENA_BEFORE_BOSS
+	add_child(_arena)
+
+
+## Lightning belongs to the world, not to the enemy: the Bug Lord is fought in
+## eight places and only Bugfall is his own. The flag is read from WorldData.
+func _build_storm() -> void:
+	if request.world_id.is_empty():
+		return
+	var world := WorldDatabase.load_default().by_id(request.world_id)
+	if world == null or not world.storm_on_attack:
+		return
+	_storm = LightningStrike.new()
+	_storm.name = "Storm"
+	_storm.z_index = 3          # over the fighters; the panel is hidden by now
+	add_child(_storm)
+
+
 # --------------------------------------------------------------------------
 # Flow
 # --------------------------------------------------------------------------
@@ -274,7 +319,6 @@ func _start() -> void:
 ## around him — the only moment in the game where the background is not a
 ## constant.
 func _boss_arrival() -> void:
-	var target: Color = request.enemy.background_color
 	var home := enemy.position
 	enemy.position = home + Vector2(0, 420)
 	enemy.modulate.a = 0.0
@@ -283,8 +327,8 @@ func _boss_arrival() -> void:
 	t.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	t.tween_property(enemy, "position", home, boss_arrival_time)
 	t.tween_property(enemy, "modulate:a", 1.0, boss_arrival_time * 0.6)
-	if _background and target.a > 0.0:
-		t.tween_property(_background, "color", target, boss_arrival_time)
+	if _arena:
+		t.tween_property(_arena, "modulate", Color.WHITE, boss_arrival_time)
 	await t.finished
 	await get_tree().create_timer(0.3).timeout
 
@@ -357,6 +401,8 @@ func _resolve_answer(index: int, is_correct: bool) -> void:
 
 
 func _exchange_blow(attacker: Combatant, defender: Combatant, amount: int) -> void:
+	if _storm and attacker == enemy:
+		_storm.strike(3)        # not awaited: the sky breaks while he swings
 	await attacker.play_attack()
 	await get_tree().create_timer(impact_pause).timeout
 	defender.apply_damage(amount)
@@ -488,8 +534,8 @@ func _boss_withdraws() -> void:
 	t.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	t.tween_property(enemy, "position:y", enemy.position.y + 420, boss_arrival_time)
 	t.tween_property(enemy, "modulate:a", 0.0, boss_arrival_time * 0.8)
-	if _background:
-		t.tween_property(_background, "color", _background_home, boss_arrival_time)
+	if _arena:
+		t.tween_property(_arena, "modulate", ARENA_BEFORE_BOSS, boss_arrival_time)
 	await t.finished
 
 

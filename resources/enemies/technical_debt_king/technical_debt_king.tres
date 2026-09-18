@@ -6,6 +6,8 @@
 [ext_resource type="SpriteFrames" uid="uid://cvgmft7rn17gx" path="res://resources/enemies/technical_debt_king/technical_debt_king_defeat_frames.tres" id="3_pal7u"]
 [ext_resource type="SpriteFrames" uid="uid://dbrtxx7oxqyrf" path="res://resources/enemies/technical_debt_king/technical_debt_king_idle_frames.tres" id="4_c4sos"]
 
+[ext_resource type="Texture2D" path="res://assets/arenas/technical_debt_king_arena.png" id="9_arena"]
+
 [resource]
 script = ExtResource("1_42skp")
 enemy_id = "technical_debt_king"
@@ -15,6 +17,7 @@ attack_frames = ExtResource("1_5qe5h")
 damage_frames = ExtResource("2_i77s2")
 defeat_frames = ExtResource("3_pal7u")
 display_scale = 1.35
+arena_texture = ExtResource("9_arena")
 max_hp = 270
 attack_damage = 24
 metadata/_custom_type_script = "uid://defec1tshpl5m"
