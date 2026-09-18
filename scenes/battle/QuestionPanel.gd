@@ -10,6 +10,9 @@ signal answer_selected(index: int, is_correct: bool)
 
 const COLOUR_CORRECT := Color(0.25, 0.73, 0.31)
 const COLOUR_WRONG := Color(0.97, 0.32, 0.29)
+## Extra time on screen when there is an explanation to read. The explanation
+## is the teaching moment, so it gets longer than the colour flash.
+const EXPLANATION_HOLD := 2.2
 
 var current_question: QuestionData
 var _buttons: Array[Button] = []
@@ -31,6 +34,7 @@ func _ready() -> void:
 func show_question(question: QuestionData) -> void:
 	current_question = question
 	$Panel/Layout/QuestionLabel.text = question.question_text
+	$Panel/Layout/ExplanationLabel.visible = false
 
 	for i in _buttons.size():
 		var b := _buttons[i]
@@ -68,7 +72,15 @@ func show_feedback(index: int, is_correct: bool, hold: float = 0.45) -> void:
 		var right := current_question.correct_option_index
 		if right >= 0 and right < _buttons.size():
 			_buttons[right].modulate = COLOUR_CORRECT
-	await get_tree().create_timer(hold).timeout
+
+	var label: Label = $Panel/Layout/ExplanationLabel
+	if current_question.explanation.is_empty():
+		await get_tree().create_timer(hold).timeout
+		return
+	label.text = current_question.explanation
+	label.modulate = COLOUR_CORRECT if is_correct else COLOUR_WRONG
+	label.visible = true
+	await get_tree().create_timer(hold + EXPLANATION_HOLD).timeout
 
 
 func hide_panel() -> void:

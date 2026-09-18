@@ -381,3 +381,62 @@ The hero needed ~1.10. Every other character sat within tolerance at 1.0.
 **Rejected.** Re-authoring all sheets to a uniform frame and character size
 (correct, but expensive and blocks progress); auto-fitting by content bounding
 box (breaks any pose that is deliberately not full height).
+
+---
+
+## ADR-022 — Questions live in one CSV, not in .tres resources
+**Date:** 2026-09-18
+
+**Decision.** All question content lives in `data/questions.csv`, one row per
+question, keyed by `enemy_id`. `QuestionBank` reads the file once at runtime and
+builds `QuestionData` objects in memory. No question is saved as a `.tres`.
+
+**Why.** Fifty-seven questions is fifty-seven resource files to create by hand in
+the Inspector, and the Inspector is a poor editor for prose. A spreadsheet is
+the right tool: rows can be sorted, reviewed by someone who has never opened
+Godot, diffed in git as text, and bulk-edited. The whole set is visible at once,
+which is how you notice that every correct answer is option A — a real defect
+caught this way during authoring.
+
+`QuestionData` remains a `Resource` subclass so the Inspector can still display
+one, and so a hand-authored `.tres` would still work if ever needed.
+
+**Consequence.** Godot does not include `.csv` in an exported build by default.
+`*.csv` must be added to the non-resource export filter or the exported game
+ships with no questions and fails silently.
+
+**Rejected.** One `.tres` per question (unmaintainable at this count); a
+`QuestionBank` resource holding an array (still edited through the Inspector,
+same problem); JSON (no worse technically, but not editable in Excel, which was
+the point).
+
+---
+
+## ADR-023 — The Bug Lord timer is per question, and expiry is a wrong answer
+**Date:** 2026-09-18
+
+**Decision.** The Bug Lord fight times each question individually rather than
+the encounter as a whole. The limit runs from 15 to 30 seconds, derived from the
+combined character count of the question and its four options, overridable by an
+optional `seconds` column. Running out is resolved as a wrong answer: the Bug
+Lord attacks, the hero loses HP, the fight continues. The clock runs only while
+a question is on screen — never during the arrival, the attack animations, or
+the ending. Generals have no timer at all.
+
+**Why.** A single encounter-wide countdown punishes the wrong thing. It makes
+a fight you are winning end abruptly, and it charges the player for time spent
+watching animations they cannot skip. Per-question timing turns the clock into
+pressure rather than a second, parallel lose condition — and the fight still
+resolves through the HP system that already exists, so there is one way to lose
+instead of two.
+
+Scaling by reading length is a proxy for difficulty, not a measure of it. It was
+chosen because it needs no per-question authoring and is roughly right; the
+override column exists for the cases where it is not.
+
+**Consequence.** `Outcome.TIMER_EXPIRED` was removed. There are now exactly two
+outcomes, `VICTORY` and `HERO_DEFEATED`.
+
+**Rejected.** One 60s countdown for the whole encounter (the original design —
+ends winnable fights on a single slow question); a fixed 15s for everything
+(unfair on long questions); a display-only timer (pressure without stakes).

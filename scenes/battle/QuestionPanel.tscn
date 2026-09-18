@@ -42,3 +42,9 @@ text = "Option 3"
 layout_mode = 2
 text = "Option 4
 "
+
+[node name="ExplanationLabel" type="Label" parent="Panel/Layout" unique_id=311204558]
+layout_mode = 2
+text = ""
+autowrap_mode = 2
+visible = false

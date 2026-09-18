@@ -19,12 +19,15 @@ var hero_start_hp: int = -1   ## -1 means "use hero.max_hp"
 
 
 ## Convenience for the sandbox and for BattleController's own fallback.
+## question_list is optional: left empty, the enemy's own questions are pulled
+## from data/questions.csv, which is what every real fight does.
 static func make(hero_data: HeroData, enemy_data: EnemyData,
-		question_list: Array[QuestionData]) -> BattleRequest:
+		question_list: Array[QuestionData] = []) -> BattleRequest:
 	var r := BattleRequest.new()
 	r.hero = hero_data
 	r.enemy = enemy_data
-	r.questions = question_list
+	r.questions = question_list if not question_list.is_empty() \
+			else QuestionBank.for_enemy(enemy_data.enemy_id)
 	r.mode = Mode.BUG_LORD if enemy_data.enemy_type == "bug_lord" else Mode.GENERAL
 	return r
 
@@ -36,8 +39,4 @@ static func debug_default() -> BattleRequest:
 	# ponytail: temporary — points the F6 sandbox at the boss fight.
 	# Revert to ambiguous_client.tres when Bug Lord testing is done.
 	var enemy_data: EnemyData = load("res://resources/enemies/bug_lord/bug_lord.tres")
-	var qs: Array[QuestionData] = [
-		load("res://resources/questions/test_question_1.tres"),
-		load("res://resources/questions/test_question_2.tres"),
-	]
-	return make(hero_data, enemy_data, qs)
+	return make(hero_data, enemy_data)

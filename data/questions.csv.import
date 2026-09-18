@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dwk7mlxt8bcyj"
+
+[deps]
+
+files=["res://data/questions.question.translation", "res://data/questions.option.translation", "res://data/questions.option.translation", "res://data/questions.option.translation", "res://data/questions.option.translation", "res://data/questions.correct.translation", "res://data/questions.explanation.translation"]
+
+source_file="res://data/questions.csv"
+dest_files=["res://data/questions.question.translation", "res://data/questions.option.translation", "res://data/questions.option.translation", "res://data/questions.option.translation", "res://data/questions.option.translation", "res://data/questions.correct.translation", "res://data/questions.explanation.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

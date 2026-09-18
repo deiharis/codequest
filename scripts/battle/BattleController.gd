@@ -12,7 +12,7 @@ extends Node2D
 ##                        animation has played, and nothing after it runs early
 
 enum State { INTRO, QUESTION, RESOLVING, ENDING, FINISHED }
-enum Outcome { VICTORY, HERO_DEFEATED, TIMER_EXPIRED }
+enum Outcome { VICTORY, HERO_DEFEATED }
 
 signal battle_finished(outcome: Outcome, request: BattleRequest)
 
@@ -41,7 +41,7 @@ signal battle_finished(outcome: Outcome, request: BattleRequest)
 ## Where the countdown sits. Directly under the boss's HP bar.
 @export var timer_rect: Rect2 = Rect2(476, 62, 200, 40)
 ## Below this many seconds the countdown turns red.
-@export var timer_warning_at: float = 10.0
+@export var timer_warning_at: float = 5.0
 
 @export_group("Boss entrance")
 ## How long the Bug Lord takes to rise into frame and the world to change.
@@ -165,7 +165,6 @@ func _layout_boss_bars() -> void:
 func _build_timer() -> void:
 	if not request.enemy.has_timer:
 		return
-	_time_left = request.enemy.timer_seconds
 	_timer_label = Label.new()
 	_timer_label.name = "TimerLabel"
 	_timer_label.position = timer_rect.position
@@ -173,15 +172,14 @@ func _build_timer() -> void:
 	_timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_timer_label.add_theme_font_size_override(&"font_size", 30)
 	add_child(_timer_label)
-	_update_timer_label()
 
 
 func _process(delta: float) -> void:
 	# Time only runs while the fight is live: not during the arrival, not while
 	# a defeat animation is playing, not after the battle has ended.
-	if _timer_label == null:
-		return
-	if state != State.QUESTION and state != State.RESOLVING:
+	# Time runs per question, and only while the question is on screen: not
+	# during the arrival, not while the answer is resolving, not after the end.
+	if _timer_label == null or state != State.QUESTION:
 		return
 	_time_left = maxf(0.0, _time_left - delta)
 	_update_timer_label()
@@ -194,18 +192,14 @@ func _update_timer_label() -> void:
 	_timer_label.modulate = Color(1, 0.25, 0.25) if _time_left <= timer_warning_at else Color.WHITE
 
 
-## Running out is a loss, but not a death — the hero is thrown out of the
-## encounter, he is not defeated. ADR-003: the Bug Lord keeps the damage he
-## has already taken, so failing here is a setback, not a reset.
+## Running out counts as a wrong answer: the Bug Lord strikes and the fight
+## continues. Hesitation costs health, so the fight still resolves through HP
+## rather than ending on one slow question.
 func _on_timer_expired() -> void:
-	if state == State.ENDING or state == State.FINISHED:
+	if state != State.QUESTION:
 		return
-	state = State.ENDING
-	_outcome = Outcome.TIMER_EXPIRED
-	_panel.hide_panel()
-	state = State.FINISHED
-	battle_finished.emit(_outcome, request)
-	print("Battle finished: TIMER_EXPIRED")
+	_panel.lock()
+	_on_answer_selected(-1, false)   # -1: no button was pressed
 
 
 func _place_bar(bg: ColorRect, fill: ColorRect, r: Rect2, fill_color: Color) -> void:
@@ -257,6 +251,15 @@ func _next_question() -> void:
 		push_warning("BattleController: no questions available")
 		return
 	_panel.show_question(q)
+	_start_question_timer(q)
+
+
+## Each question carries its own limit, scaled to how much there is to read.
+func _start_question_timer(q: QuestionData) -> void:
+	if _timer_label == null:
+		return
+	_time_left = q.time_limit
+	_update_timer_label()
 
 
 ## Never run out mid-fight: battle length is governed by HP, not by content.
