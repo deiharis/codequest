@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://cm4qfqmjx4hte"]
 
 [ext_resource type="Script" uid="uid://chaeyeagaw2qs" path="res://scenes/space_map/SpaceMap.gd" id="1_po1l3"]
+[ext_resource type="Texture2D" path="res://assets/ui/codequest_title.png" id="2_title"]
 
 [node name="SpaceMap" type="Node2D" unique_id=2012179114]
 script = ExtResource("1_po1l3")
+title_texture = ExtResource("2_title")
+title_area = Rect2(480, 24, 192, 54)
 
 [node name="Planets" type="Node2D" parent="." unique_id=334910199]
 

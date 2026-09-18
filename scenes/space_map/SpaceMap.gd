@@ -178,11 +178,15 @@ func _too_near_a_planet(p: Vector2) -> bool:
 func _build_title() -> void:
 	if title_texture != null:
 		var art := TextureRect.new()
+		# Order matters: while expand_mode is the default, a TextureRect's
+		# minimum size IS the texture's full size, so any size set first is
+		# clamped straight back up to it. Expand first, then size.
+		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		art.custom_minimum_size = Vector2.ZERO
 		art.texture = title_texture
 		art.position = title_area.position
 		art.size = title_area.size
-		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(art)
 		return
