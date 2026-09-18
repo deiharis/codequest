@@ -10,6 +10,16 @@ extends Node2D
 ## directory scan — see WorldDatabase for why the scan had to go.
 @export var database: WorldDatabase
 
+@export_group("Backdrop")
+## Nebula behind everything. Sits above the flat Background rect and below the
+## stars this node draws itself.
+@export var background_texture: Texture2D
+@export var star_seed: int = 4
+@export var star_count: int = 260
+
+@export_group("Menu")
+@export var back_rect: Rect2 = Rect2(24, 20, 116, 40)
+
 @export_group("Title")
 ## Drop the CodeQuest title art here. Until then a text placeholder stands in,
 ## so the space is never empty and the layout never shifts when the art lands.
@@ -54,7 +64,9 @@ var _sprites: Dictionary = {}     ## world_id -> AnimatedSprite2D
 
 func _ready() -> void:
 	_load_worlds()
+	_build_backdrop()
 	_build_title()
+	_build_back_button()
 	_build_info_panel()
 	_spawn_planet_nodes()
 	queue_redraw()                 # the path is drawn under everything
@@ -73,6 +85,42 @@ func _load_worlds() -> void:
 # The connecting path
 # --------------------------------------------------------------------------
 
+## Nebula art goes in as a child at z_index -9: above the flat Background rect
+## at -10, below this node's own drawing, which is where the stars and the
+## route are. Three layers, one ordering rule.
+func _build_backdrop() -> void:
+	if background_texture == null:
+		return
+	var art := TextureRect.new()
+	art.name = "Nebula"
+	# Expand first — until then a TextureRect's minimum size is the texture's.
+	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	art.custom_minimum_size = Vector2.ZERO
+	art.texture = background_texture
+	art.position = Vector2.ZERO
+	art.size = get_viewport_rect().size
+	art.z_index = -9
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(art)
+
+
+## Stars, drawn rather than textured so they stay a single pixel crisp at any
+## window size. Seeded: the same sky every launch, because a field that
+## reshuffles on each boot reads as noise rather than as a place.
+func _draw_stars() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = star_seed
+	var view := get_viewport_rect().size
+	for i in star_count:
+		var p := Vector2(rng.randf() * view.x, rng.randf() * view.y)
+		var r := rng.randf_range(0.6, 1.9)
+		# Squared alpha: most stars faint, a few bright. An evenly lit field
+		# looks printed on rather than deep.
+		var a := rng.randf_range(0.10, 0.90)
+		draw_circle(p, r, Color(1, 1, 1, a * a))
+
+
 ## Drawn as dots rather than a Line2D because Godot has no dashed line, and a
 ## dotted trail reads as a route rather than a border.
 ##
@@ -84,6 +132,7 @@ func _load_worlds() -> void:
 ## pulled through those too — so the path meanders without ever missing a
 ## planet or bending sharply at one.
 func _draw() -> void:
+	_draw_stars()
 	var route := _route_points()
 	if route.size() < 4:
 		return
@@ -201,6 +250,28 @@ func _build_title() -> void:
 	placeholder.add_theme_font_size_override(&"font_size", 64)
 	placeholder.add_theme_color_override(&"font_color", Color(0.83, 0.69, 0.22))
 	add_child(placeholder)
+
+
+## Returning to the menu needs no save step: progress is written the moment a
+## world is cleared, so there is never unsaved state sitting on this screen.
+func _build_back_button() -> void:
+	var b := Button.new()
+	b.name = "BackButton"
+	b.text = "Menu"
+	b.position = back_rect.position
+	b.size = back_rect.size
+	b.custom_minimum_size = back_rect.size
+	b.pressed.connect(_on_back)
+	add_child(b)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"ui_cancel"):     # Escape
+		_on_back()
+
+
+func _on_back() -> void:
+	SceneRouter.goto_scene("res://scenes/main/Main.tscn")
 
 
 # --------------------------------------------------------------------------

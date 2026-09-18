@@ -1,14 +1,76 @@
 [gd_scene format=3 uid="uid://bkqrlx4ccefxd"]
 
 [ext_resource type="Script" uid="uid://bmw5tt5m3wvu4" path="res://scenes/main/main.gd" id="1_u1xfj"]
+[ext_resource type="Texture2D" path="res://assets/ui/codequest_title.png" id="2_title"]
+[ext_resource type="Texture2D" path="res://assets/ui/space_background.png" id="3_bg"]
 
-[node name="Main" type="Node" unique_id=435543593]
-script = ExtResource("1_u1xfj")
-
-[node name="Background" type="ColorRect" parent="." unique_id=1966749641]
+[node name="Main" type="Control" unique_id=435543593]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_u1xfj")
+background_texture = ExtResource("3_bg")
+title_texture = ExtResource("2_title")
+title_area = Rect2(226, 56, 700, 194)
+
+[node name="Background" type="ColorRect" parent="." unique_id=1966749641]
+z_index = -10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 color = Color(0.039215688, 0.05490196, 0.101960786, 1)
+
+[node name="Menu" type="VBoxContainer" parent="." unique_id=771182004]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = 40.0
+offset_right = 140.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+
+[node name="Continue" type="Button" parent="Menu" unique_id=1140724829]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 46)
+text = "Continue"
+theme_override_font_sizes/font_size = 22
+
+[node name="NewGame" type="Button" parent="Menu" unique_id=1140724830]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 46)
+text = "New Game"
+theme_override_font_sizes/font_size = 22
+
+[node name="Quit" type="Button" parent="Menu" unique_id=1140724831]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 46)
+text = "Quit"
+theme_override_font_sizes/font_size = 22
+
+[node name="Progress" type="Label" parent="." unique_id=1140724832]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -78.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.64, 0.69, 0.8, 1)
