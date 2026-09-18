@@ -427,6 +427,9 @@ func _leave() -> void:
 		return
 
 	# clear_world already ran during the Ultimate, where the damage was shown.
+	if GameState.is_campaign_won():
+		SceneRouter.goto_scene("res://scenes/victory/Victory.tscn")
+		return
 	SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn")
 
 
@@ -445,7 +448,10 @@ func _goto_bug_lord() -> void:
 ## the two-stage shape intact.
 func _goto_general() -> void:
 	var world := WorldDatabase.load_default().by_id(request.world_id)
-	if world == null or world.general == null:
+	# Bugfall has no General, so a failed final encounter returns to the map.
+	# Restarting it here would trap the player in the fight they just lost.
+	if world == null or world.general == null \
+			or world.general.enemy_type == "bug_lord":
 		SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn")
 		return
 	var r := BattleRequest.for_world(world)
@@ -468,7 +474,12 @@ func _play_ultimate() -> void:
 	_tween_bar(_enemy_fill, GameState.bug_lord_hp, GameState.BUG_LORD_MAX_HP)
 	enemy.flash()
 	await get_tree().create_timer(0.5).timeout
-	await _boss_withdraws()
+
+	# The eighth Ultimate is the one he does not walk away from.
+	if GameState.is_campaign_won():
+		await enemy.play_defeat()
+	else:
+		await _boss_withdraws()
 
 
 ## He leaves the way he arrived, and the world takes its colour back.

@@ -38,8 +38,13 @@ static func make(hero_data: HeroData, enemy_data: EnemyData,
 	return r
 
 
-## The General fight a world leads to.
+## The fight a world leads to.
+##
+## Bugfall has no General (ADR-002) — its holder is the Bug Lord himself, so
+## clicking it goes straight to the final encounter with no General first.
 static func for_world(world: WorldData) -> BattleRequest:
+	if world.general != null and world.general.enemy_type == "bug_lord":
+		return for_bug_lord(world.world_id)
 	var hero_data: HeroData = load("res://resources/hero/hero.tres")
 	return make(hero_data, world.general, [], world.world_id)
 
