@@ -58,6 +58,21 @@ known unknown into a false assurance. The runner now fails any zero-assertion ru
 
 ---
 
+## The loop
+
+Every world runs the same five beats: **learn → understand → apply → test → progress.**
+A lesson is delivered in full before any fight, and an explanation follows every answer,
+right or wrong, so a failed question still teaches.
+
+| | |
+|:--:|:--:|
+| ![Space Map](docs/screenshots/02b_spacemap_progress.png) | ![Lesson compare beat](docs/screenshots/07b_sifu_compare.png) |
+| **Space Map** — eight worlds, one per SDLC phase. Unlock state is derived from the cleared set, never stored | **Lesson** — seven beat types, each with its own renderer. This is a `compare` beat |
+| ![Question panel](docs/screenshots/11_question.png) | ![Explanation](docs/screenshots/12_explanation.png) |
+| **The question is the turn** — answer correctly and the hero strikes; answer wrong and the General does | **Explanation** — shown after every answer, with the unchosen options hidden |
+
+---
+
 ## Running it
 
 **Requirements:** Godot 4.7.2 (stable), GL Compatibility renderer. No external
@@ -135,6 +150,7 @@ regenerable rather than licensed.
 | `docs/TEST_STRATEGY.md` | The five checks, how they were selected, the defect log, the manual suite |
 | `docs/LITERATURE_SOURCES.md` | Survey of game-based software engineering education |
 | `docs/diagrams/` | 12 UML and software-engineering diagrams |
+| `docs/screenshots/` | Screenshots of the running system |
 | `docs/CodeQuest_Project_Report.pdf` | Full project report |
 | `docs/CodeQuest_Presentation.pdf` | Presentation deck |
 
