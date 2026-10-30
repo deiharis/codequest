@@ -14,6 +14,19 @@ signal died
 @export var lunge_offset: Vector2 = Vector2(140, -90)
 @export var lunge_time: float = 0.18
 
+@export_group("Weight")
+## The wind-up before a strike: a short pull back the other way, as a fraction
+## of the lunge. A lunge that starts from rest reads as a drift; one that starts
+## from a wind-up reads as a decision.
+@export var anticipate_time: float = 0.10
+@export var anticipate_fraction: float = 0.22
+## Squash on the wind-up, stretch on the strike, as a fraction of normal size.
+@export var squash: float = 0.07
+## How far a fighter is knocked back by a blow, and how long before it recovers.
+@export var recoil_distance: float = 26.0
+@export var recoil_out: float = 0.07
+@export var recoil_back: float = 0.28
+
 ## Sprite sheets were authored at differing frame heights, so every sheet is
 ## rescaled to this height before display. Without it a character changes size
 ## whenever it switches animation.
@@ -29,6 +42,10 @@ var sprite: AnimatedSprite2D
 
 var _frames: Dictionary = {}     ## StringName -> SpriteFrames
 var _home: Vector2 = Vector2.ZERO
+## Fighters are not drawn at 1:1 — `configure` scales each one. Squash and
+## stretch multiply this rather than Vector2.ONE, or every blow would snap the
+## fighter back to unscaled size.
+var _base_scale: Vector2 = Vector2.ONE
 
 
 func _ensure_sprite() -> void:
@@ -50,6 +67,7 @@ func configure(frames: Dictionary, hp: int, scale_factor: float,
 	current_hp = max_hp
 	is_alive = true
 	scale = Vector2.ONE * scale_factor
+	_base_scale = scale
 	position += ground_offset
 	_home = position
 	play_loop(&"idle")
@@ -93,7 +111,7 @@ func play_once(anim: StringName) -> void:
 	if f == null:
 		return
 	_apply_frames(f, anim)
-	await get_tree().create_timer(animation_length(anim)).timeout
+	await get_tree().create_timer(animation_length(anim), false).timeout
 	if is_alive:
 		play_loop(&"idle")
 
@@ -109,21 +127,52 @@ func animation_length(anim: StringName) -> float:
 	return float(count) / fps
 
 
-## Lunge toward the opponent, swing, and stay there. Caller decides when to
-## send us home, so damage and VFX can land while we are still forward.
+## Wind up, strike, and stay there. Caller decides when to send us home, so
+## damage and VFX can land while we are still forward.
 func play_attack() -> void:
-	var t := create_tween()
-	t.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	var back := _home - lunge_offset * anticipate_fraction
+	var a := create_tween().set_parallel()
+	a.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	a.tween_property(self, "position", back, anticipate_time)
+	a.tween_property(self, "scale",
+			_base_scale * Vector2(1.0 + squash, 1.0 - squash), anticipate_time)
+	await a.finished
+
+	# EASE_IN, not EASE_OUT. A strike accelerates into its target; easing out
+	# decelerates into it, which is exactly what made the old lunge feel soft.
+	var t := create_tween().set_parallel()
+	t.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	t.tween_property(self, "position", _home + lunge_offset, lunge_time)
+	t.tween_property(self, "scale",
+			_base_scale * Vector2(1.0 - squash, 1.0 + squash), lunge_time)
 	await t.finished
+
 	await play_once(&"attack")
 
 
+## Back to the mark, overshooting slightly and settling — the follow-through.
 func return_home() -> void:
-	var t := create_tween()
+	var t := create_tween().set_parallel()
 	t.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	t.tween_property(self, "position", _home, lunge_time * 1.4)
+	t.tween_property(self, "scale", _base_scale, lunge_time * 1.4)
 	await t.finished
+
+
+## Knocked back by a blow, then recovering. `from` is the attacker's position,
+## because a fighter has no idea who hit it and the direction is the whole point.
+##
+## Deliberately not awaitable: it runs underneath the damage animation. Awaiting
+## it would add a third of a second to every exchange for no added information.
+func recoil(from: Vector2) -> void:
+	var dir := position - from
+	dir = dir.normalized() if dir.length() > 1.0 else Vector2.RIGHT
+
+	var t := create_tween()
+	t.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUINT)
+	t.tween_property(self, "position", _home + dir * recoil_distance, recoil_out)
+	t.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	t.tween_property(self, "position", _home, recoil_back)
 
 
 func apply_damage(amount: int) -> void:

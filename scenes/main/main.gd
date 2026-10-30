@@ -19,6 +19,7 @@ extends Control
 @onready var _continue: Button = $Menu/Continue
 @onready var _new_game: Button = $Menu/NewGame
 @onready var _quit: Button = $Menu/Quit
+var _sound: Button
 @onready var _progress: Label = $Progress
 
 ## New Game is destructive once there is progress, so the first press asks and
@@ -29,10 +30,46 @@ var _confirming: bool = false
 func _ready() -> void:
 	_build_backdrop()
 	_build_title()
+	AudioManager.play_music(&"title")
+	_build_sound_button()
 	_continue.pressed.connect(_on_continue)
 	_new_game.pressed.connect(_on_new_game)
 	_quit.pressed.connect(_on_quit)
 	_refresh()
+
+
+## The pause menu owns the sound toggle everywhere else, but it is deliberately
+## hidden on this screen (ADR-034) — which left the game's first screen with no
+## way to turn the sound off at all.
+##
+## Built here rather than placed in the scene so it sits between New Game and
+## Quit without the .tscn and this script having to agree on an index.
+func _build_sound_button() -> void:
+	_sound = Button.new()
+	_sound.name = "Sound"
+	_sound.custom_minimum_size = Vector2(0, 46)
+	_sound.pressed.connect(_on_sound)
+	$Menu.add_child(_sound)
+	$Menu.move_child(_sound, _quit.get_index())
+
+	# A fourth row makes the block 60px taller (46 + the VBox's 14 separation),
+	# and the menu is centre-anchored with the progress line pinned 78px off the
+	# bottom — so without this the two would overlap by 20px. Lifting by half
+	# the added height keeps the block centred on the same point it was.
+	const ADDED := 46.0 + 14.0
+	$Menu.offset_top -= ADDED * 0.5
+	$Menu.offset_bottom -= ADDED * 0.5
+
+	_refresh_sound()
+
+
+func _refresh_sound() -> void:
+	_sound.text = "Sound:  Off" if AudioManager.muted else "Sound:  On"
+
+
+func _on_sound() -> void:
+	AudioManager.muted = not AudioManager.muted
+	_refresh_sound()
 
 
 func _refresh() -> void:

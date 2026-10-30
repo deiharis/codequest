@@ -25,6 +25,11 @@ signal progress_changed
 var defeated_generals: Array[String] = []
 var bug_lord_hp: int = BUG_LORD_MAX_HP
 
+## world_id of every world whose lesson has been played to the end or skipped.
+## Separate from defeated_generals because losing a fight should not make you
+## sit through the lesson again, and clearing a world is not what marks it read.
+var lessons_seen: Array[String] = []
+
 
 func _ready() -> void:
 	load_game()
@@ -45,6 +50,17 @@ func is_world_unlocked(order_index: int) -> bool:
 
 func is_general_defeated(world_id: String) -> bool:
 	return defeated_generals.has(world_id)
+
+
+func has_seen_lesson(world_id: String) -> bool:
+	return lessons_seen.has(world_id)
+
+
+func mark_lesson_seen(world_id: String) -> void:
+	if lessons_seen.has(world_id):
+		return
+	lessons_seen.append(world_id)
+	save_game()
 
 
 ## Clearing a world happens when the Bug Lord encounter is passed, not when the
@@ -70,6 +86,7 @@ func is_campaign_won() -> bool:
 
 func reset() -> void:
 	defeated_generals.clear()
+	lessons_seen.clear()
 	bug_lord_hp = BUG_LORD_MAX_HP
 	progress_changed.emit()
 	save_game()
@@ -90,6 +107,7 @@ func save_game() -> void:
 	f.store_string(JSON.stringify({
 		"version": SAVE_VERSION,
 		"defeated_generals": defeated_generals,
+		"lessons_seen": lessons_seen,
 		"bug_lord_hp": bug_lord_hp,
 	}, "\t"))
 	f.close()
@@ -120,6 +138,11 @@ func load_game() -> bool:
 	defeated_generals.clear()
 	for id in data.get("defeated_generals", []):
 		defeated_generals.append(str(id))
+	# Absent in a version-1 save written before lessons existed: an empty list
+	# is the right answer there, so it needs no version bump.
+	lessons_seen.clear()
+	for id in data.get("lessons_seen", []):
+		lessons_seen.append(str(id))
 	bug_lord_hp = clampi(int(data.get("bug_lord_hp", BUG_LORD_MAX_HP)),
 			0, BUG_LORD_MAX_HP)
 

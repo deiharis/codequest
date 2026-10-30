@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2780b0hc4jwk"
-path="res://.godot/imported/info_box.png-2882b9b4537b1538893276b6f8e677ac.ctex"
+uid="uid://dkamusqfwnw5q"
+path="res://.godot/imported/rocket_ship.png-5fe3b8dae3b0d338e2737aa9a3df69b6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/info_box.png"
-dest_files=["res://.godot/imported/info_box.png-2882b9b4537b1538893276b6f8e677ac.ctex"]
+source_file="res://assets/sprites/ui/rocket_ship.png"
+dest_files=["res://.godot/imported/rocket_ship.png-5fe3b8dae3b0d338e2737aa9a3df69b6.ctex"]
 
 [params]
 

@@ -8,6 +8,9 @@ func setup(world_data: WorldData):
 	destination_world = world_data
 
 func _ready():
+	# The same track the map was playing, so it carries straight through the
+	# flight rather than restarting underneath it.
+	AudioManager.play_music(&"space_map")
 	$DestinationPlanet.visible = false
 	$Rocket.play("fly")
 	$Stars.emitting = true
@@ -55,20 +58,13 @@ func _show_destination():
 	
 func _arrive():
 	$Stars.emitting = false
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.5, false).timeout
 	travel_finished.emit()
 	_enter_battle()
 
 
-## Arriving at a world means fighting whatever holds it. The rocket knows the
-## destination, so it is the thing that can build the battle request.
+## Arriving at a world hands off to WorldFlow, which owns the decision about
+## what comes next — the lesson, the fight, or the Bugfall Archive. The rocket
+## knows where it landed; it does not need to know what is waiting.
 func _enter_battle() -> void:
-	if destination_world == null or destination_world.general == null:
-		push_error("RocketTravel: world '%s' has no general assigned"
-				% (destination_world.world_id if destination_world else "<none>"))
-		SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn")
-		return
-
-	var request := BattleRequest.for_world(destination_world)
-	SceneRouter.goto_scene("res://scenes/battle/Battle.tscn",
-			func(scene): scene.setup(request))
+	WorldFlow.arrive(self, destination_world)

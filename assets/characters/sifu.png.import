@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfexftvj31k34"
-path="res://.godot/imported/rocket_sheet.png-c98104c8499fc92427523d201bfb36f7.ctex"
+uid="uid://d35eefw7asbjk"
+path="res://.godot/imported/sifu.png-204063572adf4436a661eb36f264d3e8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/ui/rocket_sheet.png"
-dest_files=["res://.godot/imported/rocket_sheet.png-c98104c8499fc92427523d201bfb36f7.ctex"]
+source_file="res://assets/characters/sifu.png"
+dest_files=["res://.godot/imported/sifu.png-204063572adf4436a661eb36f264d3e8.ctex"]
 
 [params]
 

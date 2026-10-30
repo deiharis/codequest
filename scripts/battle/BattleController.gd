@@ -74,6 +74,11 @@ signal battle_finished(outcome: Outcome, request: BattleRequest)
 @export var shake_on_enemy_hit: float = 5.0
 @export var shake_on_hero_hit: float = 11.0
 @export var shake_on_ultimate: float = 20.0
+## The Ultimate's flurry. 24 cuts at 0.11s apart is about 2.5 seconds of blade,
+## which is what the sequence is supposed to feel like — not a single hit.
+@export var ultimate_slashes: int = 24
+@export var ultimate_slash_gap: float = 0.11
+@export var ultimate_slash_spread: float = 150.0
 
 @export_group("Pacing")
 @export var feedback_hold: float = 0.45
@@ -125,6 +130,9 @@ func _ready() -> void:
 	if request == null:
 		request = BattleRequest.debug_default()
 	_build_arena()
+	# The Bug Lord gets his own, and it is slower than the General's rather
+	# than faster — weight comes from things taking longer.
+	AudioManager.play_music(&"bug_lord" if _is_boss() else &"battle")
 	_build_storm()
 	_build_feedback()
 	_build_combatants()
@@ -407,7 +415,7 @@ func _start() -> void:
 	if request.mode == BattleRequest.Mode.BUG_LORD:
 		await _boss_arrival()
 	else:
-		await get_tree().create_timer(0.4).timeout
+		await get_tree().create_timer(0.4, false).timeout
 	state = State.QUESTION
 	_next_question()
 
@@ -416,6 +424,7 @@ func _start() -> void:
 ## around him — the only moment in the game where the background is not a
 ## constant.
 func _boss_arrival() -> void:
+	AudioManager.play(&"boss_arrive", 0.0)
 	var home := enemy.position
 	enemy.position = home + Vector2(0, 420)
 	enemy.modulate.a = 0.0
@@ -427,7 +436,7 @@ func _boss_arrival() -> void:
 	if _arena:
 		t.tween_property(_arena, "modulate", Color.WHITE, boss_arrival_time)
 	await t.finished
-	await get_tree().create_timer(0.3).timeout
+	await get_tree().create_timer(0.3, false).timeout
 
 
 func _next_question() -> void:
@@ -482,6 +491,9 @@ func _on_answer_selected(index: int, is_correct: bool) -> void:
 ## Reads in the same order as the design: answer, feedback, attack, damage,
 ## HP, return. Each step returns only when its animation is done.
 func _resolve_answer(index: int, is_correct: bool) -> void:
+	# No jitter on these two: they are musical, and a detuned chime reads as a
+	# wrong note rather than as variety.
+	AudioManager.play(&"answer_correct" if is_correct else &"answer_wrong", 0.0)
 	await _panel.show_feedback(index, is_correct, feedback_hold)
 	await _panel.hide_panel()          # the stage is clear before anyone swings
 
@@ -500,12 +512,24 @@ func _resolve_answer(index: int, is_correct: bool) -> void:
 func _exchange_blow(attacker: Combatant, defender: Combatant, amount: int) -> void:
 	if _storm and attacker == enemy:
 		_storm.strike(3)        # not awaited: the sky breaks while he swings
+		if _feedback:
+			_feedback.screen_flash(Color(0.68, 0.84, 1.0), 0.4, 0.22)
 	await attacker.play_attack()
-	await get_tree().create_timer(impact_pause).timeout
+	await get_tree().create_timer(impact_pause, false).timeout
+
+	# On the impact frame, with the damage — not on the wind-up. The sound is
+	# what makes the hit land, so it has to agree with the number appearing.
+	AudioManager.play(&"sword_hit" if attacker == hero else &"enemy_hit")
 
 	defender.apply_damage(amount)
+	defender.recoil(attacker.position)
 	if _feedback:
 		var hurting_hero := defender == hero
+		var at := defender.position + Vector2(0, -70)
+		# Not awaited. The arc and the sparks play over the damage animation;
+		# awaiting them would stop the fight to watch an effect finish.
+		_feedback.slash(at, not hurting_hero)
+		_feedback.sparks(at, not hurting_hero)
 		_feedback.pop(amount, defender.position + Vector2(0, -90), hurting_hero)
 		if amount > 0:
 			_feedback.shake(shake_on_hero_hit if hurting_hero else shake_on_enemy_hit)
@@ -562,6 +586,8 @@ func _show_result() -> void:
 	add_child(banner)
 	move_child(banner, get_child_count() - 1)
 
+	AudioManager.play(&"victory" if _outcome == Outcome.VICTORY else &"defeat", 0.0)
+
 	if _outcome != Outcome.VICTORY:
 		await banner.show_result("DEFEATED", "The %s stands. Try again."
 				% request.enemy.display_name, Color(0.88, 0.25, 0.25))
@@ -600,10 +626,14 @@ func _leave() -> void:
 		return
 
 	# clear_world already ran during the Ultimate, where the damage was shown.
+	# Both of these leave a fight the player has just won, so they wash out in
+	# the Ultimate's own gold rather than in black.
 	if GameState.is_campaign_won():
-		SceneRouter.goto_scene("res://scenes/victory/Victory.tscn")
+		SceneRouter.goto_scene("res://scenes/victory/Victory.tscn",
+				Callable(), SceneRouter.Style.FADE, Color(0.98, 0.88, 0.62))
 		return
-	SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn")
+	SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn",
+			Callable(), SceneRouter.Style.FADE, Color(0.86, 0.72, 0.34))
 
 
 func _goto_bug_lord() -> void:
@@ -612,8 +642,10 @@ func _goto_bug_lord() -> void:
 		push_error("BattleController: cannot start the Bug Lord encounter")
 		SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn")
 		return
+	# The one transition in the game that closes rather than fades: the General
+	# is done and the screen narrows onto what is waiting above.
 	SceneRouter.goto_scene("res://scenes/battle/Battle.tscn",
-			func(scene): scene.setup(r))
+			func(scene): scene.setup(r), SceneRouter.Style.IRIS)
 
 
 ## Losing sends the player back to the General, not to the map. The world is
@@ -623,13 +655,17 @@ func _goto_general() -> void:
 	var world := WorldDatabase.load_default().by_id(request.world_id)
 	# Bugfall has no General, so a failed final encounter returns to the map.
 	# Restarting it here would trap the player in the fight they just lost.
+	# Defeat washes dark red, both here and on the way back to the map. The
+	# player already knows they lost; the colour is the game agreeing with them.
+	const LOSS := Color(0.34, 0.06, 0.08)
 	if world == null or world.general == null \
 			or world.general.enemy_type == "bug_lord":
-		SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn")
+		SceneRouter.goto_scene("res://scenes/space_map/SpaceMap.tscn",
+				Callable(), SceneRouter.Style.FADE, LOSS)
 		return
 	var r := BattleRequest.for_world(world)
 	SceneRouter.goto_scene("res://scenes/battle/Battle.tscn",
-			func(scene): scene.setup(r))
+			func(scene): scene.setup(r), SceneRouter.Style.FADE, LOSS)
 
 
 ## Passing the exam earns the one blow that actually counts. The Ultimate takes
@@ -641,22 +677,46 @@ func _play_ultimate() -> void:
 		_info_panel.hide()
 	await hero.play_once(&"ultimate")
 
+	# The `ultimate` sound is a 0.75s charge and then an impact, which is the
+	# same shape as the light: the charge runs under the blinding fade, and the
+	# boom lands on the frame the light collapses into him.
+	AudioManager.play(&"ultimate", 0.0)
+	if _feedback:
+		# Screen coordinates, not world: the wipe draws on a CanvasLayer, which
+		# is what keeps it steady while everything else shakes.
+		await _feedback.blinding_collapse(
+				hero.get_global_transform_with_canvas().origin)
+		# Then two and a half seconds of blade. This is the whole point of the
+		# Ultimate being a separate thing from a normal attack.
+		await _feedback.slash_flurry(enemy.position, true, ultimate_slashes,
+				ultimate_slash_gap, ultimate_slash_spread,
+				&"sword_hit", shake_on_ultimate * 0.22)
+
 	var changed := GameState.clear_world(request.world_id)
 	if not changed:
 		print("Bug Lord encounter passed, but %s was already cleared" % request.world_id)
 	if _feedback:
+		# The one moment the whole world reacts rather than just the thing hit.
+		_feedback.screen_flash(Color(1.0, 0.95, 0.78), 0.9, 0.5)
 		_feedback.shake(shake_on_ultimate)
+		_feedback.sparks(enemy.position + Vector2(0, 40), true, 64, 2.2)
 		_feedback.pop(GameState.BUG_LORD_DAMAGE_PER_WORLD,
 				enemy.position + Vector2(0, 40), false)
 	_enemy_plate.set_hp(GameState.bug_lord_hp, GameState.BUG_LORD_MAX_HP, 0.6)
 	enemy.flash()
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.5, false).timeout
 
 	# The eighth Ultimate is the one he does not walk away from.
 	if GameState.is_campaign_won():
 		await enemy.play_defeat()
 	else:
 		await _boss_withdraws()
+
+	# Whatever his exit was, it ends the same way: white and violet out of him,
+	# over everything. Awaited, so the result banner lands after the dust.
+	if _feedback:
+		AudioManager.play(&"burst", 0.0)
+		await _feedback.burst_from(enemy.get_global_transform_with_canvas().origin)
 
 
 ## He leaves the way he arrived, and the world takes its colour back.
