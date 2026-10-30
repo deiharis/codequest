@@ -1,0 +1,91 @@
+{
+  "world": "gitforge",
+  "title": "The Gitforge",
+  "phase": "Version Control",
+  "beats": [
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "Until now you fought alone. Here you will not.\n\nThe Forge is where many hands strike the same metal, and where the damage is done by two people being right at the same time."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "The Merge Conflict Titan is made of that damage. It has no opinion about which change is correct. It only refuses to guess."
+    },
+    {
+      "type": "concept",
+      "title": "Version control is a history you can move through",
+      "body": "A version control system records the state of a project as a sequence of committed changes, each with an author, a time and a reason.\n\nThat gives you three things you cannot otherwise have: the ability to undo precisely, the ability to see why a line exists, and the ability for several people to work at once without overwriting each other.",
+      "terms": [
+        "Commit",
+        "Repository",
+        "History"
+      ]
+    },
+    {
+      "type": "steps",
+      "title": "The loop, as it is actually run",
+      "steps": [
+        "Branch. Take a named line of your own off the main one. Your mess stays yours.",
+        "Commit. Small, complete steps with messages that say why, not what. The diff already says what.",
+        "Pull. Bring in what others have done before you finish, not after. Late integration is where conflicts grow teeth.",
+        "Merge or rebase. Bring your line back. This is where conflicts surface — by design, not by accident.",
+        "Review, then integrate into main. The main line stays working at all times; that is the whole point of having one."
+      ]
+    },
+    {
+      "type": "concept",
+      "title": "What a conflict actually is",
+      "body": "A conflict is not an error. It is the tool refusing to make a decision that only a human can make.\n\nTwo branches changed the same lines in different ways. The system can see both, and it can see they disagree. What it cannot see is which one is right — so it stops, marks the region, and hands it to you.",
+      "terms": [
+        "Merge conflict",
+        "Branch",
+        "Main"
+      ]
+    },
+    {
+      "type": "compare",
+      "title": "Two ways to bring your work back",
+      "left_label": "Merge",
+      "left_body": "Joins the two histories with a merge commit.\n\nKeeps the true shape of what happened, including the branching.\n\nHistory is honest, and busier to read.",
+      "right_label": "Rebase",
+      "right_body": "Replays your commits on top of the latest main, as if you had started from there.\n\nHistory is a straight line and easy to read.\n\nIt rewrites your commits — never do it to work others have already pulled.",
+      "terms": [
+        "Merge",
+        "Rebase"
+      ]
+    },
+    {
+      "type": "example",
+      "title": "Reading the marks it leaves",
+      "bad_label": "What you are handed",
+      "bad": "<<<<<<< HEAD\nprice = base * 1.20\n=======\nprice = base * tax_rate\n>>>>>>> feature/tax-config",
+      "good_label": "What you do with it",
+      "good": "Neither half is automatically right.\nAsk which change is correct NOW —\noften it is a third thing:\n\nprice = base * tax_rate\n\n...and then delete every marker line.",
+      "verdict": "The mistake is treating it as a formatting problem to make disappear. It is a question about the product: which of these two truths is the current one? Resolve it by understanding both changes, not by keeping the longer one."
+    },
+    {
+      "type": "check",
+      "question": "What is the most reliable way to make merge conflicts smaller and rarer?",
+      "options": [
+        "Only let one person edit each file",
+        "Commit less often so there is less to merge",
+        "Integrate with main frequently, in small changes",
+        "Always choose your own version when a conflict appears"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: integrate frequently in small changes. A conflict's size is a function of how long two lines of work have been apart. The fourth option is how real work gets silently deleted — “accept mine” is a decision, not a shortcut."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "When it splits the world into two versions and demands you choose, remember that it is not asking which change you like.\n\nIt is asking what is true now. Answer that question, and the Titan has nothing left to hold."
+    },
+    {
+      "type": "encounter",
+      "taunt": "Both of you were right. Only one of you can be.",
+      "text": "The Merge Conflict Titan raises two hammers."
+    }
+  ]
+}

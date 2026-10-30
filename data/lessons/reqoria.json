@@ -1,0 +1,99 @@
+{
+  "world": "reqoria",
+  "title": "The Reqoria Archives",
+  "phase": "Requirement Analysis",
+  "beats": [
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "Stop. Before you draw that blade, you will need a different weapon.\n\nThe thing waiting on this world cannot be cut. It can only be pinned down."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "They call it the Ambiguous Client. It does not lie to you. It simply never says the same thing twice, and every version sounds reasonable when you hear it."
+    },
+    {
+      "type": "concept",
+      "title": "A requirement is a claim you can check",
+      "body": "A requirement states what the system must do, in language specific enough that someone can later prove it was done.\n\nThat last part is the whole discipline. \"The system shall email a receipt after payment\" can be tested. \"The system should feel trustworthy\" cannot — and a thing that cannot be tested cannot be delivered or disputed.",
+      "terms": [
+        "Requirement",
+        "Verifiable"
+      ]
+    },
+    {
+      "type": "compare",
+      "title": "Two kinds, and the difference matters",
+      "left_label": "Functional",
+      "left_body": "What the system does.\n\n• The user can reset a password\n• The admin can revoke access\n• A receipt is sent after payment",
+      "right_label": "Non-functional",
+      "right_body": "How well it does it.\n\n• Responds within 200ms\n• Survives 1000 users at once\n• Available 99.9% of the month",
+      "terms": [
+        "Functional",
+        "Non-functional"
+      ]
+    },
+    {
+      "type": "example",
+      "title": "The same request, twice",
+      "bad_label": "Ambiguous",
+      "bad": "“Make the dashboard fast and intuitive.”",
+      "good_label": "Pinned down",
+      "good": "“The dashboard renders in under 2 seconds for 95% of loads, and a new user completes their first report unaided in under 3 minutes.”",
+      "verdict": "Nothing was added. An opinion was turned into two things you can measure — and therefore two things you can argue about now, rather than after it is built."
+    },
+    {
+      "type": "steps",
+      "title": "How a requirement is actually caught",
+      "steps": [
+        "Elicit. Ask, watch people work, show them something wrong on purpose. They correct what they cannot describe.",
+        "Analyse. Find the contradictions between what two people told you. There are always some.",
+        "Specify. Write it down in language that can be checked, not admired.",
+        "Validate. Read it back to them. “Is this what you meant?” is the cheapest question in software.",
+        "Baseline. Agree it, date it, and treat every later change as a change — estimated and re-agreed, not absorbed."
+      ]
+    },
+    {
+      "type": "concept",
+      "title": "Requirements are gathered, not received",
+      "body": "Stakeholders rarely state what they need. They state what they think they want, in the words of the job they already do.\n\nA prototype is not a product — it is a question. Its value is the correction it provokes.",
+      "terms": [
+        "Stakeholder",
+        "Elicitation",
+        "Prototype"
+      ]
+    },
+    {
+      "type": "check",
+      "question": "Which of these is a non-functional requirement?",
+      "options": [
+        "The user can export their invoices as a PDF",
+        "The export completes within 5 seconds for a year of invoices",
+        "The user can filter invoices by date",
+        "An admin can delete an invoice"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: the second. The other three say what the system does — functional. Only the time limit says how well it must do it. Note that it is still verifiable: a vague “exports should be quick” would be neither functional nor useful."
+    },
+    {
+      "type": "concept",
+      "title": "Why the Client is dangerous",
+      "body": "Requirements change. That is normal and not a failure.\n\nWhat destroys projects is change that arrives unrecorded — a new expectation absorbed quietly, never re-estimated, never re-agreed. That is scope creep, and it does not announce itself. It arrives one reasonable sentence at a time.",
+      "terms": [
+        "Scope creep",
+        "Change control"
+      ]
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "So when it contradicts itself — and it will — do not argue about which version is true.\n\nWrite both down. Make it choose. The written record is the only ground you will get to stand on."
+    },
+    {
+      "type": "encounter",
+      "taunt": "I'll know what I want when I see it. Show me something.",
+      "text": "The Ambiguous Client is waiting."
+    }
+  ]
+}

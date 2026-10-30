@@ -1,0 +1,100 @@
+{
+  "world": "architara",
+  "title": "The Halls of Architara",
+  "phase": "Software Design",
+  "beats": [
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "Look at the walls here. Every corridor leads to every other corridor.\n\nIt was built by someone who solved each problem the moment it appeared, and never once asked where the solution belonged."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "The Spaghetti Architect is not lazy. That is the trap. It works constantly, and every thing it adds makes the next thing harder to add."
+    },
+    {
+      "type": "concept",
+      "title": "Design is deciding where things live",
+      "body": "Code has to go somewhere. Design is the set of decisions about where — which module owns which responsibility, and who is allowed to talk to whom.\n\nThose decisions get made whether or not anyone makes them deliberately. A system with no design still has one; it is just the accidental shape left behind by the order the features arrived in.",
+      "terms": [
+        "Architecture",
+        "Module",
+        "Responsibility"
+      ]
+    },
+    {
+      "type": "compare",
+      "title": "The two forces",
+      "left_label": "Coupling — want it low",
+      "left_body": "How much one module depends on another's insides.\n\nHigh coupling: changing the database column name breaks the login screen.\n\nLow coupling: modules talk through a narrow, agreed interface and are free behind it.",
+      "right_label": "Cohesion — want it high",
+      "right_body": "How much the things inside one module belong together.\n\nLow cohesion: a Utils file holding date formatting, tax rules and email sending.\n\nHigh cohesion: everything in the file is about one job.",
+      "terms": [
+        "Coupling",
+        "Cohesion"
+      ]
+    },
+    {
+      "type": "example",
+      "title": "The same feature, two shapes",
+      "bad_label": "Spaghetti",
+      "bad": "The checkout button reads the cart table, applies tax rules, writes the order row, formats the receipt and calls the payment provider — all in one function, all in the UI layer.",
+      "good_label": "Layered",
+      "good": "The button asks a Checkout service to run. That service asks a TaxPolicy for the tax, an OrderRepository to store the order, and a PaymentGateway to take the money. It knows their names, not their insides.",
+      "verdict": "The second version is more files and more lines. It is also the only version where changing the tax rules does not require opening the payment code — and where either can be tested without the other."
+    },
+    {
+      "type": "steps",
+      "title": "Separation of concerns, layer by layer",
+      "steps": [
+        "Presentation. What the user sees and touches. Knows nothing about storage.",
+        "Application. The steps of a task — the use case. Orchestrates, decides nothing about how data is stored or drawn.",
+        "Domain. The rules of the business itself. The part that would still be true on paper.",
+        "Data. How things are stored and retrieved. Replaceable without the layers above noticing.",
+        "Dependencies point one way — inward and downward. The moment the domain imports the UI, the layering is decoration."
+      ]
+    },
+    {
+      "type": "concept",
+      "title": "Patterns are named solutions, not decorations",
+      "body": "A design pattern is a shape that has been found to work for a recurring problem, with a name so people can discuss it in one word.\n\nMVC separates what is shown from what is true. A Repository hides where data lives. A Factory decides which thing to build. Each earns its place by removing a specific pain — and each is over-engineering when applied to a problem that does not have that pain.",
+      "terms": [
+        "Design pattern",
+        "MVC",
+        "Repository"
+      ]
+    },
+    {
+      "type": "check",
+      "question": "A change to the date format in one report forces edits in eleven unrelated files. Which problem is that?",
+      "options": [
+        "High cohesion",
+        "High coupling",
+        "Low coupling",
+        "Too many design patterns"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: high coupling. Eleven files depended on one detail directly instead of going through a single owner of it. The fix is not to edit faster — it is to give date formatting one home and have the eleven ask it."
+    },
+    {
+      "type": "concept",
+      "title": "Why it is worth the trouble",
+      "body": "Good design is not tidiness. It is the ability to change one thing without a second thing breaking.\n\nYou pay for it in advance, in thought and in extra seams. You are repaid every time a requirement changes — which, as Reqoria taught, is always.",
+      "terms": [
+        "Maintainability",
+        "Modularity"
+      ]
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "When it shows you its work, do not be impressed by how much of it there is.\n\nAsk instead: if one rule changed, how many rooms would I have to enter? That number is the only review that matters."
+    },
+    {
+      "type": "encounter",
+      "taunt": "Why build walls? Everything can reach everything. That's efficiency.",
+      "text": "The Spaghetti Architect blocks the hall."
+    }
+  ]
+}

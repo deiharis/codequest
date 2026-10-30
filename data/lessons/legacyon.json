@@ -1,0 +1,92 @@
+{
+  "world": "legacyon",
+  "title": "The Ruins of Legacyon",
+  "phase": "Maintenance",
+  "beats": [
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "Nothing here was built badly. That is what makes it frightening.\n\nEvery shortcut in these walls was taken by someone sensible, under a deadline, intending to come back."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "The Technical Debt King rules by accumulation. It never takes much. It simply never gives anything back, and it charges interest."
+    },
+    {
+      "type": "concept",
+      "title": "Technical debt is a real debt",
+      "body": "The metaphor is precise. You borrow speed now by doing something the quick way, and you repay it later with interest — every future change in that area costs more than it should have.\n\nSome debt is deliberate and wise: ship now, fix after the deadline. Some is accidental: nobody knew the better way. Both accrue. Only the first is ever planned for.",
+      "terms": [
+        "Technical debt",
+        "Interest",
+        "Refactoring"
+      ]
+    },
+    {
+      "type": "compare",
+      "title": "Debt you chose, debt that happened",
+      "left_label": "Deliberate",
+      "left_body": "“We know this belongs in a service. We are hardcoding it to make the demo, and we have a ticket to fix it.”\n\nRecorded, estimated, visible. Repayable.",
+      "right_label": "Accidental",
+      "right_body": "“We didn't know the framework had a built-in for this, so we wrote our own, badly.”\n\nFound years later by someone who did know. Invisible until then.",
+      "terms": [
+        "Deliberate debt",
+        "Accidental debt"
+      ]
+    },
+    {
+      "type": "concept",
+      "title": "Maintenance is most of the work",
+      "body": "Software spends far more of its life being changed than being written. Maintenance is not the tidying-up after the project — it is the project, for most of its duration.\n\nIt takes four shapes: corrective (fix what is broken), adaptive (keep up with a changed world), perfective (improve what works), and preventive (make future change cheaper). Only the first is an emergency, and it is the only one most teams schedule.",
+      "terms": [
+        "Corrective",
+        "Adaptive",
+        "Perfective",
+        "Preventive"
+      ]
+    },
+    {
+      "type": "steps",
+      "title": "Changing code you are afraid of",
+      "steps": [
+        "Do not refactor first. Untested code plus a rewrite is two unknowns multiplied.",
+        "Put a test around the current behaviour — even the wrong behaviour. You are recording what is, not what should be.",
+        "Make the smallest change that delivers the value asked for. Resist the tour.",
+        "Refactor in a separate, behaviour-preserving step, with the tests still green.",
+        "Leave it better than you found it by a little, every time. A codebase is improved the way it was ruined: gradually."
+      ]
+    },
+    {
+      "type": "example",
+      "title": "Two ways to pay it down",
+      "bad_label": "The rewrite",
+      "bad": "“This module is a disaster. Give me six weeks and I'll replace it properly.”\n\nSix weeks becomes five months. The old module keeps changing meanwhile. Nothing ships.",
+      "good_label": "The strangler",
+      "good": "Put a seam in front of the old module. Route one small piece of its work to a new implementation. Then another. Then another.\n\nThe old one shrinks until it is gone.",
+      "verdict": "The second delivers value from the first week and can be abandoned at any point without loss. Big-bang rewrites fail because they must be completely finished before they are worth anything at all."
+    },
+    {
+      "type": "check",
+      "question": "Which is the best reason to refactor a working module?",
+      "options": [
+        "The code style is out of date",
+        "A change you need to make is hard because of how it is structured",
+        "Someone else wrote it",
+        "It could be shorter"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: the second. Refactoring is justified by a change it makes possible, not by taste. Rewriting working code for style alone spends real risk on no delivered value — and the code you have not touched has the one quality yours does not yet: years of proof that it works."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "The King will offer you the same bargain everyone else took. A little now, paid later.\n\nYou may accept it. Just never accept it silently — debt you wrote down is a plan, and debt you did not is a trap."
+    },
+    {
+      "type": "encounter",
+      "taunt": "Everyone takes the shortcut. I'm simply the one who keeps the ledger.",
+      "text": "The Technical Debt King waits among the ruins."
+    }
+  ]
+}

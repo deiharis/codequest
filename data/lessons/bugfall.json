@@ -1,0 +1,94 @@
+{
+  "world": "bugfall",
+  "title": "Bugfall, and the Art of Debugging",
+  "phase": "Bugs & Debugging",
+  "beats": [
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "This is the last world, and the only honest one.\n\nEvery other General was a way of being wrong. The thing here is what being wrong actually feels like from the inside."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "The Bug Lord is not a monster that got in. It is made entirely of the seven worlds behind you — a vague requirement, a tangled design, a loop that never ends, a fix that broke something else.\n\nYou do not defeat it by fighting harder. You defeat it by knowing where things go wrong."
+    },
+    {
+      "type": "concept",
+      "title": "A bug is a difference, not a demon",
+      "body": "A defect is simply a gap between what the system does and what it was supposed to do. Everything hard about debugging comes from one fact: you usually meet the gap far away from where it was created.\n\nA null value crashes the report screen. It was written three layers down, an hour earlier, by code that looked fine. The crash is the symptom. The symptom is almost never the bug.",
+      "terms": [
+        "Defect",
+        "Symptom",
+        "Root cause"
+      ]
+    },
+    {
+      "type": "steps",
+      "title": "The method, and it is a method",
+      "steps": [
+        "Reproduce it. A bug you cannot trigger on demand cannot be confirmed fixed. This step is most of the work and skipping it wastes all the others.",
+        "Narrow it. Cut the input, the data, the code path in half, and half again, until the failing region is small.",
+        "Form one hypothesis. Say out loud what you believe is happening and what that predicts you will see.",
+        "Test that one thing. Change one variable. Two changes at once and you learn nothing from either.",
+        "Fix the cause, not the symptom. Then find every other caller of that code — the same bug is usually in more than one place.",
+        "Write the test that would have caught it. That is what stops the Regression Dragon from bringing it back."
+      ]
+    },
+    {
+      "type": "compare",
+      "title": "Two kinds of failure",
+      "left_label": "Loud",
+      "left_body": "Crashes, exceptions, stack traces, a build that will not compile.\n\nUnpleasant and honest. It tells you where and when.\n\nCheap to find, and usually cheap to fix.",
+      "right_label": "Quiet",
+      "right_body": "A wrong number in a report. A permission that is slightly too generous. A record saved twice.\n\nNothing complains. It may run for months.\n\nThe expensive kind — and the reason tests assert on values, not on “it did not crash”.",
+      "terms": [
+        "Exception",
+        "Silent failure",
+        "Assertion"
+      ]
+    },
+    {
+      "type": "example",
+      "title": "Fixing the symptom, and fixing the bug",
+      "bad_label": "Symptom",
+      "bad": "if user is None:\n    return  # stops the crash\n\nThe screen no longer breaks. The user still silently gets nothing, and nobody knows why.",
+      "good_label": "Cause",
+      "good": "Find why the lookup returned None:\nthe session ID was being trimmed by\none character upstream.\n\nFix it there — and every caller\nof that lookup is fixed too.",
+      "verdict": "The first one is not a fix; it is a way of no longer being told. Guards are right when a value is legitimately optional and wrong when they are used to silence a question you have not asked yet."
+    },
+    {
+      "type": "concept",
+      "title": "Tools, in the order they earn their place",
+      "body": "A debugger that lets you stop time and read the actual values beats guessing, every time. Logs beat memory. A binary search through the commit history finds the change that introduced a bug faster than reading any of them.\n\nBut the most powerful tool is still explaining the problem out loud to someone who is not listening. You will usually interrupt yourself halfway through.",
+      "terms": [
+        "Debugger",
+        "Breakpoint",
+        "Logging",
+        "Bisect"
+      ]
+    },
+    {
+      "type": "check",
+      "question": "You have a bug you cannot reproduce. What is the most useful next step?",
+      "options": [
+        "Fix the most likely-looking line and ship it",
+        "Add logging around the suspected area and wait for it to happen again",
+        "Rewrite the module",
+        "Close it as not reproducible"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: instrument it and wait. Without reproduction you cannot confirm a fix, so a speculative change gives you a false sense of closure and an unexplained diff. Logging turns the next occurrence into evidence — you are not fixing the bug yet, you are buying the ability to."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "That is everything I have.\n\nBehind you there is an Archive — every lesson from every world, kept, and open. Go back through any of them before you climb. Nothing in there can hurt you, and nothing in there costs you progress."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "When you are ready, the Bug Lord is above us.\n\nIt has eight thousand points of health and every one of them is a thing you have now been taught. Go and collect them."
+    }
+  ]
+}

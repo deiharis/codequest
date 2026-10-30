@@ -1,0 +1,92 @@
+{
+  "world": "codexis",
+  "title": "The Codexis Forge",
+  "phase": "Implementation",
+  "beats": [
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "This is where designs become real, and where the real punishes the careless.\n\nThe beast here does not attack. It simply never stops, and it takes everything with it."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "The Infinite Loop Beast was born from one missing line. Someone wrote a loop and forgot to make it end."
+    },
+    {
+      "type": "concept",
+      "title": "Every loop is a promise to stop",
+      "body": "A loop has three parts, and all three must agree: where it starts, the condition it checks, and the change that moves it towards failing that condition.\n\nBreak any one and the loop never ends. Forget to increment the counter; check a condition that the body never affects; move the wrong variable. The machine does exactly what you wrote, forever.",
+      "terms": [
+        "Loop invariant",
+        "Termination",
+        "Iteration"
+      ]
+    },
+    {
+      "type": "example",
+      "title": "One line apart",
+      "bad_label": "Never ends",
+      "bad": "i = 0\nwhile i < 10:\n    print(items[i])\n\n(i never changes, so i < 10 is true forever)",
+      "good_label": "Ends",
+      "good": "i = 0\nwhile i < 10:\n    print(items[i])\n    i += 1\n\n(each pass moves i towards the condition failing)",
+      "verdict": "The difference is not knowledge, it is attention. This is why implementation has practices rather than talent: the same mistake is available to everyone, every day."
+    },
+    {
+      "type": "steps",
+      "title": "What disciplined implementation actually looks like",
+      "steps": [
+        "Write the smallest piece that could work. Not the whole feature — the first honest slice of it.",
+        "Run it. Code that has never been executed is a guess with syntax highlighting.",
+        "Name things for what they are. `d` costs nothing to type and everything to read six months later.",
+        "Handle the edge before you move on: the empty list, the zero, the null, the very large.",
+        "Review it — yours or someone else's. Most bugs are visible to a second pair of eyes in seconds."
+      ]
+    },
+    {
+      "type": "compare",
+      "title": "Two ways to repeat yourself",
+      "left_label": "Iteration",
+      "left_body": "A loop. Repeats while a condition holds.\n\nFails by never ending — an infinite loop. The program hangs; it does not crash.",
+      "right_label": "Recursion",
+      "right_body": "A function that calls itself, with a base case that stops it.\n\nFails by never reaching the base case — the call stack fills and the program dies with a stack overflow.",
+      "terms": [
+        "Iteration",
+        "Recursion",
+        "Base case"
+      ]
+    },
+    {
+      "type": "concept",
+      "title": "Clean code is a debugging tool",
+      "body": "Readable code is not politeness. It is the cheapest defect-detection method available.\n\nShort functions that do one thing, honest names, no clever tricks that need a comment to survive. The reason is simple: you cannot see a bug in code you cannot follow, and the person who cannot follow it will usually be you.",
+      "terms": [
+        "Readability",
+        "Single responsibility",
+        "Code smell"
+      ]
+    },
+    {
+      "type": "check",
+      "question": "A program stops responding and uses 100% of one CPU core, with no error and no crash. What does that pattern suggest?",
+      "options": [
+        "A syntax error",
+        "A null reference",
+        "An infinite loop",
+        "A missing import"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: an infinite loop. The other three announce themselves — they fail fast and loudly. An infinite loop is the failure that looks like work: the program is busy, and it will stay busy forever."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "When you face it, do not try to outlast it. It has more patience than you do.\n\nFind the condition it is checking, and change the thing that condition depends on. Every endless thing ends at its own exit."
+    },
+    {
+      "type": "encounter",
+      "taunt": "while(true) { advance(); } — I can keep this up longer than you can.",
+      "text": "The Infinite Loop Beast circles, and circles."
+    }
+  ]
+}

@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 GameState="*uid://chi4hclxp2g6n"
 SceneRouter="*uid://tpbowyyy7b8v"
+AudioManager="*uid://b7foxerggjn1b"
+PauseMenu="*uid://dm0nroa7s584l"
 
 [display]
 
@@ -38,4 +40,5 @@ theme/custom="res://ui/codequest_theme.tres"
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0.039215688, 0.05490196, 0.101960786, 1)

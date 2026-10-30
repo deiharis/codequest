@@ -1,0 +1,92 @@
+{
+  "world": "deployon",
+  "title": "The Gates of Deployon",
+  "phase": "Deployment",
+  "beats": [
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "Beyond this gate, nothing is a rehearsal.\n\nEverything you have built worked on your machine. That sentence has ended more careers than bad code ever has."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "The Production Nightmare does not appear when you are writing. It waits until you are finished, confident, and watched."
+    },
+    {
+      "type": "concept",
+      "title": "Deployment is a separate discipline",
+      "body": "Working software and released software are different achievements. Between them sit environments that differ, data that is real, users who do not read instructions, and a clock that does not stop.\n\nThe goal of deployment practice is to make releasing boring: repeatable, automated, observable and reversible.",
+      "terms": [
+        "Environment",
+        "Release",
+        "Rollback"
+      ]
+    },
+    {
+      "type": "steps",
+      "title": "The pipeline, gate by gate",
+      "steps": [
+        "Build. One artifact, built once, from a known commit. The same artifact goes to every environment after this.",
+        "Test. The automated suites from Testara run here. A red pipeline stops the line — that is what it is for.",
+        "Stage. Deploy to an environment that resembles production closely enough to be worth trusting.",
+        "Release. Push to production, gradually where possible, with the old version still standing behind you.",
+        "Observe. Logs, metrics, error rates, latency. A deploy is not finished when it lands — it is finished when you have watched it."
+      ]
+    },
+    {
+      "type": "compare",
+      "title": "Two ways to release without holding your breath",
+      "left_label": "Blue-green",
+      "left_body": "Two identical environments. One serves traffic; the new version goes to the other.\n\nSwitch the traffic over when it is healthy. Roll back by switching it back.\n\nInstant reversal, double the infrastructure.",
+      "right_label": "Canary",
+      "right_body": "Send a small slice of real traffic to the new version — 1%, then 10%, then more.\n\nProblems hit few users and show up in the metrics before the rest follow.\n\nSlower, cheaper, needs good monitoring.",
+      "terms": [
+        "Blue-green",
+        "Canary release",
+        "Rollback"
+      ]
+    },
+    {
+      "type": "concept",
+      "title": "“It works on my machine”",
+      "body": "The phrase is a joke because it is an admission. It means the software depends on something about your machine that nobody wrote down.\n\nThe cure is to stop relying on machines and start relying on declarations: pinned dependency versions, configuration supplied by the environment rather than hardcoded, and containers or images that carry their own world with them.",
+      "terms": [
+        "Configuration",
+        "Dependency",
+        "Containerisation"
+      ]
+    },
+    {
+      "type": "example",
+      "title": "Where the secret goes",
+      "bad_label": "In the code",
+      "bad": "DB_PASSWORD = \"prod_7h3r3al\"\n\nCommitted. Now in the history forever, on every laptop that cloned the repo.",
+      "good_label": "In the environment",
+      "good": "DB_PASSWORD = os.environ[\"DB_PASSWORD\"]\n\nSupplied by the platform at run time. Different per environment, never in the repository.",
+      "verdict": "This is a deployment concern and a security one at the same time. Note the second version also fails loudly if the variable is missing — better than starting up and connecting to the wrong database."
+    },
+    {
+      "type": "check",
+      "question": "A release goes out and error rates triple within four minutes. What is the correct first action?",
+      "options": [
+        "Read the logs and start debugging the new code",
+        "Roll back to the previous version, then investigate",
+        "Wait to see whether it settles",
+        "Deploy a quick fix straight to production"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: roll back first. Restoring service and finding the cause are two different jobs, and only one of them is urgent. Debugging live, or pushing an unreviewed hotfix, extends the outage while you work — a rollback ends it and leaves you free to investigate calmly."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "The Nightmare feeds on the belief that this release will be the smooth one.\n\nGo in expecting to reverse it. The one who can undo a thing is the only one who can afford to do it."
+    },
+    {
+      "type": "encounter",
+      "taunt": "It worked in staging. Tell them that. I'm sure they'll understand.",
+      "text": "The Production Nightmare stands in the gate."
+    }
+  ]
+}

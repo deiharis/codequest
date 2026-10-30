@@ -1,0 +1,91 @@
+{
+  "world": "testara",
+  "title": "The Proving Grounds of Testara",
+  "phase": "Testing",
+  "beats": [
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "Everything you have built so far, you believed in. Belief is not evidence.\n\nThis world exists to take your belief away and give you something better."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "The Regression Dragon has one power, and it is enough: it makes old, dead bugs live again. Fix something here, and something you fixed three worlds ago breaks behind you."
+    },
+    {
+      "type": "concept",
+      "title": "Testing shows presence, never absence",
+      "body": "A passing test proves that one path, with one set of inputs, behaved as expected once.\n\nIt does not prove the system is correct. Dijkstra's line is the honest one: testing can show the presence of bugs, never their absence. This is not a reason to skip it — it is the reason to choose your tests deliberately rather than write many careless ones.",
+      "terms": [
+        "Defect",
+        "Test case",
+        "Coverage"
+      ]
+    },
+    {
+      "type": "steps",
+      "title": "The levels, smallest first",
+      "steps": [
+        "Unit. One function or class, isolated from everything around it. Fast, precise, and where most tests should live.",
+        "Integration. Two or more parts together — does the code actually talk to the database it claims to?",
+        "System. The whole assembled thing, tested against what it was asked to do.",
+        "Acceptance. The stakeholder's own question: is this the thing I asked for? Reqoria's requirements are what this is checked against.",
+        "Regression. Run the old tests again. Not to find new bugs — to prove the old ones stayed dead."
+      ]
+    },
+    {
+      "type": "compare",
+      "title": "Two questions, both necessary",
+      "left_label": "Verification",
+      "left_body": "“Did we build the thing right?”\n\nAgainst the specification. Unit tests, integration tests, code review.\n\nCatches defects.",
+      "right_label": "Validation",
+      "right_body": "“Did we build the right thing?”\n\nAgainst the actual need. Acceptance testing, user trials, demos.\n\nCatches misunderstandings.",
+      "terms": [
+        "Verification",
+        "Validation"
+      ]
+    },
+    {
+      "type": "example",
+      "title": "What a good test asserts",
+      "bad_label": "Weak",
+      "bad": "def test_discount():\n    result = apply_discount(100, 0.1)\n    assert result is not None",
+      "good_label": "Strong",
+      "good": "def test_discount():\n    assert apply_discount(100, 0.1) == 90\n    assert apply_discount(0, 0.1) == 0\n    with raises(ValueError):\n        apply_discount(100, 1.5)",
+      "verdict": "The first passes for almost any broken implementation. The second pins the normal case, the boundary, and the refusal. A test that cannot fail is not a test — it is a comment that costs CPU time."
+    },
+    {
+      "type": "concept",
+      "title": "Why regression exists at all",
+      "body": "Software has no isolated changes. A fix alters shared state, a shared function, a shared assumption — and something far away that quietly relied on the old behaviour stops working.\n\nA regression suite is the memory of every bug you have already paid for. Run automatically, on every change, it is the only thing standing between you and paying for them twice.",
+      "terms": [
+        "Regression",
+        "Test suite",
+        "Continuous testing"
+      ]
+    },
+    {
+      "type": "check",
+      "question": "You fix a bug in the login code. Which test should you run to catch damage done elsewhere?",
+      "options": [
+        "Only the new test for the bug you fixed",
+        "The full regression suite",
+        "A manual check of the login screen",
+        "None — the fix was small"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: the full regression suite. The new test proves the bug is gone; it says nothing about what the fix broke. “The change was small” is the sentence that precedes most production incidents — size of diff and size of blast radius are unrelated."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Sifu, The Wise",
+      "text": "The Dragon cannot be killed by being clever once. It is killed by writing down what you learned, so the next version of you cannot forget it.\n\nThat is all an automated test is: a lesson that refuses to be unlearned."
+    },
+    {
+      "type": "encounter",
+      "taunt": "You fixed that already? How charming. I'll bring it back.",
+      "text": "The Regression Dragon uncoils."
+    }
+  ]
+}
