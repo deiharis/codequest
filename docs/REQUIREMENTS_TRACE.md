@@ -25,12 +25,17 @@ whether the gaps were considered or simply missed.
 
 | Status | Count |
 |---|---|
-| Met | 107 |
-| Partial | 8 |
+| Met | 114 |
+| Partial | 6 |
 | Diverged | 6 |
-| Open | 14 |
+| Open | 9 |
 | Deferred | 2 |
 | **Total** | **137** |
+
+Seven requirements moved from Open to Met and two from Partial to Met when the
+audio, VFX, weight and transition work landed (ADR-028 to ADR-044). The nine
+that remain Open are camera zoom (NFR-1.8) and the eight undrawn SE diagrams
+(NFR-2.10 to NFR-2.18).
 
 ---
 
@@ -199,41 +204,41 @@ whether the gaps were considered or simply missed.
 
 | ID | Requirement | Implementation | Status |
 |---|---|---|---|
-| NFR-1.1 | Attack anticipation | — | Open |
+| NFR-1.1 | Attack anticipation | `Combatant.play_attack()` wind-up — `anticipate_time`, `anticipate_fraction`, squash · ADR-037 | Met |
 | NFR-1.2 | Lunge | `play_attack()` | Met |
-| NFR-1.3 | Follow-through | — | Open |
-| NFR-1.4 | Impact frames | `impact_pause` before damage lands | Partial |
+| NFR-1.3 | Follow-through | Lunge eases IN with stretch; defender `recoil()`s from the blow · ADR-037 | Met |
+| NFR-1.4 | Impact frames | `impact_pause`, hit flash, sparks and slash arc on the same frame · ADR-030 | Met |
 | NFR-1.5 | Damage reactions | `play_damage()` | Met |
 | NFR-1.6 | Hit flashes | `Combatant.flash()` | Met |
-| NFR-1.7 | Screen shake | — | Open |
+| NFR-1.7 | Screen shake | `HitFeedback.shake()`, amplitude scaled per blow and on the Ultimate · ADR-030 | Met |
 | NFR-1.8 | Camera zoom | — | Open |
-| NFR-1.9 | Damage numbers | — | Open |
-| NFR-1.10 | Particles / VFX | Lightning in Bugfall; rocket starfield | Partial |
+| NFR-1.9 | Damage numbers | `HitFeedback` rising numbers, sized down after playtest · ADR-030 | Met |
+| NFR-1.10 | Particles / VFX | Sparks, slash arcs, screen flash, blinding collapse, violet burst; lightning; starfield · ADR-030, ADR-031 | Met |
 | NFR-1.11 | Boss entrance | Rise from below, arena floods to his colour | Met |
 | NFR-1.12 | Boss defeat | Defeat animation on the final Ultimate | Met |
 | NFR-1.13 | Animated HP bars | `_tween_bar()` | Met |
-| NFR-1.14 | Button feedback | Colour on answer; no press animation | Partial |
+| NFR-1.14 | Button feedback | Colour on answer, hover and click sound, wrong options fade out · ADR-029, ADR-036. No press animation | Partial |
 | NFR-1.15 | Countdown animation | Numeric, turns red under 5s; no animation | Partial |
 | NFR-1.16 | Rocket acceleration | Two-phase tween | Met |
 | NFR-1.17 | Starfield | Rocket travel, Space Map and menu | Met |
 | NFR-1.18 | Planet reveal | `_show_destination()` | Met |
-| NFR-1.19 | Transitions | `SceneRouter` fade on every change | Met |
-| NFR-1.20 | Sound timing | No audio exists | Open |
+| NFR-1.19 | Transitions | `SceneRouter` fade and iris, tinted per outcome · ADR-038 | Met |
+| NFR-1.20 | Sound timing | 16 generated SFX and 5 music loops, wired to the scene tree · ADR-028, ADR-029, ADR-043, ADR-044 | Met |
 | NFR-1.21 | Dramatic timing | `feedback_hold`, `impact_pause`, `result_hold`, `boss_arrival_time` — all tunable | Met |
 
 ## NFR-2 Software engineering requirements · Brief §18
 
 | ID | Requirement | Implementation | Status |
 |---|---|---|---|
-| NFR-2.1 | Avoid one giant script | 12 scripts, largest ~520 lines, single responsibility each | Met |
-| NFR-2.2 | Modular scenes | 6 scenes, each independently runnable | Met |
-| NFR-2.3 | Reusable components | `Combatant`, `QuestionPanel`, `SceneRouter`, `LightningStrike` | Met |
+| NFR-2.1 | Avoid one giant script | 26 scripts, largest `BattleController.gd` (28 KB), single responsibility each | Met |
+| NFR-2.2 | Modular scenes | 8 scenes plus a test scene, each independently runnable | Met |
+| NFR-2.3 | Reusable components | `Combatant`, `QuestionPanel`, `SceneRouter`, `AudioManager`, `PauseMenu`, `HitFeedback`, `Nameplate`, `LessonController` | Met |
 | NFR-2.4 | Resources / data objects | 6 resource types | Met |
 | NFR-2.5 | Clear responsibilities | Documented in `ARCHITECTURE.md` §3 | Met |
 | NFR-2.6 | Signals / events | `answer_selected`, `hp_changed`, `died`, `battle_finished`, `progress_changed`, `scene_changed` | Met |
 | NFR-2.7 | State machines where useful | `BattleController.State`, five states with guards | Met |
 | NFR-2.8 | Separation of data / gameplay / presentation | Three-layer model, dependencies one-way | Met |
-| NFR-2.9 | Architecture documentation | `ARCHITECTURE.md`, `DECISIONS.md` (25 ADRs), `ART_SPEC.md` | Met |
+| NFR-2.9 | Architecture documentation | `ARCHITECTURE.md`, `DECISIONS.md` (44 ADRs), `ART_SPEC.md`, `TEST_STRATEGY.md` | Met |
 | NFR-2.10 | SRS | — | Open |
 | NFR-2.11 | WBS | — | Open |
 | NFR-2.12 | Use Case diagram | — | Open |
@@ -263,25 +268,46 @@ whether the gaps were considered or simply missed.
 
 ---
 
+## ADD Additions beyond the Brief
+
+Built during development, not numbered in the Master Brief, and therefore not
+counted in the 137 above. Listed because the report's SRS and module sections
+describe them.
+
+| Feature | Implementation | ADR |
+|---|---|---|
+| Teaching phase before every fight | `LessonController`, 7 beat types, JSON lesson per world | ADR-026, ADR-027 |
+| Mentor character — Sifu, The Wise | Portrait, typed dialogue, in-lesson comprehension check | ADR-026 |
+| Bugfall Learning Library | `Library.tscn`, shelf of all 8 lessons, marks what has been read | ADR-027 |
+| Re-read a lesson from its own planet | Study / Travel choice on a studied world | ADR-039 |
+| Move backwards through a lesson | `_on_back()` plus `ui_left` | ADR-040 |
+| Pause menu | `PauseMenu` autoload, Escape and an on-screen button | ADR-034 |
+| Campaign progress bar | Bug Lord HP and worlds cleared on the Space Map | ADR-035 |
+| Lock reasons | A locked world names the world that unlocks it, and refuses audibly | ADR-042 |
+| Answer by number key | Keys 1-4 select an option | ADR-041 |
+| Sound setting that persists | Title screen and pause menu, saved to `user://settings.cfg` | ADR-043 |
+| Explanation plate | Per-question explanation, irrelevant options hidden | ADR-036 |
+| Ultimate cinematic | 7-beat sequence: blinding collapse, slash flurry, violet burst | ADR-031 |
+| Two transition shapes | Fade and iris, tinted per outcome | ADR-038 |
+
+---
+
 ## Gaps, ranked
 
-**1. Nine of the eighteen SE documents in §18 are not produced** (NFR-2.10 to
-NFR-2.18). This is the largest single gap in the project, and it is
-documentation rather than code. The system itself already satisfies the
-structural requirements those diagrams would describe — the information exists,
-it has not been drawn.
+**1. Eight of the eighteen SE documents in Brief §18 are not produced**
+(NFR-2.10 to NFR-2.16, NFR-2.18; NFR-2.17 is partial). This is the largest
+single gap and it is documentation rather than code — the system already
+satisfies the structural requirements those diagrams would describe. The
+information exists; it has not been drawn.
 
-**2. No audio at all** (NFR-1.20). The only requirement in §17 with nothing
-behind it whatsoever.
+**2. The game has never been exported**, so no requirement in this matrix is
+verified outside the editor. `TEST_STRATEGY.md` §6.6 marks M25-M28 as not
+waivable.
 
-**3. Six visual-polish items are open** (anticipation, follow-through, screen
-shake, camera zoom, damage numbers, and the polish half of particles). None is
-structural; each is an addition to `Combatant` or `BattleController`.
+**3. Camera zoom (NFR-1.8) is the one visual-polish item still open.** Every
+other item in Brief §17 is now met or partial; this one was never started.
 
 **4. Automated verification covers data and progression logic only.** Five
-checks (T1–T5, 1159 assertions) run headless and all pass. Everything visual —
-including FR-12.4 — is checked by eye. That boundary is deliberate and stated
-in `TEST_STRATEGY.md` §8.
+checks (T1-T5, 1159 assertions) run headless and pass. Everything visual is
+checked by eye. That boundary is deliberate and stated in `TEST_STRATEGY.md` §8.
 
-**5. The game has never been exported**, so no requirement in this matrix is
-verified outside the editor.

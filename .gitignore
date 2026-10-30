@@ -9,3 +9,11 @@
 
 # Claude Cowork delivery folder, not project source
 /Claude outputs/
+
+# Archives - attach to a GitHub Release instead of committing
+*.zip
+
+# Editable sources - the PDF beside each one is the shareable artefact
+docs/*.docx
+docs/*.pptx
+docs/*.pptx.preview.pdf
