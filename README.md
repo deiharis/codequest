@@ -9,6 +9,8 @@ assessment is not wrapped around the game; it is the mechanic.
 
 Built for BCSE301L Software Engineering at VIT Chennai.
 
+![CodeQuest title screen](docs/screenshots/01_title.png)
+
 ---
 
 ## Why this repository might interest you
